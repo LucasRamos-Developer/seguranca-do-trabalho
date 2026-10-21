@@ -11,7 +11,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 
 ## Fluxo
 
-1. **`js/data.js`** define `window.PROBLEMAS`: um objeto por problema, com textos, NR, prioridade, classificação de automação (`automacao: 'sim' | 'parcial' | 'nao'`), a cadeia `{entrada, logica, saida, nota}` e `referencias[]`.
+1. **`js/data.js`** define `window.PROBLEMAS`: um objeto por problema, com textos, NR, prioridade, classificação de automação (`automacao: 'sim' | 'parcial' | 'nao'`), a cadeia `{entrada, logica, saida, nota}`, `videoProblema` e `videoSolucao` (`{ id, titulo, embed? }` do YouTube) e `referencias[]` (casos, imagens e documentos).
 2. **`js/iso.js`** expõe `window.ISO` com a projeção isométrica e as peças de desenho:
    - `P(x, y, z)` converte coordenadas do mundo em pontos da tela. `x` cresce para baixo-direita, `y` para baixo-esquerda e `z` para cima.
    - `box()`, `esteira()`, `rolo()` são peças 3D desenhadas como polígonos.
@@ -26,7 +26,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
    - estado em `localStorage` (`esteira-segura-v1`): `{ resolvidos: [ids], escondidoLiberado }`. O botão "Limpar progresso" remove a chave; ele confirma com um segundo toque, sem `confirm()` do navegador;
    - desktop (≥ 1000 px): o `<aside id="painel">` vira uma gaveta lateral aberta pelo botão flutuante `#fab`, que fecha com ×, clique no fundo ou Esc. No celular e no tablet o mesmo `<aside>` fica abaixo do cenário;
    - pins, legenda, placar, filtros e tabela "Quais problemas a automação resolve?";
-   - modal: abas, fachada dos vídeos (miniatura → iframe só ao tocar), botão corrigir/reabrir;
+   - modal: abas; a aba "Vídeo" mostra `videoProblema` + animação do acidente e a aba "Como resolvemos" mostra `videoSolucao` + animação da solução. Os vídeos usam fachada (miniatura → iframe só ao tocar) e voltam a ser miniatura ao trocar de aba ou fechar, para o som parar. O botão "Corrigir" leva à aba "Como resolvemos" e toca a animação da solução antes de fechar;
    - problema escondido: um `<button class="alvo-escondido">` transparente sobre o extintor, inativo até os 14 visíveis serem corrigidos;
    - celebração (confete), selo final, dica, toast, swipe entre abas, Esc e foco preso dentro do modal.
 
@@ -41,7 +41,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 
 ## Como adicionar um problema novo
 
-1. **Dados:** em `js/data.js`, copie um objeto existente, troque o `id` (o próximo número) e preencha os textos e a classificação de automação. Coloque pelo menos uma referência real em `referencias[]`; o script de verificação falha sem isso.
+1. **Dados:** em `js/data.js`, copie um objeto existente, troque o `id` (o próximo número) e preencha os textos e a classificação de automação. Preencha `videoProblema`, `videoSolucao` e pelo menos uma referência real em `referencias[]`; o script de verificação falha sem isso.
 2. **Cenário:** em `js/scene.js`:
    - acrescente a âncora do pin em `ANCORAS`;
    - desenhe as duas versões com `prob(id, svgPerigo, svgSeguro)` dentro da função da área certa (`painel`, `entrada`, `linhaB` ou `inclinada`), respeitando a ordem de desenho.

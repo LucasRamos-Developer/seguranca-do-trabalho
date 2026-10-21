@@ -50,15 +50,15 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Chave de intertravamento na grade → Relé de segurança → Contator corta o motor. Se alguém abrir ou remover a grade, o contato da chave abre e o relé de segurança desliga o motor na hora.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Acidente: mão no ponto de esmagamento do rolo](https://www.youtube.com/watch?v=8X_EjsuJPhk)
+- **Vídeo da solução:** [Proteções (grades) ao redor de esteiras](https://www.youtube.com/watch?v=SdTBV11tdws)
+
 **Referências reais:**
 - **Caso real:** Esmagamento em tambor de tração (caso do trabalho). Ministério do Trabalho e Emprego / Fundacentro (2022). Caso analisado no trabalho trimestral: braço puxado entre correia e tambor de tração com a esteira em movimento. Perigos presentes: rolo sem enclausuramento, falta de parada de emergência acessível e falha na detecção de congestionamento.
 - **Caso real:** [Cartilha "Alerta de Segurança" vol. 3: proteção de esteiras na cerâmica](https://piracicaba.sp.gov.br/wp-content/uploads/2024/11/Cartilha_Volume_3_-_Protecao_de_esteiras_ceramica.pdf). CEREST Piracicaba. Acidentes reais em esteiras de argila, incluindo um trabalhador que teve o braço direito amputado ao verificar um defeito com a esteira em movimento.
 - **Referência técnica:** [Conveyor guarding in mines](https://www.ontario.ca/page/conveyor-guarding-mines). Governo de Ontário (Canadá). Tambores de cabeceira, de retorno, de acionamento e de desvio precisam de proteção onde o ponto de esmagamento for acessível. A proteção fixa deve exigir ferramenta para ser removida.
 - **Referência técnica:** [Exposed Belt Transfers: the pinch point hazard hiding in plain sight](https://www.flexco.com/EN/Blogs/Exposed-Belt-Transfers-The-Pinch-Point-Hazard-Hiding-in-Plain-Sight.htm). Flexco. Os pontos de esmagamento mais comuns ficam onde a correia encontra o tambor de cabeceira, o de retorno e os roletes. Muitos acidentes acontecem ao tentar limpar material com a esteira ligada.
-- **Vídeo:** [Guarding and Safety Around Conveyor Belts](https://www.youtube.com/watch?v=SdTBV11tdws)
-- **Vídeo:** [Conveyor Belt Accident (rolo de retorno)](https://www.youtube.com/watch?v=8X_EjsuJPhk)
-- **Vídeo:** [Minimum Requirements for Conveyor Belt Guarding](https://www.youtube.com/watch?v=nYxTjlXC8GM)
-- **Vídeo:** [Conveyor Guarding with ASGCO Safe-Guard](https://www.youtube.com/watch?v=xFauC2NiFGg)
 
 ---
 
@@ -86,13 +86,13 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Cabo de emergência (chave de tração) → Relé de segurança + rearme manual → Motor para e não religa sozinho. Qualquer pessoa ao longo da linha puxa o cabo e a esteira para. Ela só volta a funcionar depois do rearme manual.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Por que a esteira precisa parar rápido de qualquer ponto](https://www.youtube.com/watch?v=SKYtQh7YXOo)
+- **Vídeo da solução:** [Esteira com cabo de parada de emergência](https://www.youtube.com/watch?v=DtmFwgJ1gSQ)
+
 **Referências reais:**
 - **Caso real:** [Porto do Pecém (CE): esteira interditada após morte de trabalhador](https://www.sinait.org.br/noticia/23040/ce-fiscalizacao-portuaria-interdita-esteira-transportadora-de-carvao-mineral-no-porto-do-pecem-depois-de-morte-de-trabalhador). SINAIT — Sindicato Nacional dos Auditores Fiscais do Trabalho (jan/2026). Um trabalhador terceirizado de 23 anos fazia manutenção com a esteira de carvão funcionando, foi puxado para dentro do equipamento e morreu no local. A fiscalização encontrou o dispositivo de parada de emergência inoperante, manutenção com a máquina ligada e partes móveis sem proteção, e interditou a esteira.
 - **Referência técnica:** [Where must emergency stops be located on a conveyor?](https://jjkellercompliancenetwork.com/regsense/where-must-emergency-stops-also-known-as-e-stops-be-located-on-a-conveyor). J. J. Keller. Cabos de emergência devem cobrir todo o comprimento da esteira, e ela não pode religar até que a chave acionada seja rearmada.
-- **Vídeo:** [Belt Conveyor Emergency Stop Switches](https://www.youtube.com/watch?v=QSMlpHFWVpM)
-- **Vídeo:** [Belt Conveyor with Emergency Stop Pull Cord](https://www.youtube.com/watch?v=DtmFwgJ1gSQ)
-- **Vídeo:** [Pull-wire emergency-stop switches (indústria pesada)](https://www.youtube.com/watch?v=H3uZrKuOUBU)
-- **Vídeo:** [Emergency stop on the conveyor belt](https://www.youtube.com/watch?v=SKYtQh7YXOo)
 
 ---
 
@@ -120,11 +120,13 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor fotoelétrico de acúmulo → CLP: timeout de X segundos sem variação → Desliga a esteira e mostra alarme na IHM. Se o sensor fica obstruído tempo demais, o CLP entende que é atolamento e para tudo antes que alguém tente soltar a carga com a mão.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Mão presa ao ajustar caixas com a esteira ligada: investigação](https://www.youtube.com/watch?v=rnT09GFSSfY)
+- **Vídeo da solução:** [Detecção automática de atolamento](https://www.youtube.com/watch?v=3jo09rnwd5s)
+
 **Referências reais:**
 - **Caso real:** [Recicladora multada após braço ser puxado ao desobstruir esteira](https://www.circularonline.co.uk/news/waste-and-recycling-company-fined-after-employee-suffers-life-changing-injuries/). HSE (Reino Unido), via Circular Online (jan/2024 (multa em jun/2026)). Bateman Skips Ltd: o trabalhador limpava um bloqueio, escorregou e teve o braço puxado na extremidade sem proteção. A investigação apontou falta de proteção e falta de um sistema seguro para desobstrução.
 - **Referência técnica:** [Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316). USPTO. Explica que, ao remover um atolamento, a energia acumulada na correia faz ela se mover sozinha, mesmo sem motor. Cita um operador esmagado entre a correia e o tambor.
-- **Vídeo:** [Conveyor Jam Detection: como o drive detecta e libera atolamentos](https://www.youtube.com/watch?v=3jo09rnwd5s)
-- **Vídeo:** [Renold: backstop com alívio de tensão para desatolar com segurança](https://www.youtube.com/watch?v=uL71muVpQcM) (abre direto no YouTube: o autor bloqueou a incorporação)
 
 ---
 
@@ -152,12 +154,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Porta do painel → Seccionadora com intertravamento da porta → Porta só abre desenergizada. A automação garante que ninguém abra o painel energizado. Aterramento, isolamento dos bornes e sinalização continuam sendo medidas elétricas da NR-10.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Arco elétrico de 480 V em câmera lenta](https://www.youtube.com/watch?v=PO6see7_ODY)
+- **Vídeo da solução:** [NR-10: painéis elétricos fechados, identificados e trancados](https://www.youtube.com/watch?v=N28QFNWRDAI)
+
 **Referências reais:**
 - **Referência técnica:** [NR-10: Segurança em Instalações e Serviços em Eletricidade](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes). Ministério do Trabalho e Emprego. Exige aterramento, isolamento, procedimentos de desenergização e que só profissionais autorizados acessem painéis.
-- **Vídeo:** [NR-10: Painéis Elétricos](https://www.youtube.com/watch?v=N28QFNWRDAI)
-- **Vídeo:** [Arco elétrico de 480 V em câmera lenta](https://www.youtube.com/watch?v=PO6see7_ODY)
-- **Vídeo:** [What is Arc Flash?](https://www.youtube.com/watch?v=K6iJN6kN-Is)
-- **Vídeo:** [Arc Flash / Arc Blast](https://www.youtube.com/watch?v=yIguPksN_qg)
 
 ---
 
@@ -186,12 +188,13 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Seccionadora bloqueável + sensor de tensão no barramento DC → CLP monitora energia residual do inversor → IHM mostra "seguro para abrir". A automação ajuda a confirmar a energia zero, mas o LOTO em si (cadeado, etiqueta, teste com multímetro) é um procedimento que as pessoas executam.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Animação: acidente em esteira sem bloqueio na manutenção](https://www.youtube.com/watch?v=MeKxCVS-tKk)
+- **Vídeo da solução:** [Bloqueio e etiquetagem (LOTO) em 3 minutos](https://www.youtube.com/watch?v=fxlbx6fBBPE)
+
 **Referências reais:**
 - **Caso real:** [Porto do Pecém (CE): esteira interditada após morte de trabalhador](https://www.sinait.org.br/noticia/23040/ce-fiscalizacao-portuaria-interdita-esteira-transportadora-de-carvao-mineral-no-porto-do-pecem-depois-de-morte-de-trabalhador). SINAIT — Sindicato Nacional dos Auditores Fiscais do Trabalho (jan/2026). Um trabalhador terceirizado de 23 anos fazia manutenção com a esteira de carvão funcionando, foi puxado para dentro do equipamento e morreu no local. A fiscalização encontrou o dispositivo de parada de emergência inoperante, manutenção com a máquina ligada e partes móveis sem proteção, e interditou a esteira.
 - **Referência técnica:** [Minimize Conveyor Injury Risks with Safeguarding](https://www.foodmanufacturing.com/home/article/21115042/minimize-conveyor-injury-risks-with-safeguarding). Food Manufacturing. Lembra que esteiras têm energia elétrica e cinética e exigem procedimento de LOTO específico para cada máquina, ao contrário do que muitos pensam.
-- **Vídeo:** [Bloqueio e Etiquetagem (LOTO): aprenda em 3 minutos](https://www.youtube.com/watch?v=fxlbx6fBBPE)
-- **Vídeo:** [Treinamento LOTO: NR-12 e NR-10](https://www.youtube.com/watch?v=rDP8wc_21K4)
-- **Vídeo:** [Lockout Tagout: exemplo seguro × inseguro (animação)](https://www.youtube.com/watch?v=MFee525FOtU)
 
 ---
 
@@ -219,10 +222,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Operador se identifica na IHM → CLP busca a altura ideal do operador → Atuador elétrico ajusta a altura do posto. O posto se adapta a cada pessoa, em vez de a pessoa se curvar para o posto.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Ergonomia: os 5 pontos principais da NR-17](https://www.youtube.com/watch?v=gvH1MxRsp1A)
+- **Vídeo da solução:** [Postos com elevação ajustável à altura do operador](https://www.youtube.com/watch?v=kRVUCrdpxBI)
+
 **Referências reais:**
 - **Referência técnica:** [NR-17: Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes). Ministério do Trabalho e Emprego. Exige que mobiliário e superfícies de trabalho sejam adequados às características antropométricas de quem trabalha.
-- **Vídeo:** [Ergonomia na Segurança do Trabalho: 5 pontos da NR-17](https://www.youtube.com/watch?v=gvH1MxRsp1A)
-- **Vídeo:** [NR-17: orientações posturais no ambiente de trabalho](https://www.youtube.com/watch?v=smhGLQ5qwuA)
 
 ---
 
@@ -250,12 +255,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de caixa no fim da linha → CLP coordena o ciclo → Robô paletizador / manipulador a vácuo. A máquina faz o levantamento pesado e repetitivo; o operador só supervisiona.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Movimentação manual de cargas na NR-17](https://www.youtube.com/watch?v=reK02bRgPGI)
+- **Vídeo da solução:** [Elevador a vácuo para caixas de 40 kg](https://www.youtube.com/watch?v=qlyhj6sAjgc)
+
 **Referências reais:**
 - **Referência técnica:** [NR-17: Ergonomia (levantamento, transporte e descarga de materiais)](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes). Ministério do Trabalho e Emprego. Exige avaliar a movimentação manual de cargas e adotar medidas, como ajudas mecânicas, para reduzir o esforço.
-- **Vídeo:** [Movimentação manual de cargas na nova NR-17](https://www.youtube.com/watch?v=reK02bRgPGI)
-- **Vídeo:** [Elevador a vácuo para caixas de 40 kg](https://www.youtube.com/watch?v=qlyhj6sAjgc)
-- **Vídeo:** [Manipulador a vácuo para caixas](https://www.youtube.com/watch?v=ZIlcO4MYBKo)
-- **Vídeo:** [Automação de fim de linha: paletização](https://www.youtube.com/watch?v=5EY9itJgnZg)
 
 ---
 
@@ -283,10 +288,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Comando de partida na IHM → CLP temporiza sirene + sinaleiro → Só depois o motor liga. Antes de qualquer partida, a esteira avisa com som e luz por alguns segundos, dando tempo de qualquer pessoa sair de perto.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Máquina religada com o trabalhador dentro: seguro × inseguro](https://www.youtube.com/watch?v=MFee525FOtU)
+- **Vídeo da solução:** [Chaves de emergência e alarmes de esteira](https://www.youtube.com/watch?v=q_ntfPp9ixs)
+
 **Referências reais:**
 - **Referência técnica:** [Material de segurança em português (concreto usinado)](https://www.mhlw.go.jp/content/11300000/000957646.pdf). MHLW — Ministério da Saúde, Trabalho e Bem-Estar do Japão. História em quadrinhos de segurança: o prendimento em esteira transportadora foi 21% das ocorrências fatais de 2014 a 2020, e a esteira pode começar a se mover de repente.
-- **Vídeo:** [Emergency conveyor belt switches and alarms](https://www.youtube.com/watch?v=q_ntfPp9ixs)
-- **Vídeo:** [Partida de esteira com sinaleiro e sirene via CLP S7](https://www.youtube.com/watch?v=gpJ8fjvj8l0) (abre direto no YouTube: o autor bloqueou a incorporação)
 
 ---
 
@@ -314,11 +321,14 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Proteção removível da transmissão → Chave de intertravamento → relé de segurança → Motor desliga se a proteção sair. A solução principal é mecânica: uma proteção fixa. O intertravamento só é necessário se a proteção precisar ser aberta com frequência.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Partes móveis sem proteção (machinery guarding)](https://www.youtube.com/watch?v=TukTqslw_90)
+- **Vídeo da solução:** [Proteção de correia e polias (V-belt guard)](https://www.youtube.com/watch?v=el5l64bURiQ)
+
 **Referências reais:**
 - **Imagem real:** [Ponto de contato entre correia de transmissão e polia](https://commons.wikimedia.org/wiki/File:Power_transmission_belt.gif). OSHA, Departamento do Trabalho dos EUA (domínio público, via Wikimedia Commons). Arquivo local: `assets/ref/osha-correia-polia.gif`.
 - **Caso real:** [Cartilha "Alerta de Segurança" vol. 2: proteção de esteiras em usinas](https://piracicaba.sp.gov.br/wp-content/uploads/2024/11/Cartilha_Volume_2_-_Protecao_de_esteiras_em_usinas.pdf). CEREST Piracicaba. Acidentes reais em esteiras de usinas de açúcar e álcool, com análise de causas como a transmissão de força desprotegida.
 - **Referência técnica:** [Machine Guarding: Hazardous Motions](https://www.osha.gov/etools/machine-guarding/introduction/hazardous-motions-actions). OSHA eTool. Exemplos de pontos de agarramento: correia e polia, corrente e engrenagem, cremalheira e pinhão.
-- **Vídeo:** [Machinery guarding](https://www.youtube.com/watch?v=TukTqslw_90)
 
 ---
 
@@ -346,10 +356,13 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de carga fora de posição → CLP detecta caixa desalinhada → Para a esteira antes da queda. As guias laterais (mecânicas) seguram a carga; o sensor é uma camada extra.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Por que as caixas caem da esteira](https://www.youtube.com/watch?v=hM9OGdXtEEQ)
+- **Vídeo da solução:** [Guias laterais para esteiras](https://www.youtube.com/watch?v=Z9aJBFHZGLc)
+
 **Referências reais:**
 - **Caso real:** [Empresa de madeira é acionada pelo MPT após acidente](https://www.prt2.mpt.mp.br/1157-empresa-de-madeira-e-acionada-pelo-mpt-para-reforcar-medidas-de-seguranca-apos-grave-acidente-com-trabalhador). MPT-SP (Ministério Público do Trabalho). Relatório de auditores fiscais apontou esteiras sem proteção e falta de manutenção preventiva. O TAC proposto exigia proteções nos transportadores.
 - **Referência técnica:** [Conveyor Safety: hazards associated with conveyors](https://oshainfo.gatech.edu/wp-content/uploads/2025/07/Conveyors-TGrevised.pdf). Georgia Tech OSHA Consultation. Guia de treinamento sobre riscos de esteiras, incluindo queda de materiais e pontos de agarramento.
-- **Vídeo:** [How to stop products falling off a conveyor](https://www.youtube.com/watch?v=hM9OGdXtEEQ)
 
 ---
 
@@ -377,11 +390,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de rotação / velocidade zero → CLP detecta giro reverso → Aciona freio e alarme. Junto com o freio anti-retorno (backstop, mecânico), o sensor garante que a correia nunca desça com a carga.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Retorno da correia carregada e o holdback](https://www.youtube.com/watch?v=efCE6KoxeXY)
+- **Vídeo da solução:** [Esteira inclinada com taliscas](https://www.youtube.com/watch?v=dPtoQ4bBtZo)
+
 **Referências reais:**
 - **Referência técnica:** [Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316). USPTO. Descreve o perigo do retrocesso da correia e o caso de um operador esmagado no tambor de retorno.
-- **Vídeo:** [Holdback / backstop: o que é e como funciona](https://www.youtube.com/watch?v=efCE6KoxeXY)
-- **Vídeo:** [Holdback / backstop: benefícios](https://www.youtube.com/watch?v=jcQXsNLUUgE)
-- **Vídeo:** [Esteira inclinada com taliscas (flights)](https://www.youtube.com/watch?v=dPtoQ4bBtZo)
 
 ---
 
@@ -409,11 +423,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Aqui a solução é de engenharia mecânica e civil: uma passarela com guarda-corpo. Não depende de sensor nem de CLP.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Trabalhador sobe na esteira em movimento](https://www.youtube.com/watch?v=DPVJpnSWCik)
+- **Vídeo da solução:** [Escada de travessia sobre a esteira](https://www.youtube.com/watch?v=8ZsWS8txah8)
+
 **Referências reais:**
 - **Caso real:** [Porto do Pecém (CE): esteira interditada após morte de trabalhador](https://www.sinait.org.br/noticia/23040/ce-fiscalizacao-portuaria-interdita-esteira-transportadora-de-carvao-mineral-no-porto-do-pecem-depois-de-morte-de-trabalhador). SINAIT — Sindicato Nacional dos Auditores Fiscais do Trabalho (jan/2026). Um trabalhador terceirizado de 23 anos fazia manutenção com a esteira de carvão funcionando, foi puxado para dentro do equipamento e morreu no local. A fiscalização encontrou o dispositivo de parada de emergência inoperante, manutenção com a máquina ligada e partes móveis sem proteção, e interditou a esteira.
-- **Vídeo:** [NR-12, capítulo 12.8: transportadores de materiais](https://www.youtube.com/watch?v=ozJDTShOG_E)
-- **Vídeo:** [Escada de travessia sobre esteira (walk-over)](https://www.youtube.com/watch?v=8ZsWS8txah8)
-- **Vídeo:** [Conveyor Crossover: passarela sobre esteira](https://www.youtube.com/watch?v=Jj5MQuk8UiI)
 
 ---
 
@@ -441,10 +456,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Cortina de luz / scanner de área → Relé de segurança → Parada segura do robô e da esteira. Se alguém cruzar o feixe de luz, o robô para antes de a pessoa chegar ao alcance do braço.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Trabalhador no ponto cego do robô](https://www.youtube.com/watch?v=M8kCLeLY87M)
+- **Vídeo da solução:** [Cortina de luz detecta a pessoa e o robô para](https://www.youtube.com/watch?v=-Ma3Hl4Jevk)
+
 **Referências reais:**
 - **Referência técnica:** [Simulation-based Testing for Early Safety-Validation of Robot Systems](https://arxiv.org/abs/2011.10294). arXiv 2011.10294. Célula industrial com cercas, scanner e cortina de luz: o contato humano com o robô só pode ocorrer com o robô parado.
-- **Vídeo:** [Cortina de luz detecta pessoas entrando na área do robô](https://www.youtube.com/watch?v=-Ma3Hl4Jevk)
-- **Vídeo:** [Cortina de luz + trava de porta de segurança](https://www.youtube.com/watch?v=peg0F5gTivo)
 
 ---
 
@@ -472,11 +489,12 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de vibração no rolamento → CLP compara com o limite (manutenção preditiva) → Alerta de troca + inversor reduz a velocidade. A automação ataca a fonte do ruído (rolamento gasto, velocidade). O protetor auricular é só uma medida complementar.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Perda auditiva induzida por ruído (PAIR)](https://www.youtube.com/watch?v=mni4A9s_wfg)
+- **Vídeo da solução:** [Sensor sem fio de vibração em motores e rolamentos](https://www.youtube.com/watch?v=1KAVdPJDODQ)
+
 **Referências reais:**
 - **Referência técnica:** [NR-15, Anexo I: limites de tolerância para ruído](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes). Ministério do Trabalho e Emprego. 85 dB(A) é o limite para 8 horas de exposição diária.
-- **Vídeo:** [Perda Auditiva Induzida por Ruído (PAIR)](https://www.youtube.com/watch?v=mni4A9s_wfg)
-- **Vídeo:** [NR-15 e os limites de tolerância ao ruído](https://www.youtube.com/watch?v=VQ2bu0ftYFc)
-- **Vídeo:** [EPI: proteção auricular](https://www.youtube.com/watch?v=rFXKpezKo_4)
 
 ---
 
@@ -505,10 +523,11 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Solução organizacional: desobstruir, demarcar o piso e inspecionar. Nenhum sensor resolve uma pilha de caixas na frente do extintor; o que resolve é organização (5S) e inspeção.
 
+**Vídeos reais:**
+- **Vídeo do problema:** [Falhas de segurança contra incêndio: extintores bloqueados](https://www.youtube.com/watch?v=SZMjHAqb-LM)
+- **Vídeo da solução:** [Como demarcar o piso de extintores](https://www.youtube.com/watch?v=5P3Volndqtg)
+
 **Referências reais:**
 - **Referência técnica:** [Lâmina de gerenciamento de riscos: proteja contra incêndios](https://sompo.com.br/documents/d/global/som05224_lamina-de-gerenciamento-de-riscos-property_proteja-contra-incendios_c-1). Sompo Seguros. Sinalização de solo sob extintores e hidrantes: quadrado de 1,00 × 1,00 m, fundo vermelho e borda amarela.
 - **Referência técnica:** [Cartilha de Extintores de Incêndio](https://unilab.edu.br/wp-content/uploads/2026/07/Cartilha-Extintores-de-Incendio.pdf). Unilab. Extintor a no máximo 1,60 m do piso, área livre demarcada e nunca obstruído por móveis, caixas ou equipamentos.
-- **Vídeo:** [Como demarcar o piso de extintores e hidrantes](https://www.youtube.com/watch?v=5P3Volndqtg)
-- **Vídeo:** [Dimensões da sinalização no piso sob extintores](https://www.youtube.com/watch?v=tm6vjnLOM7A)
-- **Vídeo:** [Inspeção de extintores na prática](https://www.youtube.com/watch?v=RF1EzPoWCLU)
 

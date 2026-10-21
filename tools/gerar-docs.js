@@ -14,13 +14,14 @@ vm.runInContext(fs.readFileSync(path.join(raiz, 'js', 'data.js'), 'utf8'), ctx);
 const PROBLEMAS = ctx.window.PROBLEMAS;
 
 const AUTO = { sim: '⚙ Sim', parcial: '◐ Parcial', nao: '✖ Não' };
-const TIPO = { caso: 'Caso real', imagem: 'Imagem real', documento: 'Referência técnica', video: 'Vídeo' };
+const TIPO = { caso: 'Caso real', imagem: 'Imagem real', documento: 'Referência técnica' };
+
+function video(rotulo, v) {
+  const extra = v.embed === false ? ' (abre direto no YouTube: o autor bloqueou a incorporação)' : '';
+  return `- **${rotulo}:** [${v.titulo}](https://www.youtube.com/watch?v=${v.id})${extra}`;
+}
 
 function ref(r) {
-  if (r.tipo === 'video') {
-    const extra = r.embed === false ? ' (abre direto no YouTube: o autor bloqueou a incorporação)' : '';
-    return `- **Vídeo:** [${r.titulo}](https://www.youtube.com/watch?v=${r.id})${extra}`;
-  }
   const titulo = r.url ? `[${r.titulo}](${r.url})` : r.titulo;
   const data = r.data ? ` (${r.data})` : '';
   const img = r.src ? ` Arquivo local: \`${r.src}\`.` : '';
@@ -67,6 +68,10 @@ ${p.solucao.map((s) => `- ${s}`).join('\n')}
 **Como reduz o risco:** ${p.comoReduz}
 
 **Automação:** ${c.entrada ? `${c.entrada} → ${c.logica} → ${c.saida}. ` : ''}${c.nota || ''}
+
+**Vídeos reais:**
+${video('Vídeo do problema', p.videoProblema)}
+${video('Vídeo da solução', p.videoSolucao)}
 
 **Referências reais:**
 ${p.referencias.map(ref).join('\n')}

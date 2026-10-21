@@ -4,9 +4,9 @@ Página web animada do trabalho trimestral **"Automação Segura"** (Segurança 
 
 Ela mostra uma esteira automatizada em estilo isométrico, com **14 problemas de segurança** marcados com ⚠ e **1 problema escondido**. Ao tocar em um ⚠, abre um modal com três abas:
 
-1. **Vídeo**: animação do acidente acontecendo e da solução funcionando, mais **vídeos reais** do YouTube.
+1. **Vídeo**: **um vídeo real** do YouTube mostrando o problema, mais a animação do acidente acontecendo.
 2. **O caso**: caso real documentado (fiscalização, notícia, relatório), imagem real quando houver, perigo / exposição / risco.
-3. **Como resolvemos**: medidas de controle, NR, prioridade e o diagrama **Entrada → Lógica → Saída** quando a solução usa automação.
+3. **Como resolvemos**: **um vídeo real** mostrando a solução, as medidas de controle, NR, prioridade, o diagrama **Entrada → Lógica → Saída** (quando a solução usa automação) e a animação da solução funcionando.
 
 No fim do modal, o botão **"Corrigir problema"** aplica a solução: o desenho muda (aparece a grade, o cabo de emergência, o cadeado…) e o ⚠ vira um escudo verde ✔.
 
@@ -34,7 +34,7 @@ Não precisa instalar nada: o site é HTML, CSS e JavaScript puro, sem build.
   # abra http://localhost:8000
   ```
 
-Funciona em celular (o cenário pode ser arrastado para os lados), tablet e desktop a partir de 1024×600. Respeita a opção "reduzir movimento" do sistema e pausa as animações quando o modal está aberto ou a aba fica oculta, para poupar aparelhos fracos. Sem internet tudo funciona, menos os vídeos do YouTube, que viram link.
+Funciona em celular (o cenário pode ser arrastado para os lados), tablet e desktop a partir de 1024×600. No desktop, os textos são maiores e com mais contraste, pensando em apresentação no projetor. Respeita a opção "reduzir movimento" do sistema e pausa as animações quando o modal está aberto ou a aba fica oculta, para poupar aparelhos fracos. Sem internet tudo funciona, menos os vídeos do YouTube, que viram link.
 
 ## Publicar (GitHub Pages)
 
@@ -53,7 +53,8 @@ O andamento aparece na aba **Actions** do repositório (ou com `gh run watch`).
 | Quero… | Onde |
 |---|---|
 | Mudar textos, NR, prioridade, solução de um problema | `js/data.js` |
-| Trocar ou adicionar vídeos e referências | `referencias` de cada problema em `js/data.js` |
+| Trocar o vídeo do problema ou da solução | `videoProblema` / `videoSolucao` de cada problema em `js/data.js` |
+| Trocar ou adicionar casos e referências | `referencias` de cada problema em `js/data.js` |
 | Mudar o desenho do cenário | `js/scene.js` (usa as peças de `js/iso.js`) |
 | Mudar as animações do modal | `js/animations.js` |
 | Cores, tamanhos e layout | `css/style.css` (variáveis no `:root`) |

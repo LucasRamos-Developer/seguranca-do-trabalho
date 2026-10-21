@@ -3,8 +3,10 @@
  * Cada problema tem textos do modal, classificação de automação e referências reais.
  * Para adicionar um problema novo veja docs/arquitetura.md.
  *
+ * videoProblema / videoSolucao: um vídeo real do YouTube mostrando o problema e outro mostrando a solução.
+ *   { id, titulo, embed? }  embed:false quando o dono bloqueou a incorporação (abre no YouTube).
+ *
  * referencias[].tipo:
- *   'video'     -> YouTube (id). embed:false quando o dono bloqueou a incorporação (abre no YouTube).
  *   'caso'      -> acidente real documentado (notícia, relatório de fiscalização, processo).
  *   'imagem'    -> imagem real salva em assets/ref (domínio público), com crédito.
  *   'documento' -> norma, guia técnico, cartilha, artigo ou patente.
@@ -50,15 +52,13 @@ window.PROBLEMAS = [
       'Sinalização de "ponto de esmagamento" na cabeceira.'
     ],
     comoReduz: 'A grade impede fisicamente que a mão alcance o ponto de convergência. Se a grade for removida, o relé de segurança corta imediatamente a energia do motor.',
+    videoProblema: { id: '8X_EjsuJPhk', titulo: 'Acidente: mão no ponto de esmagamento do rolo' },
+    videoSolucao: { id: 'SdTBV11tdws', titulo: 'Proteções (grades) ao redor de esteiras' },
     referencias: [
       { tipo: 'caso', titulo: 'Esmagamento em tambor de tração (caso do trabalho)', fonte: 'Ministério do Trabalho e Emprego / Fundacentro', data: '2022', resumo: 'Caso analisado no trabalho trimestral: braço puxado entre correia e tambor de tração com a esteira em movimento. Perigos presentes: rolo sem enclausuramento, falta de parada de emergência acessível e falha na detecção de congestionamento.' },
       { tipo: 'caso', titulo: 'Cartilha "Alerta de Segurança" vol. 3: proteção de esteiras na cerâmica', fonte: 'CEREST Piracicaba', url: 'https://piracicaba.sp.gov.br/wp-content/uploads/2024/11/Cartilha_Volume_3_-_Protecao_de_esteiras_ceramica.pdf', resumo: 'Acidentes reais em esteiras de argila, incluindo um trabalhador que teve o braço direito amputado ao verificar um defeito com a esteira em movimento.' },
       { tipo: 'documento', titulo: 'Conveyor guarding in mines', fonte: 'Governo de Ontário (Canadá)', url: 'https://www.ontario.ca/page/conveyor-guarding-mines', resumo: 'Tambores de cabeceira, de retorno, de acionamento e de desvio precisam de proteção onde o ponto de esmagamento for acessível. A proteção fixa deve exigir ferramenta para ser removida.' },
-      { tipo: 'documento', titulo: 'Exposed Belt Transfers: the pinch point hazard hiding in plain sight', fonte: 'Flexco', url: 'https://www.flexco.com/EN/Blogs/Exposed-Belt-Transfers-The-Pinch-Point-Hazard-Hiding-in-Plain-Sight.htm', resumo: 'Os pontos de esmagamento mais comuns ficam onde a correia encontra o tambor de cabeceira, o de retorno e os roletes. Muitos acidentes acontecem ao tentar limpar material com a esteira ligada.' },
-      { tipo: 'video', id: 'SdTBV11tdws', titulo: 'Guarding and Safety Around Conveyor Belts' },
-      { tipo: 'video', id: '8X_EjsuJPhk', titulo: 'Conveyor Belt Accident (rolo de retorno)' },
-      { tipo: 'video', id: 'nYxTjlXC8GM', titulo: 'Minimum Requirements for Conveyor Belt Guarding' },
-      { tipo: 'video', id: 'xFauC2NiFGg', titulo: 'Conveyor Guarding with ASGCO Safe-Guard' }
+      { tipo: 'documento', titulo: 'Exposed Belt Transfers: the pinch point hazard hiding in plain sight', fonte: 'Flexco', url: 'https://www.flexco.com/EN/Blogs/Exposed-Belt-Transfers-The-Pinch-Point-Hazard-Hiding-in-Plain-Sight.htm', resumo: 'Os pontos de esmagamento mais comuns ficam onde a correia encontra o tambor de cabeceira, o de retorno e os roletes. Muitos acidentes acontecem ao tentar limpar material com a esteira ligada.' }
     ]
   },
   {
@@ -89,13 +89,11 @@ window.PROBLEMAS = [
       'Ligação a um relé de segurança, com rearme manual e teste periódico registrado.'
     ],
     comoReduz: 'Basta puxar o cabo em qualquer ponto da linha para cortar o motor imediatamente, sem depender de alcançar o painel.',
+    videoProblema: { id: 'SKYtQh7YXOo', titulo: 'Por que a esteira precisa parar rápido de qualquer ponto' },
+    videoSolucao: { id: 'DtmFwgJ1gSQ', titulo: 'Esteira com cabo de parada de emergência' },
     referencias: [
       CASO_PECEM,
-      { tipo: 'documento', titulo: 'Where must emergency stops be located on a conveyor?', fonte: 'J. J. Keller', url: 'https://jjkellercompliancenetwork.com/regsense/where-must-emergency-stops-also-known-as-e-stops-be-located-on-a-conveyor', resumo: 'Cabos de emergência devem cobrir todo o comprimento da esteira, e ela não pode religar até que a chave acionada seja rearmada.' },
-      { tipo: 'video', id: 'QSMlpHFWVpM', titulo: 'Belt Conveyor Emergency Stop Switches' },
-      { tipo: 'video', id: 'DtmFwgJ1gSQ', titulo: 'Belt Conveyor with Emergency Stop Pull Cord' },
-      { tipo: 'video', id: 'H3uZrKuOUBU', titulo: 'Pull-wire emergency-stop switches (indústria pesada)' },
-      { tipo: 'video', id: 'SKYtQh7YXOo', titulo: 'Emergency stop on the conveyor belt' }
+      { tipo: 'documento', titulo: 'Where must emergency stops be located on a conveyor?', fonte: 'J. J. Keller', url: 'https://jjkellercompliancenetwork.com/regsense/where-must-emergency-stops-also-known-as-e-stops-be-located-on-a-conveyor', resumo: 'Cabos de emergência devem cobrir todo o comprimento da esteira, e ela não pode religar até que a chave acionada seja rearmada.' }
     ]
   },
   {
@@ -126,11 +124,11 @@ window.PROBLEMAS = [
       'Parada automática + alarme na IHM + procedimento de desobstrução com a máquina bloqueada.'
     ],
     comoReduz: 'A esteira para sozinha antes de forçar a carga, eliminando a pressa de resolver na mão com tudo ligado.',
+    videoProblema: { id: 'rnT09GFSSfY', titulo: 'Mão presa ao ajustar caixas com a esteira ligada: investigação' },
+    videoSolucao: { id: '3jo09rnwd5s', titulo: 'Detecção automática de atolamento' },
     referencias: [
       { tipo: 'caso', titulo: 'Recicladora multada após braço ser puxado ao desobstruir esteira', fonte: 'HSE (Reino Unido), via Circular Online', data: 'jan/2024 (multa em jun/2026)', url: 'https://www.circularonline.co.uk/news/waste-and-recycling-company-fined-after-employee-suffers-life-changing-injuries/', resumo: 'Bateman Skips Ltd: o trabalhador limpava um bloqueio, escorregou e teve o braço puxado na extremidade sem proteção. A investigação apontou falta de proteção e falta de um sistema seguro para desobstrução.' },
-      { tipo: 'documento', titulo: 'Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)', fonte: 'USPTO', url: 'https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316', resumo: 'Explica que, ao remover um atolamento, a energia acumulada na correia faz ela se mover sozinha, mesmo sem motor. Cita um operador esmagado entre a correia e o tambor.' },
-      { tipo: 'video', id: '3jo09rnwd5s', titulo: 'Conveyor Jam Detection: como o drive detecta e libera atolamentos' },
-      { tipo: 'video', id: 'uL71muVpQcM', titulo: 'Renold: backstop com alívio de tensão para desatolar com segurança', embed: false }
+      { tipo: 'documento', titulo: 'Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)', fonte: 'USPTO', url: 'https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316', resumo: 'Explica que, ao remover um atolamento, a energia acumulada na correia faz ela se mover sozinha, mesmo sem motor. Cita um operador esmagado entre a correia e o tambor.' }
     ]
   },
   {
@@ -161,12 +159,10 @@ window.PROBLEMAS = [
       'Seccionadora com intertravamento na porta e sinalização de risco elétrico.'
     ],
     comoReduz: 'Elimina o contato acidental com partes energizadas e garante que só se abre o painel sem tensão.',
+    videoProblema: { id: 'PO6see7_ODY', titulo: 'Arco elétrico de 480 V em câmera lenta' },
+    videoSolucao: { id: 'N28QFNWRDAI', titulo: 'NR-10: painéis elétricos fechados, identificados e trancados' },
     referencias: [
-      { tipo: 'documento', titulo: 'NR-10: Segurança em Instalações e Serviços em Eletricidade', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige aterramento, isolamento, procedimentos de desenergização e que só profissionais autorizados acessem painéis.' },
-      { tipo: 'video', id: 'N28QFNWRDAI', titulo: 'NR-10: Painéis Elétricos' },
-      { tipo: 'video', id: 'PO6see7_ODY', titulo: 'Arco elétrico de 480 V em câmera lenta' },
-      { tipo: 'video', id: 'K6iJN6kN-Is', titulo: 'What is Arc Flash?' },
-      { tipo: 'video', id: 'yIguPksN_qg', titulo: 'Arc Flash / Arc Blast' }
+      { tipo: 'documento', titulo: 'NR-10: Segurança em Instalações e Serviços em Eletricidade', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige aterramento, isolamento, procedimentos de desenergização e que só profissionais autorizados acessem painéis.' }
     ]
   },
   {
@@ -198,12 +194,11 @@ window.PROBLEMAS = [
       'Testar "tensão zero" nos bornes do motor com multímetro e aliviar a tensão da correia.'
     ],
     comoReduz: 'Só quem colocou o cadeado pode tirá-lo: ninguém religa a esteira com o técnico trabalhando.',
+    videoProblema: { id: 'MeKxCVS-tKk', titulo: 'Animação: acidente em esteira sem bloqueio na manutenção' },
+    videoSolucao: { id: 'fxlbx6fBBPE', titulo: 'Bloqueio e etiquetagem (LOTO) em 3 minutos' },
     referencias: [
       CASO_PECEM,
-      { tipo: 'documento', titulo: 'Minimize Conveyor Injury Risks with Safeguarding', fonte: 'Food Manufacturing', url: 'https://www.foodmanufacturing.com/home/article/21115042/minimize-conveyor-injury-risks-with-safeguarding', resumo: 'Lembra que esteiras têm energia elétrica e cinética e exigem procedimento de LOTO específico para cada máquina, ao contrário do que muitos pensam.' },
-      { tipo: 'video', id: 'fxlbx6fBBPE', titulo: 'Bloqueio e Etiquetagem (LOTO): aprenda em 3 minutos' },
-      { tipo: 'video', id: 'rDP8wc_21K4', titulo: 'Treinamento LOTO: NR-12 e NR-10' },
-      { tipo: 'video', id: 'MFee525FOtU', titulo: 'Lockout Tagout: exemplo seguro × inseguro (animação)' }
+      { tipo: 'documento', titulo: 'Minimize Conveyor Injury Risks with Safeguarding', fonte: 'Food Manufacturing', url: 'https://www.foodmanufacturing.com/home/article/21115042/minimize-conveyor-injury-risks-with-safeguarding', resumo: 'Lembra que esteiras têm energia elétrica e cinética e exigem procedimento de LOTO específico para cada máquina, ao contrário do que muitos pensam.' }
     ]
   },
   {
@@ -234,10 +229,10 @@ window.PROBLEMAS = [
       'Pausas e rodízio de tarefas (NR-17).'
     ],
     comoReduz: 'Com a carga na altura certa, a coluna fica reta e o esforço cai a cada movimento.',
+    videoProblema: { id: 'gvH1MxRsp1A', titulo: 'Ergonomia: os 5 pontos principais da NR-17' },
+    videoSolucao: { id: 'kRVUCrdpxBI', titulo: 'Postos com elevação ajustável à altura do operador' },
     referencias: [
-      { tipo: 'documento', titulo: 'NR-17: Ergonomia', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige que mobiliário e superfícies de trabalho sejam adequados às características antropométricas de quem trabalha.' },
-      { tipo: 'video', id: 'gvH1MxRsp1A', titulo: 'Ergonomia na Segurança do Trabalho: 5 pontos da NR-17' },
-      { tipo: 'video', id: 'smhGLQ5qwuA', titulo: 'NR-17: orientações posturais no ambiente de trabalho' }
+      { tipo: 'documento', titulo: 'NR-17: Ergonomia', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige que mobiliário e superfícies de trabalho sejam adequados às características antropométricas de quem trabalha.' }
     ]
   },
   {
@@ -268,12 +263,10 @@ window.PROBLEMAS = [
       'Rodízio de função e pausas.'
     ],
     comoReduz: 'Tira o esforço de levantamento do corpo do trabalhador.',
+    videoProblema: { id: 'reK02bRgPGI', titulo: 'Movimentação manual de cargas na NR-17' },
+    videoSolucao: { id: 'qlyhj6sAjgc', titulo: 'Elevador a vácuo para caixas de 40 kg' },
     referencias: [
-      { tipo: 'documento', titulo: 'NR-17: Ergonomia (levantamento, transporte e descarga de materiais)', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige avaliar a movimentação manual de cargas e adotar medidas, como ajudas mecânicas, para reduzir o esforço.' },
-      { tipo: 'video', id: 'reK02bRgPGI', titulo: 'Movimentação manual de cargas na nova NR-17' },
-      { tipo: 'video', id: 'qlyhj6sAjgc', titulo: 'Elevador a vácuo para caixas de 40 kg' },
-      { tipo: 'video', id: 'ZIlcO4MYBKo', titulo: 'Manipulador a vácuo para caixas' },
-      { tipo: 'video', id: '5EY9itJgnZg', titulo: 'Automação de fim de linha: paletização' }
+      { tipo: 'documento', titulo: 'NR-17: Ergonomia (levantamento, transporte e descarga de materiais)', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige avaliar a movimentação manual de cargas e adotar medidas, como ajudas mecânicas, para reduzir o esforço.' }
     ]
   },
   {
@@ -304,10 +297,10 @@ window.PROBLEMAS = [
       'Partida somente pela IHM, com visão da linha.'
     ],
     comoReduz: 'Ninguém é pego de surpresa: há alguns segundos de aviso antes de qualquer movimento.',
+    videoProblema: { id: 'MFee525FOtU', titulo: 'Máquina religada com o trabalhador dentro: seguro × inseguro' },
+    videoSolucao: { id: 'q_ntfPp9ixs', titulo: 'Chaves de emergência e alarmes de esteira' },
     referencias: [
-      { tipo: 'documento', titulo: 'Material de segurança em português (concreto usinado)', fonte: 'MHLW — Ministério da Saúde, Trabalho e Bem-Estar do Japão', url: 'https://www.mhlw.go.jp/content/11300000/000957646.pdf', resumo: 'História em quadrinhos de segurança: o prendimento em esteira transportadora foi 21% das ocorrências fatais de 2014 a 2020, e a esteira pode começar a se mover de repente.' },
-      { tipo: 'video', id: 'q_ntfPp9ixs', titulo: 'Emergency conveyor belt switches and alarms' },
-      { tipo: 'video', id: 'gpJ8fjvj8l0', titulo: 'Partida de esteira com sinaleiro e sirene via CLP S7', embed: false }
+      { tipo: 'documento', titulo: 'Material de segurança em português (concreto usinado)', fonte: 'MHLW — Ministério da Saúde, Trabalho e Bem-Estar do Japão', url: 'https://www.mhlw.go.jp/content/11300000/000957646.pdf', resumo: 'História em quadrinhos de segurança: o prendimento em esteira transportadora foi 21% das ocorrências fatais de 2014 a 2020, e a esteira pode começar a se mover de repente.' }
     ]
   },
   {
@@ -338,11 +331,12 @@ window.PROBLEMAS = [
       'Sinalização de partes móveis.'
     ],
     comoReduz: 'Sem acesso ao ponto de contato entre correia e polia, não há como ser agarrado.',
+    videoProblema: { id: 'TukTqslw_90', titulo: 'Partes móveis sem proteção (machinery guarding)' },
+    videoSolucao: { id: 'el5l64bURiQ', titulo: 'Proteção de correia e polias (V-belt guard)' },
     referencias: [
       { tipo: 'imagem', titulo: 'Ponto de contato entre correia de transmissão e polia', fonte: 'OSHA, Departamento do Trabalho dos EUA (domínio público, via Wikimedia Commons)', src: 'assets/ref/osha-correia-polia.gif', url: 'https://commons.wikimedia.org/wiki/File:Power_transmission_belt.gif' },
       { tipo: 'caso', titulo: 'Cartilha "Alerta de Segurança" vol. 2: proteção de esteiras em usinas', fonte: 'CEREST Piracicaba', url: 'https://piracicaba.sp.gov.br/wp-content/uploads/2024/11/Cartilha_Volume_2_-_Protecao_de_esteiras_em_usinas.pdf', resumo: 'Acidentes reais em esteiras de usinas de açúcar e álcool, com análise de causas como a transmissão de força desprotegida.' },
-      { tipo: 'documento', titulo: 'Machine Guarding: Hazardous Motions', fonte: 'OSHA eTool', url: 'https://www.osha.gov/etools/machine-guarding/introduction/hazardous-motions-actions', resumo: 'Exemplos de pontos de agarramento: correia e polia, corrente e engrenagem, cremalheira e pinhão.' },
-      { tipo: 'video', id: 'TukTqslw_90', titulo: 'Machinery guarding' }
+      { tipo: 'documento', titulo: 'Machine Guarding: Hazardous Motions', fonte: 'OSHA eTool', url: 'https://www.osha.gov/etools/machine-guarding/introduction/hazardous-motions-actions', resumo: 'Exemplos de pontos de agarramento: correia e polia, corrente e engrenagem, cremalheira e pinhão.' }
     ]
   },
   {
@@ -373,10 +367,11 @@ window.PROBLEMAS = [
       'Sensor de carga desalinhada ligado ao CLP.'
     ],
     comoReduz: 'A carga fica contida na esteira e, se algo sair do lugar, a linha para.',
+    videoProblema: { id: 'hM9OGdXtEEQ', titulo: 'Por que as caixas caem da esteira' },
+    videoSolucao: { id: 'Z9aJBFHZGLc', titulo: 'Guias laterais para esteiras' },
     referencias: [
       { tipo: 'caso', titulo: 'Empresa de madeira é acionada pelo MPT após acidente', fonte: 'MPT-SP (Ministério Público do Trabalho)', url: 'https://www.prt2.mpt.mp.br/1157-empresa-de-madeira-e-acionada-pelo-mpt-para-reforcar-medidas-de-seguranca-apos-grave-acidente-com-trabalhador', resumo: 'Relatório de auditores fiscais apontou esteiras sem proteção e falta de manutenção preventiva. O TAC proposto exigia proteções nos transportadores.' },
-      { tipo: 'documento', titulo: 'Conveyor Safety: hazards associated with conveyors', fonte: 'Georgia Tech OSHA Consultation', url: 'https://oshainfo.gatech.edu/wp-content/uploads/2025/07/Conveyors-TGrevised.pdf', resumo: 'Guia de treinamento sobre riscos de esteiras, incluindo queda de materiais e pontos de agarramento.' },
-      { tipo: 'video', id: 'hM9OGdXtEEQ', titulo: 'How to stop products falling off a conveyor' }
+      { tipo: 'documento', titulo: 'Conveyor Safety: hazards associated with conveyors', fonte: 'Georgia Tech OSHA Consultation', url: 'https://oshainfo.gatech.edu/wp-content/uploads/2025/07/Conveyors-TGrevised.pdf', resumo: 'Guia de treinamento sobre riscos de esteiras, incluindo queda de materiais e pontos de agarramento.' }
     ]
   },
   {
@@ -407,11 +402,10 @@ window.PROBLEMAS = [
       'Sensor de rotação reversa ligado ao CLP.'
     ],
     comoReduz: 'A correia só gira em um sentido: mesmo sem energia, a carga não desce.',
+    videoProblema: { id: 'efCE6KoxeXY', titulo: 'Retorno da correia carregada e o holdback' },
+    videoSolucao: { id: 'dPtoQ4bBtZo', titulo: 'Esteira inclinada com taliscas' },
     referencias: [
-      { tipo: 'documento', titulo: 'Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)', fonte: 'USPTO', url: 'https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316', resumo: 'Descreve o perigo do retrocesso da correia e o caso de um operador esmagado no tambor de retorno.' },
-      { tipo: 'video', id: 'efCE6KoxeXY', titulo: 'Holdback / backstop: o que é e como funciona' },
-      { tipo: 'video', id: 'jcQXsNLUUgE', titulo: 'Holdback / backstop: benefícios' },
-      { tipo: 'video', id: 'dPtoQ4bBtZo', titulo: 'Esteira inclinada com taliscas (flights)' }
+      { tipo: 'documento', titulo: 'Run-back safety mechanism for conveyor apparatus (patente US 4.548.316)', fonte: 'USPTO', url: 'https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4548316', resumo: 'Descreve o perigo do retrocesso da correia e o caso de um operador esmagado no tambor de retorno.' }
     ]
   },
   {
@@ -439,11 +433,10 @@ window.PROBLEMAS = [
       'Proibir e sinalizar a circulação sobre a esteira (NR-12, capítulo 12.8).'
     ],
     comoReduz: 'Cria um caminho seguro: ninguém mais precisa encostar na correia para atravessar.',
+    videoProblema: { id: 'DPVJpnSWCik', titulo: 'Trabalhador sobe na esteira em movimento' },
+    videoSolucao: { id: '8ZsWS8txah8', titulo: 'Escada de travessia sobre a esteira' },
     referencias: [
-      CASO_PECEM,
-      { tipo: 'video', id: 'ozJDTShOG_E', titulo: 'NR-12, capítulo 12.8: transportadores de materiais' },
-      { tipo: 'video', id: '8ZsWS8txah8', titulo: 'Escada de travessia sobre esteira (walk-over)' },
-      { tipo: 'video', id: 'Jj5MQuk8UiI', titulo: 'Conveyor Crossover: passarela sobre esteira' }
+      CASO_PECEM
     ]
   },
   {
@@ -474,10 +467,10 @@ window.PROBLEMAS = [
       'Relé de segurança parando o robô e a esteira.'
     ],
     comoReduz: 'A entrada de qualquer pessoa vira um sinal de parada imediata.',
+    videoProblema: { id: 'M8kCLeLY87M', titulo: 'Trabalhador no ponto cego do robô' },
+    videoSolucao: { id: '-Ma3Hl4Jevk', titulo: 'Cortina de luz detecta a pessoa e o robô para' },
     referencias: [
-      { tipo: 'documento', titulo: 'Simulation-based Testing for Early Safety-Validation of Robot Systems', fonte: 'arXiv 2011.10294', url: 'https://arxiv.org/abs/2011.10294', resumo: 'Célula industrial com cercas, scanner e cortina de luz: o contato humano com o robô só pode ocorrer com o robô parado.' },
-      { tipo: 'video', id: '-Ma3Hl4Jevk', titulo: 'Cortina de luz detecta pessoas entrando na área do robô' },
-      { tipo: 'video', id: 'peg0F5gTivo', titulo: 'Cortina de luz + trava de porta de segurança' }
+      { tipo: 'documento', titulo: 'Simulation-based Testing for Early Safety-Validation of Robot Systems', fonte: 'arXiv 2011.10294', url: 'https://arxiv.org/abs/2011.10294', resumo: 'Célula industrial com cercas, scanner e cortina de luz: o contato humano com o robô só pode ocorrer com o robô parado.' }
     ]
   },
   {
@@ -508,11 +501,10 @@ window.PROBLEMAS = [
       'Protetor auricular (NR-6) como medida complementar e audiometria periódica.'
     ],
     comoReduz: 'Primeiro reduz o ruído na fonte; só depois protege o ouvido.',
+    videoProblema: { id: 'mni4A9s_wfg', titulo: 'Perda auditiva induzida por ruído (PAIR)' },
+    videoSolucao: { id: '1KAVdPJDODQ', titulo: 'Sensor sem fio de vibração em motores e rolamentos' },
     referencias: [
-      { tipo: 'documento', titulo: 'NR-15, Anexo I: limites de tolerância para ruído', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: '85 dB(A) é o limite para 8 horas de exposição diária.' },
-      { tipo: 'video', id: 'mni4A9s_wfg', titulo: 'Perda Auditiva Induzida por Ruído (PAIR)' },
-      { tipo: 'video', id: 'VQ2bu0ftYFc', titulo: 'NR-15 e os limites de tolerância ao ruído' },
-      { tipo: 'video', id: 'rFXKpezKo_4', titulo: 'EPI: proteção auricular' }
+      { tipo: 'documento', titulo: 'NR-15, Anexo I: limites de tolerância para ruído', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: '85 dB(A) é o limite para 8 horas de exposição diária.' }
     ]
   },
   {
@@ -542,12 +534,11 @@ window.PROBLEMAS = [
       'Inspeção periódica (lacre, manômetro, validade).'
     ],
     comoReduz: 'O extintor fica visível e alcançável em segundos.',
+    videoProblema: { id: 'SZMjHAqb-LM', titulo: 'Falhas de segurança contra incêndio: extintores bloqueados' },
+    videoSolucao: { id: '5P3Volndqtg', titulo: 'Como demarcar o piso de extintores' },
     referencias: [
       { tipo: 'documento', titulo: 'Lâmina de gerenciamento de riscos: proteja contra incêndios', fonte: 'Sompo Seguros', url: 'https://sompo.com.br/documents/d/global/som05224_lamina-de-gerenciamento-de-riscos-property_proteja-contra-incendios_c-1', resumo: 'Sinalização de solo sob extintores e hidrantes: quadrado de 1,00 × 1,00 m, fundo vermelho e borda amarela.' },
-      { tipo: 'documento', titulo: 'Cartilha de Extintores de Incêndio', fonte: 'Unilab', url: 'https://unilab.edu.br/wp-content/uploads/2026/07/Cartilha-Extintores-de-Incendio.pdf', resumo: 'Extintor a no máximo 1,60 m do piso, área livre demarcada e nunca obstruído por móveis, caixas ou equipamentos.' },
-      { tipo: 'video', id: '5P3Volndqtg', titulo: 'Como demarcar o piso de extintores e hidrantes' },
-      { tipo: 'video', id: 'tm6vjnLOM7A', titulo: 'Dimensões da sinalização no piso sob extintores' },
-      { tipo: 'video', id: 'RF1EzPoWCLU', titulo: 'Inspeção de extintores na prática' }
+      { tipo: 'documento', titulo: 'Cartilha de Extintores de Incêndio', fonte: 'Unilab', url: 'https://unilab.edu.br/wp-content/uploads/2026/07/Cartilha-Extintores-de-Incendio.pdf', resumo: 'Extintor a no máximo 1,60 m do piso, área livre demarcada e nunca obstruído por móveis, caixas ou equipamentos.' }
     ]
   }
 ];

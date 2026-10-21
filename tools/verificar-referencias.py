@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Verifica as referências de js/data.js.
 
-- Cada problema precisa ter pelo menos uma referência real (vídeo, caso, imagem ou documento).
+- Cada problema precisa ter um vídeo do problema (videoProblema), um vídeo da solução (videoSolucao)
+  e pelo menos uma referência real (caso, imagem ou documento).
 - Vídeos do YouTube: consulta o oEmbed para saber se o vídeo existe e se permite incorporação.
   Vídeos com embed:false só precisam existir (o site abre o link no YouTube).
 - URLs: faz uma requisição GET e aceita 2xx/3xx (alguns sites bloqueiam robôs com 403; isso
@@ -67,16 +68,22 @@ def main():
         return 1
 
     for pid, bloco in problemas:
-        n_ref = len(re.findall(r"tipo: '(video|caso|imagem|documento)'", bloco))
+        n_ref = len(re.findall(r"tipo: '(caso|imagem|documento)'", bloco))
         if caso_pecem:
             n_ref += bloco.count("CASO_PECEM")
-        status = "ok" if n_ref else "SEM REFERÊNCIA"
-        print(f"Problema {pid:2d}: {n_ref} referência(s) real(is) [{status}]")
+        tem_vp = "videoProblema: {" in bloco
+        tem_vs = "videoSolucao: {" in bloco
+        ok = n_ref and tem_vp and tem_vs
+        print(f"Problema {pid:2d}: {n_ref} referência(s) + vídeo problema {'ok' if tem_vp else 'FALTA'} + vídeo solução {'ok' if tem_vs else 'FALTA'}")
         if not n_ref:
             erros.append(f"problema {pid} sem referência real")
+        if not tem_vp:
+            erros.append(f"problema {pid} sem videoProblema")
+        if not tem_vs:
+            erros.append(f"problema {pid} sem videoSolucao")
 
     print("\nVídeos (oEmbed do YouTube):")
-    for m in re.finditer(r"\{ tipo: 'video', id: '([^']+)'[^}]*\}", DATA):
+    for m in re.finditer(r"video(?:Problema|Solucao): \{ id: '([^']+)'[^}]*\}", DATA):
         vid, trecho = m.group(1), m.group(0)
         sem_embed = "embed: false" in trecho
         code, titulo = oembed(vid)

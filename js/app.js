@@ -159,32 +159,37 @@
       (p.escondido ? '<span class="tag media">🔍 Escondido</span>' : '');
   }
 
-  function painelVideo(p) {
-    const videos = p.referencias.filter((r) => r.tipo === 'video');
+  // um vídeo real (fachada: só a miniatura até a pessoa tocar)
+  function videoBloco(v, rotulo) {
+    if (!v) return '';
     const online = navigator.onLine !== false;
-    const cards = videos.map((v) => {
-      const yt = `https://www.youtube.com/watch?v=${v.id}`;
-      const ext = v.embed === false;
-      const fachada = online
-        ? `<button type="button" class="video-fachada${ext ? ' externo' : ''}" data-video="${esc(v.id)}" data-ext="${ext ? 1 : 0}" aria-label="Assistir: ${esc(v.titulo)}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg')"></button>`
-        : '';
-      return `<div class="video-card">${fachada}<div class="video-info">${esc(v.titulo)}<br><a href="${yt}" target="_blank" rel="noopener">abrir no YouTube ↗</a></div></div>`;
-    }).join('');
-    return `
-      <div class="anim-box" id="anim-box">
-        <div id="anim-svg">${CENAS[p.id][resolvido(p.id) ? 'seguro' : 'perigo']()}</div>
+    const yt = `https://www.youtube.com/watch?v=${v.id}`;
+    const ext = v.embed === false;
+    const fachada = online
+      ? `<button type="button" class="video-fachada${ext ? ' externo' : ''}" data-video="${esc(v.id)}" data-ext="${ext ? 1 : 0}" aria-label="Assistir: ${esc(v.titulo)}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg')"></button>`
+      : '';
+    return `<div class="video-card video-unico">${fachada}
+      <div class="video-info"><span class="video-rotulo">${rotulo}</span><span class="video-titulo">${esc(v.titulo)}</span><a href="${yt}" target="_blank" rel="noopener">abrir no YouTube ↗</a></div></div>
+      ${online ? '' : '<p class="nota">Você está offline: o vídeo abre quando houver internet.</p>'}`;
+  }
+
+  function animBloco(p, qual) {
+    const rot = qual === 'seguro' ? 'A SOLUÇÃO FUNCIONANDO' : 'COMO O ACIDENTE ACONTECE';
+    return `<div class="anim-box" data-cena="${qual}">
+        <div class="anim-svg">${CENAS[p.id][qual]()}</div>
         <div class="anim-legenda">
-          <span>Animação: <span class="estado ${resolvido(p.id) ? 'seguro' : 'perigo'}" id="anim-estado">${resolvido(p.id) ? 'SOLUÇÃO' : 'O ACIDENTE'}</span></span>
-          <span class="anim-ctrl"><button type="button" id="anim-pausa" aria-label="Pausar">❚❚</button><button type="button" id="anim-replay" aria-label="Repetir">↺</button></span>
+          <span>Animação: <span class="estado ${qual}">${rot}</span></span>
+          <span class="anim-ctrl"><button type="button" data-acao="pausa" aria-label="Pausar">❚❚</button><button type="button" data-acao="replay" aria-label="Repetir">↺</button></span>
         </div>
-      </div>
-      <div class="anim-alterna" role="group" aria-label="Escolher animação">
-        <button type="button" data-cena="perigo" class="${resolvido(p.id) ? '' : 'ativo'}">⚠ Como acontece</button>
-        <button type="button" data-cena="seguro" class="${resolvido(p.id) ? 'ativo' : ''}">🛡 Com a solução</button>
-      </div>
-      <h3 class="secao-tit">Vídeos reais</h3>
-      ${videos.length ? `<div class="videos">${cards}</div>` : '<p class="nota">Sem vídeo para este problema: veja o caso real e as referências na aba "O caso".</p>'}
-      ${online ? '' : '<p class="nota">Você está offline: os vídeos abrem quando houver internet.</p>'}`;
+      </div>`;
+  }
+
+  function painelVideo(p) {
+    return `
+      <h3 class="secao-tit primeira">Vídeo real do problema</h3>
+      ${videoBloco(p.videoProblema, '⚠ O problema')}
+      <h3 class="secao-tit">Em animação</h3>
+      ${animBloco(p, 'perigo')}`;
   }
 
   function painelCaso(p) {
@@ -230,32 +235,30 @@
       : `<div class="cadeia sem"><p style="margin:0"><b>Sem automação.</b> ${esc(c.nota || '')}</p></div>`;
     return `
       ${resolvido(p.id) ? '<div class="resolvido-faixa">✔ Problema resolvido no infográfico</div>' : ''}
+      <h3 class="secao-tit primeira">Vídeo real da solução</h3>
+      ${videoBloco(p.videoSolucao, '🛡 A solução')}
+      <h3 class="secao-tit">O que fazer</h3>
       <ul class="solucao-lista">${p.solucao.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
       <p class="como"><b>Como reduz o risco:</b> ${esc(p.comoReduz)}</p>
       <h3 class="secao-tit">${p.automacao === 'nao' ? 'Por que não é automação?' : 'Solução por automação'}</h3>
-      ${cadeia}`;
+      ${cadeia}
+      <h3 class="secao-tit">Em animação</h3>
+      ${animBloco(p, 'seguro')}`;
   }
 
-  function trocarCena(qual) {
-    const p = porId(atual);
-    $('#anim-svg').innerHTML = CENAS[p.id][qual]();
-    const est = $('#anim-estado');
-    est.textContent = qual === 'seguro' ? 'SOLUÇÃO' : 'O ACIDENTE';
-    est.className = 'estado ' + qual;
-    $$('.anim-alterna button', corpo).forEach((b) => b.classList.toggle('ativo', b.dataset.cena === qual));
-    $('#anim-pausa').textContent = '❚❚';
-  }
-
-  function ligarPainelVideo() {
-    $$('.anim-alterna button', corpo).forEach((b) => b.addEventListener('click', () => trocarCena(b.dataset.cena)));
-    $('#anim-pausa').addEventListener('click', (e) => {
-      const svg = $('#anim-svg svg');
-      if (!svg) return;
-      if (svg.animationsPaused()) { svg.unpauseAnimations(); e.currentTarget.textContent = '❚❚'; }
-      else { svg.pauseAnimations(); e.currentTarget.textContent = '▶'; }
+  // troca o iframe de volta pela miniatura (para o vídeo parar ao trocar de aba ou fechar)
+  function pararVideos(raiz) {
+    $$('iframe[data-fachada]', raiz).forEach((f) => {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = f.dataset.fachada;
+      const b = tmp.firstElementChild;
+      f.replaceWith(b);
+      ligarFachada(b);
     });
-    $('#anim-replay').addEventListener('click', () => { const svg = $('#anim-svg svg'); if (svg) { svg.setCurrentTime(0); svg.unpauseAnimations(); $('#anim-pausa').textContent = '❚❚'; } });
-    $$('.video-fachada', corpo).forEach((b) => b.addEventListener('click', () => {
+  }
+
+  function ligarFachada(b) {
+    b.addEventListener('click', () => {
       const id = b.dataset.video;
       if (b.dataset.ext === '1') { window.open(`https://www.youtube.com/watch?v=${id}`, '_blank', 'noopener'); return; }
       const f = document.createElement('iframe');
@@ -263,18 +266,32 @@
       f.title = b.getAttribute('aria-label');
       f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
       f.allowFullscreen = true;
-      f.loading = 'lazy';
+      f.dataset.fachada = b.outerHTML;
       b.replaceWith(f);
-    }));
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const svg = $('#anim-svg svg'); if (svg) svg.pauseAnimations();
-    }
+    });
+  }
+
+  function ligarPaineis() {
+    $$('.video-fachada', modal).forEach(ligarFachada);
+    $$('.anim-box', modal).forEach((box) => {
+      const svg = () => $('svg', box);
+      const pausa = $('[data-acao="pausa"]', box);
+      pausa.addEventListener('click', () => {
+        const el = svg(); if (!el) return;
+        if (el.animationsPaused()) { el.unpauseAnimations(); pausa.textContent = '❚❚'; }
+        else { el.pauseAnimations(); pausa.textContent = '▶'; }
+      });
+      $('[data-acao="replay"]', box).addEventListener('click', () => {
+        const el = svg(); if (el) { el.setCurrentTime(0); el.unpauseAnimations(); pausa.textContent = '❚❚'; }
+      });
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { const el = svg(); if (el) el.pauseAnimations(); }
+    });
   }
 
   function mostrarAba(nome) {
     abaAtual = nome;
     $$('.aba', modal).forEach((a) => a.setAttribute('aria-selected', a.dataset.aba === nome));
-    $$('.painel-aba', modal).forEach((s) => { s.hidden = s.dataset.painel !== nome; });
+    $$('.painel-aba', modal).forEach((s) => { s.hidden = s.dataset.painel !== nome; if (s.hidden) pararVideos(s); });
     corpo.scrollTop = 0;
     const i = ABAS.indexOf(nome);
     $('#btn-proxima').textContent = i < ABAS.length - 1 ? 'Próxima →' : '← Vídeo';
@@ -291,7 +308,7 @@
     $('[data-painel="video"]', modal).innerHTML = painelVideo(p);
     $('[data-painel="caso"]', modal).innerHTML = painelCaso(p);
     $('[data-painel="solucao"]', modal).innerHTML = painelSolucao(p);
-    ligarPainelVideo();
+    ligarPaineis();
     const btn = $('#btn-corrigir');
     btn.disabled = false;
     btn.classList.toggle('reabrir', resolvido(id));
@@ -370,10 +387,11 @@
     const btn = $('#btn-corrigir');
     btn.disabled = true;
     btn.textContent = 'Aplicando a solução…';
-    mostrarAba('video');
-    trocarCena('seguro');
-    const svg = $('#anim-svg svg');
-    if (svg) svg.setCurrentTime(0);
+    mostrarAba('solucao');
+    const boxSeguro = $('.anim-box[data-cena="seguro"]', modal);
+    const svg = $('svg', boxSeguro);
+    if (svg) { svg.setCurrentTime(0); svg.unpauseAnimations(); }
+    boxSeguro.scrollIntoView({ block: 'center', behavior: 'smooth' });
     const espera = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 2600;
     setTimeout(() => {
       estado.resolvidos.push(id);
