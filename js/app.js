@@ -90,7 +90,7 @@
         <span class="t">${p.id}. ${esc(p.curto)}<small>${esc(p.nr)} · ${ok ? 'resolvido' : 'prioridade ' + esc(p.prioridade.toLowerCase())}</small></span>
         <span class="a" title="${p.automacao === 'sim' ? 'Resolvido com automação' : p.automacao === 'parcial' ? 'Automação parcial' : 'Sem automação'}">${auto}</span></button></li>`;
     }).join('');
-    $$('[data-abrir]', legenda).forEach((b) => b.addEventListener('click', () => abrir(+b.dataset.abrir)));
+    $$('[data-abrir]', legenda).forEach((b) => b.addEventListener('click', () => { fecharGaveta(false); abrir(+b.dataset.abrir); }));
     aplicarFiltro();
   }
 
@@ -102,6 +102,10 @@
     $('#cont-total').textContent = total;
     $('#cont-auto').textContent = auto;
     $('#barra-fill').style.width = (conta / total) * 100 + '%';
+    $('#topo-cont').textContent = conta;
+    $('#topo-total').textContent = total;
+    $('#topo-fill').style.width = (conta / total) * 100 + '%';
+    $('#fab-cont').textContent = `${conta}/${total}`;
     const barra = $('#barra');
     barra.setAttribute('aria-valuemax', total);
     barra.setAttribute('aria-valuenow', conta);
@@ -344,6 +348,8 @@
       }
     } else if (!$('#selo-final').hidden && e.key === 'Escape') {
       fecharSelo();
+    } else if (gavetaAberta() && e.key === 'Escape') {
+      fecharGaveta(true);
     }
   });
 
@@ -447,16 +453,61 @@
     timerToast = setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // ---------- reiniciar ----------
-  $('#btn-reiniciar').addEventListener('click', () => {
+  // ---------- limpar progresso (salvo no localStorage) ----------
+  const btnLimpar = $('#btn-limpar');
+  const TEXTO_LIMPAR = btnLimpar.textContent;
+  let timerLimpar = null;
+  btnLimpar.addEventListener('click', () => {
+    // 1º toque pede confirmação no próprio botão; 2º toque limpa
+    if (!btnLimpar.classList.contains('confirmar')) {
+      btnLimpar.classList.add('confirmar');
+      btnLimpar.textContent = 'Tem certeza? Toque de novo';
+      clearTimeout(timerLimpar);
+      timerLimpar = setTimeout(() => { btnLimpar.classList.remove('confirmar'); btnLimpar.textContent = TEXTO_LIMPAR; }, 4000);
+      return;
+    }
+    clearTimeout(timerLimpar);
+    btnLimpar.classList.remove('confirmar');
+    btnLimpar.textContent = TEXTO_LIMPAR;
     estado = { resolvidos: [], escondidoLiberado: false };
-    salvar();
+    try { localStorage.removeItem(CHAVE); } catch (e) { /* ignora */ }
     clearTimeout(timerDica);
     $('#banner-escondido').innerHTML = '<strong>Ainda falta um!</strong> Turma, encontrem o problema escondido 🔍 <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>';
     $('#btn-dica').addEventListener('click', darDica);
     atualizarTudo();
-    toast('Infográfico reiniciado');
+    toast('🗑 Progresso apagado: comece de novo!');
   });
+
+  // ---------- gaveta (desktop): botão flutuante abre a lista ----------
+  const painel = $('#painel');
+  const fab = $('#fab');
+  const fundoGaveta = $('#gaveta-fundo');
+  const gavetaAberta = () => painel.classList.contains('aberto');
+  function abrirGaveta() {
+    painel.classList.add('aberto');
+    fundoGaveta.hidden = false;
+    fab.setAttribute('aria-expanded', 'true');
+    $('#gaveta-fechar').focus();
+  }
+  function fecharGaveta(devolverFoco) {
+    if (!gavetaAberta()) return;
+    painel.classList.remove('aberto');
+    fundoGaveta.hidden = true;
+    fab.setAttribute('aria-expanded', 'false');
+    if (devolverFoco) fab.focus();
+  }
+  fab.addEventListener('click', () => (gavetaAberta() ? fecharGaveta(true) : abrirGaveta()));
+  $('#gaveta-fechar').addEventListener('click', () => fecharGaveta(true));
+  fundoGaveta.addEventListener('click', () => fecharGaveta(true));
+  $('#link-sobre').addEventListener('click', () => fecharGaveta(false));
+
+  // legenda flutuante (desktop largo)
+  $('#callout-legenda').innerHTML = `<h3>Legenda</h3><ul>
+    <li><span class="ic">${iconeAlerta()}</span>Problema a corrigir</li>
+    <li><span class="ic">${iconeEscudo()}</span>Resolvido</li>
+    <li><span class="ic">⚙</span>Resolvido com automação</li>
+    <li><span class="ic"><span class="meia"></span></span>Automação parcial</li>
+  </ul>`;
 
   // ---------- celular: centraliza o cenário rolável ----------
   const rolo = $('#palco-scroll');

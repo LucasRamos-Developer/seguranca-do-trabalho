@@ -21,6 +21,10 @@
       <h1><span class="contorno">ESTEIRA</span> <span class="forte">AUTOMAÇÃO SEGURA</span></h1>
       <p class="topo-sub">Toque nos <span class="mini-alerta" aria-hidden="true">!</span> para ver o problema, o caso real e como a gente resolve.</p>
     </div>
+    <div class="topo-prog" aria-hidden="true">
+      <span><b id="topo-cont">0</b> de <span id="topo-total">14</span> riscos controlados</span>
+      <div class="barra"><span id="topo-fill"></span></div>
+    </div>
   </header>
 
   <main class="layout">
@@ -29,6 +33,16 @@
         <strong>Ainda falta um!</strong> Turma, encontrem o problema escondido 🔍
         <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>
       </div>
+      <aside class="callout callout-como" aria-label="Como jogar">
+        <h3>Como jogar</h3>
+        <ol>
+          <li>Toque em um <b>⚠</b> no infográfico.</li>
+          <li>Veja o acidente, o caso real e os vídeos.</li>
+          <li>Clique em <b>Corrigir problema</b>.</li>
+          <li>Corrigiu tudo? Ainda tem um escondido… 🔍</li>
+        </ol>
+      </aside>
+      <aside class="callout callout-legenda" aria-label="Legenda" id="callout-legenda"></aside>
       <div class="palco-scroll" id="palco-scroll">
         <div class="palco-inner" id="palco">
           <!-- SVG do cenário e pins entram aqui (js/app.js) -->
@@ -37,7 +51,11 @@
       <p class="dica-arraste" id="dica-arraste" aria-hidden="true">↔ arraste para explorar a esteira</p>
     </section>
 
-    <aside class="painel-lateral" aria-label="Progresso e lista de problemas">
+    <aside class="painel-lateral" id="painel" aria-label="Progresso e lista de problemas">
+      <div class="gaveta-topo">
+        <h2>Problemas da esteira</h2>
+        <button type="button" class="modal-x" id="gaveta-fechar" aria-label="Fechar lista">×</button>
+      </div>
       <div class="placar">
         <div class="placar-linha">
           <span class="placar-num"><b id="cont-resolvidos">0</b> de <b id="cont-total">14</b></span>
@@ -58,12 +76,20 @@
 
       <ol class="legenda" id="legenda"></ol>
 
+      <p class="nota-salvo">💾 O progresso fica salvo neste navegador.</p>
       <div class="acoes-lateral">
-        <button type="button" class="btn-sec" id="btn-reiniciar">↺ Reiniciar</button>
-        <a class="btn-sec" href="#sobre">Sobre o trabalho ↓</a>
+        <button type="button" class="btn-sec btn-limpar" id="btn-limpar">🗑 Limpar progresso</button>
+        <a class="btn-sec" href="#sobre" id="link-sobre">Sobre o trabalho ↓</a>
       </div>
     </aside>
   </main>
+
+  <button type="button" class="fab" id="fab" aria-controls="painel" aria-expanded="false">
+    <svg class="fab-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L38 35 H2 Z" fill="#1e2756"/><text x="20" y="31" text-anchor="middle" font-size="18" font-weight="900" fill="#f5c242" font-family="system-ui,sans-serif">!</text></svg>
+    <span>Problemas</span>
+    <span class="fab-cont" id="fab-cont">0/14</span>
+  </button>
+  <div class="gaveta-fundo" id="gaveta-fundo" hidden></div>
 
   <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
     <h2 id="sobre-titulo">Sobre o trabalho</h2>
@@ -95,7 +121,7 @@
           <li><b>NR-15 / NR-6</b>: ruído e EPI. <b>NR-23 / NR-26</b>: incêndio e sinalização.</li>
         </ul>
       </article>
-      <article class="cartao cartao-largo">
+      <article class="cartao cartao-meio">
         <h3>Manutenção segura: LOTO em 4 passos</h3>
         <ol class="passos-loto">
           <li><b>Desenergizar.</b> Não basta o "Stop" da IHM: abrir a chave seccionadora principal.</li>
@@ -103,6 +129,12 @@
           <li><b>Energia residual.</b> Aguardar de 3 a 5 min para os capacitores do inversor descarregarem e aliviar a tensão da correia.</li>
           <li><b>Validar.</b> Profissional NR-10 mede "tensão zero" nos bornes do motor com multímetro.</li>
         </ol>
+      </article>
+      <article class="cartao cartao-meio">
+        <h3>Equipe</h3>
+        <p>Centro de Educação Profissional "Dario Geraldo Salles" · Disciplina: Segurança e Higiene do Trabalho</p>
+        <p>Equipe: [Nome 1], [Nome 2], [Nome 3], [Nome 4] · Processo escolhido: Esteira Automatizada</p>
+        <p class="nota">Referências completas de cada problema estão no modal (aba "O caso") e em <code>docs/problemas.md</code> no repositório.</p>
       </article>
       <article class="cartao cartao-largo">
         <h3>Quais problemas a automação resolve?</h3>
@@ -112,12 +144,6 @@
             <tbody></tbody>
           </table>
         </div>
-      </article>
-      <article class="cartao cartao-largo">
-        <h3>Equipe</h3>
-        <p>Centro de Educação Profissional "Dario Geraldo Salles" · Disciplina: Segurança e Higiene do Trabalho</p>
-        <p>Equipe: [Nome 1], [Nome 2], [Nome 3], [Nome 4] · Processo escolhido: Esteira Automatizada</p>
-        <p class="nota">Referências completas de cada problema estão no modal (aba "O caso") e em <code>docs/problemas.md</code> no repositório.</p>
       </article>
     </div>
   </section>

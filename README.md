@@ -15,7 +15,9 @@ No fim do modal, o botão **"Corrigir problema"** aplica a solução: o desenho 
 ## Como funciona o jogo
 
 - Os pins mostram um selo de automação: **⚙** quando a solução é por automação, **◐** quando a automação é parcial e nenhum selo quando não há automação. Os filtros da lateral (Todos · ⚙ Automação · Outros) destacam cada grupo.
-- O progresso fica salvo no navegador. O botão **↺ Reiniciar** recomeça.
+- O progresso fica salvo no navegador (`localStorage`, chave `esteira-segura-v1`): dá para fechar e voltar depois. O botão **🗑 Limpar progresso** apaga tudo. Ele pede confirmação no próprio botão, com um segundo toque.
+- **No desktop** a página ocupa a tela inteira. A lista de problemas e o placar ficam no botão flutuante **"Problemas X/14"**, no canto inferior direito, que abre uma gaveta. O progresso também aparece no topo e, em telas largas, há os cartões "Como jogar" e "Legenda" nas laterais do cenário.
+- **No celular e no tablet** a lista fica logo abaixo do infográfico.
 - Com os 14 corrigidos, aparece **"Ainda falta um! Turma, encontrem o problema escondido 🔍"** e um ponto do cenário, até então sem clique, é liberado. Ele não tem pin. Há um botão de dica, e depois de 20 s a dica aparece sozinha.
 - Corrigindo o 15º, aparece o selo **"ESTEIRA 100% SEGURA — 15/15"**.
 

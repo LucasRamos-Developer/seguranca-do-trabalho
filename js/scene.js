@@ -331,7 +331,6 @@
     return `<defs>
       <pattern id="malha" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6 L6 0 M-1 1 L1 -1 M5 7 L7 5" stroke="#ffd84d" stroke-width="1"/></pattern>
       <pattern id="zebrado" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="#222"/><rect width="6" height="12" fill="#f5c242"/></pattern>
-      <pattern id="hex" width="56" height="97" patternUnits="userSpaceOnUse"><path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z M28 64 L28 97" fill="none" stroke="#ffffff" stroke-opacity=".045" stroke-width="1.2"/></pattern>
     </defs>`;
   }
 
@@ -339,7 +338,6 @@
     return `<svg class="cena" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cena-titulo">
       <title id="cena-titulo">Infográfico isométrico de uma esteira automatizada com os pontos de risco marcados</title>
       ${defs()}
-      <rect width="${W}" height="${H}" fill="url(#hex)"/>
       ${fundo()}
       ${painel()}
       ${entrada()}

@@ -23,7 +23,8 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
    - O desenho segue a ordem do pintor: o que está mais ao fundo (menor `x + y`) é desenhado primeiro.
 4. **`js/animations.js`** expõe `window.ANIM.CENAS[N] = { perigo(), seguro() }`, que devolvem mini-SVGs 320×180 animados com SMIL em um ciclo de 4 s. O app usa `svg.setCurrentTime(0)` para repetir e `pauseAnimations()` para pausar.
 5. **`js/app.js`** liga tudo:
-   - estado em `localStorage` (`esteira-segura-v1`): `{ resolvidos: [ids], escondidoLiberado }`;
+   - estado em `localStorage` (`esteira-segura-v1`): `{ resolvidos: [ids], escondidoLiberado }`. O botão "Limpar progresso" remove a chave; ele confirma com um segundo toque, sem `confirm()` do navegador;
+   - desktop (≥ 1000 px): o `<aside id="painel">` vira uma gaveta lateral aberta pelo botão flutuante `#fab`, que fecha com ×, clique no fundo ou Esc. No celular e no tablet o mesmo `<aside>` fica abaixo do cenário;
    - pins, legenda, placar, filtros e tabela "Quais problemas a automação resolve?";
    - modal: abas, fachada dos vídeos (miniatura → iframe só ao tocar), botão corrigir/reabrir;
    - problema escondido: um `<button class="alvo-escondido">` transparente sobre o extintor, inativo até os 14 visíveis serem corrigidos;
@@ -35,6 +36,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 - O palco ganha a classe `.pausado` (com `animation-play-state: paused`) quando o modal abre ou a aba fica oculta.
 - Os vídeos do YouTube só carregam quando alguém toca neles.
 - `prefers-reduced-motion` desliga as animações.
+- No desktop, o palco ocupa a largura toda e a altura da tela; o SVG é centralizado e o piso "vaza" para as laterais (`overflow: visible`), enquanto o fundo hexagonal vem do CSS.
 - No celular (≤ 640 px), o cenário fica com 600 px de largura dentro de uma área rolável na horizontal, para os pins não se sobreporem. A página em si nunca rola para os lados.
 
 ## Como adicionar um problema novo
