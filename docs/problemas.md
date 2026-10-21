@@ -2,7 +2,7 @@
 
 > Arquivo gerado por `node tools/gerar-docs.js` a partir de `js/data.js`. Não edite à mão: altere `js/data.js` e rode o script de novo.
 
-São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clicável depois que todos os outros forem corrigidos.
+São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clicável depois que todos os outros forem corrigidos.
 
 ## Resumo
 
@@ -20,9 +20,8 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 | 10 | Queda de material da esteira elevada | NR-12 | Média | ◐ Parcial |
 | 11 | Retorno de carga na esteira inclinada | NR-12 | Média | ⚙ Sim |
 | 12 | Travessia por cima da esteira | NR-12 | Média | ✖ Não |
-| 13 | Célula robótica sem barreira de proteção | NR-12 | Alta | ⚙ Sim |
-| 14 | Ruído excessivo de motor e rolamentos | NR-15 / NR-6 | Baixa | ◐ Parcial |
-| 15 | Extintor de incêndio bloqueado *(escondido)* | NR-23 / NR-26 | Alta | ✖ Não |
+| 13 | Ruído excessivo de motor e rolamentos | NR-15 / NR-6 | Baixa | ◐ Parcial |
+| 14 | Extintor de incêndio bloqueado *(escondido)* | NR-23 / NR-26 | Alta | ✖ Não |
 
 ---
 
@@ -51,7 +50,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 **Automação:** Chave de intertravamento na grade → Relé de segurança → Contator corta o motor. Se alguém abrir ou remover a grade, o contato da chave abre e o relé de segurança desliga o motor na hora.
 
 **Vídeos reais:**
-- **Vídeo do problema:** [Acidente: mão no ponto de esmagamento do rolo](https://www.youtube.com/watch?v=8X_EjsuJPhk)
+- **Vídeo do problema:** [Trabalhador puxado pela esteira ao mexer com ela ligada](https://www.youtube.com/watch?v=8X_EjsuJPhk)
 - **Vídeo da solução:** [Proteções (grades) ao redor de esteiras](https://www.youtube.com/watch?v=SdTBV11tdws)
 
 **Referências reais:**
@@ -87,7 +86,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 **Automação:** Cabo de emergência (chave de tração) → Relé de segurança + rearme manual → Motor para e não religa sozinho. Qualquer pessoa ao longo da linha puxa o cabo e a esteira para. Ela só volta a funcionar depois do rearme manual.
 
 **Vídeos reais:**
-- **Vídeo do problema:** [Por que a esteira precisa parar rápido de qualquer ponto](https://www.youtube.com/watch?v=SKYtQh7YXOo)
+- **Vídeo do problema:** [Trabalhador preso e arrastado pela esteira: cada segundo para parar conta](https://www.youtube.com/watch?v=DfUZMDCc3pE)
 - **Vídeo da solução:** [Esteira com cabo de parada de emergência](https://www.youtube.com/watch?v=DtmFwgJ1gSQ)
 
 **Referências reais:**
@@ -121,7 +120,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 **Automação:** Sensor fotoelétrico de acúmulo → CLP: timeout de X segundos sem variação → Desliga a esteira e mostra alarme na IHM. Se o sensor fica obstruído tempo demais, o CLP entende que é atolamento e para tudo antes que alguém tente soltar a carga com a mão.
 
 **Vídeos reais:**
-- **Vídeo do problema:** [Mão presa ao ajustar caixas com a esteira ligada: investigação](https://www.youtube.com/watch?v=rnT09GFSSfY)
+- **Vídeo do problema:** [Trabalhador preso ao ajeitar caixas com a esteira ligada](https://www.youtube.com/watch?v=P1hM2nRVt7g)
 - **Vídeo da solução:** [Detecção automática de atolamento](https://www.youtube.com/watch?v=3jo09rnwd5s)
 
 **Referências reais:**
@@ -155,7 +154,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 **Automação:** Porta do painel → Seccionadora com intertravamento da porta → Porta só abre desenergizada. A automação garante que ninguém abra o painel energizado. Aterramento, isolamento dos bornes e sinalização continuam sendo medidas elétricas da NR-10.
 
 **Vídeos reais:**
-- **Vídeo do problema:** [Arco elétrico de 480 V em câmera lenta](https://www.youtube.com/watch?v=PO6see7_ODY)
+- **Vídeo do problema:** [Arco elétrico em painel de um frigorífico](https://www.youtube.com/watch?v=xyjgb3uMh8s)
 - **Vídeo da solução:** [NR-10: painéis elétricos fechados, identificados e trancados](https://www.youtube.com/watch?v=N28QFNWRDAI)
 
 **Referências reais:**
@@ -432,46 +431,13 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 ---
 
-## 13. Célula robótica sem barreira de proteção
-
-**Categoria:** Mecânico · **NR:** NR-12 · **Prioridade:** Alta · **Automação:** ⚙ Sim
-
-| | |
-|---|---|
-| **Onde** | Braço robótico que retira peças da esteira principal. |
-| **Quem fica exposto** | Operadores e manutenção que entram na área do robô. |
-| **Consequência** | Golpes, esmagamento contra a esteira, fraturas. |
-| **Perigo** | Braço robótico em movimento rápido e imprevisível para quem está de fora. |
-| **Exposição** | Operador entra na área do robô para ajustar uma peça. |
-| **Risco** | Ser atingido pelo braço em movimento. |
-
-**O caso:** Em estudos de validação de células robóticas com cerca, scanner e cortina de luz, a regra de segurança central é que o contato humano com o robô deve ser impossível, a menos que o robô esteja parado. O tempo de resposta do sensor e o tempo de parada do robô definem a distância da barreira.
-
-**Solução:**
-- Cortina de luz de segurança na entrada da célula.
-- Grade fixa nas demais laterais.
-- Relé de segurança parando o robô e a esteira.
-
-**Como reduz o risco:** A entrada de qualquer pessoa vira um sinal de parada imediata.
-
-**Automação:** Cortina de luz / scanner de área → Relé de segurança → Parada segura do robô e da esteira. Se alguém cruzar o feixe de luz, o robô para antes de a pessoa chegar ao alcance do braço.
-
-**Vídeos reais:**
-- **Vídeo do problema:** [Trabalhador no ponto cego do robô](https://www.youtube.com/watch?v=M8kCLeLY87M)
-- **Vídeo da solução:** [Cortina de luz detecta a pessoa e o robô para](https://www.youtube.com/watch?v=-Ma3Hl4Jevk)
-
-**Referências reais:**
-- **Referência técnica:** [Simulation-based Testing for Early Safety-Validation of Robot Systems](https://arxiv.org/abs/2011.10294). arXiv 2011.10294. Célula industrial com cercas, scanner e cortina de luz: o contato humano com o robô só pode ocorrer com o robô parado.
-
----
-
-## 14. Ruído excessivo de motor e rolamentos
+## 13. Ruído excessivo de motor e rolamentos
 
 **Categoria:** Físico · **NR:** NR-15 / NR-6 · **Prioridade:** Baixa · **Automação:** ◐ Parcial
 
 | | |
 |---|---|
-| **Onde** | Motor e redutor da esteira inclinada. |
+| **Onde** | Motor de acionamento e rolamentos da esteira inclinada. |
 | **Quem fica exposto** | Todos os trabalhadores do setor. |
 | **Consequência** | Perda auditiva induzida por ruído (PAIR), irreversível; estresse e fadiga. |
 | **Perigo** | Rolamentos gastos e motor em alta rotação. |
@@ -498,7 +464,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 
 ---
 
-## 15. Extintor de incêndio bloqueado (problema escondido)
+## 14. Extintor de incêndio bloqueado (problema escondido)
 
 **Categoria:** Incêndio · **NR:** NR-23 / NR-26 · **Prioridade:** Alta · **Automação:** ✖ Não
 
@@ -524,7 +490,7 @@ São 15 problemas: 14 visíveis no infográfico e 1 escondido, que só fica clic
 **Automação:** Solução organizacional: desobstruir, demarcar o piso e inspecionar. Nenhum sensor resolve uma pilha de caixas na frente do extintor; o que resolve é organização (5S) e inspeção.
 
 **Vídeos reais:**
-- **Vídeo do problema:** [Falhas de segurança contra incêndio: extintores bloqueados](https://www.youtube.com/watch?v=SZMjHAqb-LM)
+- **Vídeo do problema:** [Extintores bloqueados e outras falhas encontradas em inspeção](https://www.youtube.com/watch?v=SZMjHAqb-LM)
 - **Vídeo da solução:** [Como demarcar o piso de extintores](https://www.youtube.com/watch?v=5P3Volndqtg)
 
 **Referências reais:**

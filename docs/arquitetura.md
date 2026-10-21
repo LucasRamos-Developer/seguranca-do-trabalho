@@ -3,7 +3,7 @@
 Site estático, sem build e sem dependências. Os scripts são carregados em ordem no fim do `index.html`:
 
 ```
-data.js  →  iso.js  →  scene.js  →  animations.js  →  app.js
+data.js  →  humano.js  →  iso.js  →  scene.js  →  animations.js  →  app.js
 (dados)     (peças)    (cenário)     (modal)           (comportamento)
 ```
 
@@ -12,32 +12,37 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 ## Fluxo
 
 1. **`js/data.js`** define `window.PROBLEMAS`: um objeto por problema, com textos, NR, prioridade, classificação de automação (`automacao: 'sim' | 'parcial' | 'nao'`), a cadeia `{entrada, logica, saida, nota}`, `videoProblema` e `videoSolucao` (`{ id, titulo, embed? }` do YouTube) e `referencias[]` (casos, imagens e documentos).
+1b. **`js/humano.js`** expõe `window.HUMANO`, a figura humana usada em todo o site.
+   - A pessoa é um esqueleto 2D visto de lado (quadril, ombros, cabeça, pés e mãos); joelhos e cotovelos saem por cinemática inversa de dois segmentos. Cada parte (braço, perna, tronco, colete, cabeça, capacete) vira um `<path>`.
+   - `figura(pose)` desenha uma pose de `HUMANO.POSES` (`pe`, `anda1..4`, `corre`, `curvado`, `operando`, `alcanca`, `ouvidos`, `levanta`, `segura`, `agacha`, `ajoelhado`, `pulando`, `puxado`, `choque`, `escorrega`).
+   - `figura([[pose, t], ...])` anima: como todas as poses geram os mesmos comandos de path, o SMIL interpola o atributo `d` entre os quadros (com easing). `com('alcanca', { mF: [x, y] })` ajusta pontos de uma pose; `caminhada(n)` gera um ciclo de passos.
 2. **`js/iso.js`** expõe `window.ISO` com a projeção isométrica e as peças de desenho:
    - `P(x, y, z)` converte coordenadas do mundo em pontos da tela. `x` cresce para baixo-direita, `y` para baixo-esquerda e `z` para cima.
    - `box()`, `esteira()`, `rolo()` são peças 3D desenhadas como polígonos.
-   - `pessoa()`, `robo()`, `sinaleiro()`, `extintor()` são sprites 2D posicionados num ponto da tela.
+   - `pessoa()` (desenha com `HUMANO.figura`), `robo()`, `sinaleiro()`, `extintor()` são sprites 2D posicionados num ponto da tela.
 3. **`js/scene.js`** expõe `window.CENA`:
-   - `montar()` devolve o `<svg>` do cenário (viewBox 900×1000).
+   - `montar()` devolve o `<svg>` do cenário (viewBox 1440×810, 16:9). A esteira é uma serpentina: R1 (alto, para a direita) → K1 (curva da direita) → R2 (volta para a esquerda) → K2 (curva da esquerda) → R3 (inclinada até a paletização). As coordenadas ficam no objeto `L`.
    - Cada problema aparece como um ou mais `<g class="prob" data-p="N">`, cada um com `<g class="perigo">` e `<g class="seguro">`. O CSS mostra um ou outro conforme a classe `fixed`.
    - `ANCORAS[N]` é o ponto do mundo `[x, y, z]` onde fica o pin do problema N. `telaParaPercentual(N)` converte esse ponto em `left/top` em %, para posicionar o pin (um `<button>` HTML) por cima do SVG.
    - O desenho segue a ordem do pintor: o que está mais ao fundo (menor `x + y`) é desenhado primeiro.
 4. **`js/animations.js`** expõe `window.ANIM.CENAS[N] = { perigo(), seguro() }`, que devolvem mini-SVGs 320×180 animados com SMIL em um ciclo de 4 s. O app usa `svg.setCurrentTime(0)` para repetir e `pauseAnimations()` para pausar.
 5. **`js/app.js`** liga tudo:
    - estado em `localStorage` (`esteira-segura-v1`): `{ resolvidos: [ids], escondidoLiberado }`. O botão "Limpar progresso" remove a chave; ele confirma com um segundo toque, sem `confirm()` do navegador;
-   - desktop (≥ 1000 px): o `<aside id="painel">` vira uma gaveta lateral aberta pelo botão flutuante `#fab`, que fecha com ×, clique no fundo ou Esc. No celular e no tablet o mesmo `<aside>` fica abaixo do cenário;
+   - painel suspenso à esquerda (`<aside id="painel">`, vidro): título, menu de telas, resumo, filtros, lista de problemas e "Limpar progresso". Recolhe pelo botão `#painel-recolher` e volta pelo `#painel-abrir`. Em telas de até 900 px começa recolhido;
+   - telas: "Infográfico" (`#tela-jogo`, tela cheia, sem rolagem) e "Sobre o trabalho" (`#tela-sobre`, endereço `#sobre`), trocadas pelo menu. O botão "Como jogar" abre a ajuda com a legenda;
    - pins, legenda, placar, filtros e tabela "Quais problemas a automação resolve?";
-   - modal: abas; a aba "Vídeo" mostra `videoProblema` + animação do acidente e a aba "Como resolvemos" mostra `videoSolucao` + animação da solução. Os vídeos usam fachada (miniatura → iframe só ao tocar) e voltam a ser miniatura ao trocar de aba ou fechar, para o som parar. O botão "Corrigir" leva à aba "Como resolvemos" e toca a animação da solução antes de fechar;
-   - problema escondido: um `<button class="alvo-escondido">` transparente sobre o extintor, inativo até os 14 visíveis serem corrigidos;
+   - modal: abas "O acidente", "O caso" e "Como resolvemos". Em cada uma vem a animação, depois o vídeo real (`midiaBloco`; sem vídeo, o bloco não aparece) e por último o texto. A imagem real, quando existe, abre a aba "O caso". "O acidente" mostra `videoProblema` (selo "Acidente real" quando `real: 'acidente'`) e "Como resolvemos" mostra `videoSolucao`. A miniatura do vídeo alterna os quadros `hq1/hq2/hq3.jpg` do próprio vídeo, como um GIF. Os vídeos usam fachada (miniatura → iframe só ao tocar) e voltam a ser miniatura ao trocar de aba ou fechar, para o som parar. O botão "Corrigir" leva à aba "Como resolvemos" e toca a animação da solução antes de fechar;
+   - problema escondido: um `<button class="alvo-escondido">` transparente sobre o extintor, inativo até os 13 visíveis serem corrigidos;
    - celebração (confete), selo final, dica, toast, swipe entre abas, Esc e foco preso dentro do modal.
 
 ## Desempenho
 
 - As animações do cenário usam só `transform`, `opacity` e `stroke-dashoffset`.
-- O palco ganha a classe `.pausado` (com `animation-play-state: paused`) quando o modal abre ou a aba fica oculta.
+- Quando o modal abre ou a aba fica oculta, `pausarCena()` coloca a classe `.pausado` no palco (`animation-play-state: paused`, para a esteira e as caixas) e chama `pauseAnimations()` no SVG (para as pessoas, que usam SMIL).
 - Os vídeos do YouTube só carregam quando alguém toca neles.
 - `prefers-reduced-motion` desliga as animações.
-- No desktop, o palco ocupa a largura toda e a altura da tela; o SVG é centralizado e o piso "vaza" para as laterais (`overflow: visible`), enquanto o fundo hexagonal vem do CSS.
-- No celular (≤ 640 px), o cenário fica com 600 px de largura dentro de uma área rolável na horizontal, para os pins não se sobreporem. A página em si nunca rola para os lados.
+- O palco ocupa a tela toda (menos o painel, quando aberto); o SVG 16:9 é centralizado e o piso "vaza" para as laterais (`overflow: visible`), enquanto o fundo hexagonal vem do CSS.
+- Em tela em pé (proporção até 5:4, como celular e tablet em retrato), a esteira ocupa a altura toda dentro de uma área que rola para os lados. A página em si nunca rola no jogo.
 
 ## Como adicionar um problema novo
 

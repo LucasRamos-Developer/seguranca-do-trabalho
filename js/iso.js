@@ -4,7 +4,7 @@
  * Faces visíveis de um bloco: topo, face y+d ("esquerda") e face x+w ("direita").
  */
 (function () {
-  const ISO = { ox: 470, oy: 70, c: 0.866, s: 0.5, W: 900, H: 1000 };
+  const ISO = { ox: 495, oy: 60, c: 0.866, s: 0.5, W: 1440, H: 810 };
 
   function P(x, y, z = 0) {
     return [ISO.ox + (x - y) * ISO.c, ISO.oy + (x + y) * ISO.s - z];
@@ -107,45 +107,16 @@
   function S(x, y, z = 0) { const p = P(x, y, z); return { x: r1(p[0]), y: r1(p[1]) }; }
 
   /*
-   * Pessoa (sprite 2D) com os pés em (sx, sy).
-   * pose: 'pe', 'curvado', 'alcancando', 'levantando', 'ouvidos', 'ajoelhado', 'pulando', 'operando'
+   * Pessoa com os pés em (sx, sy), desenhada por HUMANO (js/humano.js).
+   * pose: nome de HUMANO.POSES ou lista de quadros [[pose, t], ...] para animar em loop.
    */
+  const NOME_POSE = { alcancando: 'alcanca', levantando: 'levanta' };
   function pessoa(sx, sy, o = {}) {
-    const { camisa = '#3f8de0', calca = '#2a3560', capacete = '#ffcc33', pose = 'pe', flip = false, escala = 1, extra = '', protetor = false } = o;
-    const pele = '#f2c6a0';
-    let corpo = '';
-    const perna = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${calca}" stroke-width="5" stroke-linecap="round"/>`;
-    const braco = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${camisa}" stroke-width="4" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="2.2" fill="${pele}"/>`;
-    const cabeca = (x, y) => `<circle cx="${x}" cy="${y}" r="5.2" fill="${pele}"/><path d="M${x - 6} ${y - 1} a6 6 0 0 1 12 0 z" fill="${capacete}"/><rect x="${x - 7}" y="${y - 1.5}" width="14" height="2" rx="1" fill="${capacete}"/>` +
-      (protetor ? `<rect x="${x - 7}" y="${y - 1}" width="3.5" height="5" rx="1.5" fill="#e04848"/><rect x="${x + 3.5}" y="${y - 1}" width="3.5" height="5" rx="1.5" fill="#e04848"/>` : '');
-    const tronco = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${camisa}" stroke-width="9" stroke-linecap="round"/>`;
-    switch (pose) {
-      case 'curvado':
-        corpo = perna(-3, 0, -2, -15) + perna(3, 0, 2, -15) + tronco(0, -16, 12, -26) + braco(9, -24, 15, -12) + cabeca(17, -30);
-        break;
-      case 'alcancando':
-        corpo = perna(-3, 0, -2, -16) + perna(3, 0, 3, -16) + tronco(0, -17, 5, -31) + braco(4, -28, 17, -24) + braco(3, -27, 14, -20) + cabeca(8, -38);
-        break;
-      case 'levantando':
-        corpo = perna(-4, 0, -1, -10) + perna(-1, -10, -3, -16) + perna(4, 0, 4, -10) + perna(4, -10, 2, -16) + tronco(0, -16, 9, -27) + braco(7, -25, 14, -16) + cabeca(13, -32);
-        break;
-      case 'ouvidos':
-        corpo = perna(-3, 0, -2, -16) + perna(3, 0, 2, -16) + tronco(0, -17, 0, -31) + braco(-2, -29, -6, -37) + braco(2, -29, 6, -37) + cabeca(0, -38);
-        break;
-      case 'ajoelhado':
-        corpo = perna(-6, 0, 2, 0) + perna(2, 0, 2, -9) + perna(6, 0, 6, -9) + tronco(2, -10, 6, -22) + braco(5, -20, 15, -18) + cabeca(8, -29);
-        break;
-      case 'pulando':
-        corpo = perna(-2, 0, 0, -14) + perna(0, -14, 10, -10) + tronco(0, -15, 3, -29) + braco(2, -26, -8, -22) + braco(2, -26, 12, -30) + cabeca(5, -36);
-        break;
-      case 'operando':
-        corpo = perna(-3, 0, -2, -16) + perna(3, 0, 2, -16) + tronco(0, -17, 1, -31) + braco(1, -28, 12, -27) + cabeca(1, -38);
-        break;
-      default:
-        corpo = perna(-3, 0, -2, -16) + perna(3, 0, 2, -16) + tronco(0, -17, 0, -31) + braco(-3, -29, -5, -18) + braco(3, -29, 5, -18) + cabeca(0, -38);
-    }
-    const t = `translate(${sx} ${sy}) scale(${flip ? -escala : escala} ${escala})`;
-    return `<g transform="${t}" ${extra}><ellipse cx="0" cy="1" rx="9" ry="3" fill="#000" opacity=".25"/>${corpo}</g>`;
+    const { camisa = '#3f8de0', calca = '#2a3560', capacete = '#ffcc33', pose = 'pe', flip = false, escala = 1, extra = '', protetor = false, dur = '4s' } = o;
+    const k = escala * 0.68;
+    const ps = Array.isArray(pose) ? pose : NOME_POSE[pose] || pose;
+    const t = `translate(${sx} ${sy}) scale(${flip ? -k : k} ${k})`;
+    return `<g transform="${t}" ${extra}>${window.HUMANO.figura(ps, { camisa, calca, capacete, protetor, dur })}</g>`;
   }
 
   // Braço robótico (sprite 2D) com base em (sx, sy)

@@ -2,24 +2,24 @@
 
 Página web animada do trabalho trimestral **"Automação Segura"** (Segurança e Higiene do Trabalho, CEP "Dario Geraldo Salles").
 
-Ela mostra uma esteira automatizada em estilo isométrico, com **14 problemas de segurança** marcados com ⚠ e **1 problema escondido**. Ao tocar em um ⚠, abre um modal com três abas:
+Ela mostra uma esteira automatizada em estilo isométrico, desenhada em serpentina (três trechos e duas curvas) para ocupar a tela do projetor. São **13 problemas de segurança**, todos ligados diretamente à esteira e marcados com um alerta, e mais **1 problema escondido**. Ao tocar em um alerta, abre um modal com três abas. Em cada aba vem primeiro a animação, depois o vídeo real (quando não há vídeo, ele simplesmente não aparece) e por último o texto:
 
-1. **Vídeo**: **um vídeo real** do YouTube mostrando o problema, mais a animação do acidente acontecendo.
-2. **O caso**: caso real documentado (fiscalização, notícia, relatório), imagem real quando houver, perigo / exposição / risco.
-3. **Como resolvemos**: **um vídeo real** mostrando a solução, as medidas de controle, NR, prioridade, o diagrama **Entrada → Lógica → Saída** (quando a solução usa automação) e a animação da solução funcionando.
+1. **O acidente**: a animação do acidente, um vídeo real do YouTube mostrando o problema (com o selo **Acidente real** quando é filmagem de um acidente de verdade) e o texto "como acontece / consequência".
+2. **O caso**: a imagem real (quando houver), o caso documentado (fiscalização, notícia, relatório), perigo / exposição / risco e as referências.
+3. **Como resolvemos**: a animação da solução, um vídeo real da solução, as medidas de controle e o diagrama **Entrada → Lógica → Saída** quando a solução usa automação.
 
-No fim do modal, o botão **"Corrigir problema"** aplica a solução: o desenho muda (aparece a grade, o cabo de emergência, o cadeado…) e o ⚠ vira um escudo verde ✔.
+No fim do modal, o botão **Corrigir problema** aplica a solução: o desenho muda (aparece a grade, o cabo de emergência, o cadeado…) e o alerta vira um check verde.
 
 **Acesse:** https://lucasramos-developer.github.io/seguranca-do-trabalho/
 
-## Como funciona o jogo
+## Como funciona
 
-- Os pins mostram um selo de automação: **⚙** quando a solução é por automação, **◐** quando a automação é parcial e nenhum selo quando não há automação. Os filtros da lateral (Todos · ⚙ Automação · Outros) destacam cada grupo.
-- O progresso fica salvo no navegador (`localStorage`, chave `esteira-segura-v1`): dá para fechar e voltar depois. O botão **🗑 Limpar progresso** apaga tudo. Ele pede confirmação no próprio botão, com um segundo toque.
-- **No desktop** a página ocupa a tela inteira. A lista de problemas e o placar ficam no botão flutuante **"Problemas X/14"**, no canto inferior direito, que abre uma gaveta. O progresso também aparece no topo e, em telas largas, há os cartões "Como jogar" e "Legenda" nas laterais do cenário.
-- **No celular e no tablet** a lista fica logo abaixo do infográfico.
-- Com os 14 corrigidos, aparece **"Ainda falta um! Turma, encontrem o problema escondido 🔍"** e um ponto do cenário, até então sem clique, é liberado. Ele não tem pin. Há um botão de dica, e depois de 20 s a dica aparece sozinha.
-- Corrigindo o 15º, aparece o selo **"ESTEIRA 100% SEGURA — 15/15"**.
+- **Tela do jogo, sem rolagem:** a esteira fica no centro. À esquerda fica um painel de vidro suspenso com o título, o menu (Infográfico / Sobre o trabalho), os filtros e a lista de problemas, onde os resolvidos ficam marcados em verde. O painel pode ser recolhido para a esteira ocupar a tela toda. O botão **Como jogar**, no canto, mostra as instruções e a legenda.
+- **Sobre o trabalho** é uma tela separada, aberta pelo menu (ou pelo endereço `#sobre`).
+- **Selos de automação** nos alertas e na lista: engrenagem quando a solução é por automação, meio círculo quando é parcial e nenhum selo quando não há automação. Os filtros (Todos · Automação · Outros) destacam cada grupo.
+- **Progresso salvo** no navegador (`localStorage`, chave `esteira-segura-v2`): dá para fechar e voltar depois. **Limpar progresso** apaga tudo, com confirmação no próprio botão (segundo toque).
+- **Problema escondido:** com os 13 corrigidos, aparece "Ainda falta um! Turma, encontrem o problema escondido." e um ponto do cenário, até então sem clique, é liberado. Ele não tem alerta. Há um botão de dica, e depois de 20 s a dica aparece sozinha. Corrigindo esse 14º, aparece o selo **ESTEIRA 100% SEGURA**.
+- **Vídeos:** a miniatura mostra uma prévia animada com quadros do próprio vídeo, como um GIF. O player só carrega quando alguém toca, e o vídeo para ao trocar de aba ou fechar o modal.
 
 > Spoiler para o professor: o problema escondido é o **extintor bloqueado por caixas**, ao lado do painel elétrico.
 
@@ -34,7 +34,7 @@ Não precisa instalar nada: o site é HTML, CSS e JavaScript puro, sem build.
   # abra http://localhost:8000
   ```
 
-Funciona em celular (o cenário pode ser arrastado para os lados), tablet e desktop a partir de 1024×600. No desktop, os textos são maiores e com mais contraste, pensando em apresentação no projetor. Respeita a opção "reduzir movimento" do sistema e pausa as animações quando o modal está aberto ou a aba fica oculta, para poupar aparelhos fracos. Sem internet tudo funciona, menos os vídeos do YouTube, que viram link.
+Feito para o projetor (16:9): textos grandes, alto contraste e a esteira ocupando a tela. As pessoas do cenário e das animações são figuras articuladas (capacete, colete refletivo, botas) que se mexem: andam, alcançam a esteira, levantam caixas, levam choque, escorregam. Também funciona em celular e tablet em pé, onde a esteira ocupa a altura toda e dá para arrastar para os lados, e no desktop a partir de 1024×600. Respeita a opção "reduzir movimento" do sistema e pausa as animações quando o modal está aberto ou a aba fica oculta, para poupar aparelhos fracos. Sem internet tudo funciona, menos os vídeos do YouTube, que viram link.
 
 ## Publicar (GitHub Pages)
 
@@ -57,6 +57,7 @@ O andamento aparece na aba **Actions** do repositório (ou com `gh run watch`).
 | Trocar ou adicionar casos e referências | `referencias` de cada problema em `js/data.js` |
 | Mudar o desenho do cenário | `js/scene.js` (usa as peças de `js/iso.js`) |
 | Mudar as animações do modal | `js/animations.js` |
+| Mudar o desenho ou as poses das pessoas | `js/humano.js` |
 | Cores, tamanhos e layout | `css/style.css` (variáveis no `:root`) |
 | Nomes da equipe | seção "Equipe" em `index.html` |
 
@@ -79,11 +80,12 @@ Para adicionar um problema novo, veja o passo a passo em [`docs/arquitetura.md`]
 ```
 index.html                     página (cabeçalho, palco, lateral, "Sobre", modal)
 css/style.css                  estilos e animações
-js/data.js                     catálogo dos 15 problemas + referências reais
-js/iso.js                      peças isométricas (bloco, esteira, rolo, pessoa, robô…)
-js/scene.js                    monta o cenário e as versões perigo/seguro de cada problema
+js/data.js                     catálogo dos 14 problemas (13 + 1 escondido) + vídeos e referências reais
+js/humano.js                   figura humana articulada e poses animadas (usada no cenário e no modal)
+js/iso.js                      peças isométricas (bloco, esteira, rolo, pessoa, robô paletizador…)
+js/scene.js                    monta a esteira em serpentina e as versões perigo/seguro de cada problema
 js/animations.js               mini-animações do modal (perigo e solução)
-js/app.js                      pins, modal, estado, filtros, problema escondido
+js/app.js                      pins, painel da esquerda, telas, modal, estado, filtros, problema escondido
 assets/ref/                    imagem real de domínio público (OSHA)
 tools/verificar-referencias.py checagem dos vídeos e links
 tools/gerar-docs.js            gera docs/problemas.md

@@ -2,9 +2,11 @@
  * Catálogo dos problemas da esteira.
  * Cada problema tem textos do modal, classificação de automação e referências reais.
  * Para adicionar um problema novo veja docs/arquitetura.md.
+ * Todos os problemas são da própria esteira (o robô foi retirado por não ser ligado direto a ela).
  *
  * videoProblema / videoSolucao: um vídeo real do YouTube mostrando o problema e outro mostrando a solução.
- *   { id, titulo, embed? }  embed:false quando o dono bloqueou a incorporação (abre no YouTube).
+ *   { id, titulo, embed?, real? }  embed:false quando o dono bloqueou a incorporação (abre no YouTube).
+ *   real: 'acidente' quando é filmagem de um acidente de verdade; 'situacao' quando é uma situação real (sem acidente).
  *
  * referencias[].tipo:
  *   'caso'      -> acidente real documentado (notícia, relatório de fiscalização, processo).
@@ -52,7 +54,7 @@ window.PROBLEMAS = [
       'Sinalização de "ponto de esmagamento" na cabeceira.'
     ],
     comoReduz: 'A grade impede fisicamente que a mão alcance o ponto de convergência. Se a grade for removida, o relé de segurança corta imediatamente a energia do motor.',
-    videoProblema: { id: '8X_EjsuJPhk', titulo: 'Acidente: mão no ponto de esmagamento do rolo' },
+    videoProblema: { id: '8X_EjsuJPhk', titulo: 'Trabalhador puxado pela esteira ao mexer com ela ligada', real: 'acidente' },
     videoSolucao: { id: 'SdTBV11tdws', titulo: 'Proteções (grades) ao redor de esteiras' },
     referencias: [
       { tipo: 'caso', titulo: 'Esmagamento em tambor de tração (caso do trabalho)', fonte: 'Ministério do Trabalho e Emprego / Fundacentro', data: '2022', resumo: 'Caso analisado no trabalho trimestral: braço puxado entre correia e tambor de tração com a esteira em movimento. Perigos presentes: rolo sem enclausuramento, falta de parada de emergência acessível e falha na detecção de congestionamento.' },
@@ -89,7 +91,7 @@ window.PROBLEMAS = [
       'Ligação a um relé de segurança, com rearme manual e teste periódico registrado.'
     ],
     comoReduz: 'Basta puxar o cabo em qualquer ponto da linha para cortar o motor imediatamente, sem depender de alcançar o painel.',
-    videoProblema: { id: 'SKYtQh7YXOo', titulo: 'Por que a esteira precisa parar rápido de qualquer ponto' },
+    videoProblema: { id: 'DfUZMDCc3pE', titulo: 'Trabalhador preso e arrastado pela esteira: cada segundo para parar conta', real: 'acidente' },
     videoSolucao: { id: 'DtmFwgJ1gSQ', titulo: 'Esteira com cabo de parada de emergência' },
     referencias: [
       CASO_PECEM,
@@ -124,7 +126,7 @@ window.PROBLEMAS = [
       'Parada automática + alarme na IHM + procedimento de desobstrução com a máquina bloqueada.'
     ],
     comoReduz: 'A esteira para sozinha antes de forçar a carga, eliminando a pressa de resolver na mão com tudo ligado.',
-    videoProblema: { id: 'rnT09GFSSfY', titulo: 'Mão presa ao ajustar caixas com a esteira ligada: investigação' },
+    videoProblema: { id: 'P1hM2nRVt7g', titulo: 'Trabalhador preso ao ajeitar caixas com a esteira ligada', real: 'acidente' },
     videoSolucao: { id: '3jo09rnwd5s', titulo: 'Detecção automática de atolamento' },
     referencias: [
       { tipo: 'caso', titulo: 'Recicladora multada após braço ser puxado ao desobstruir esteira', fonte: 'HSE (Reino Unido), via Circular Online', data: 'jan/2024 (multa em jun/2026)', url: 'https://www.circularonline.co.uk/news/waste-and-recycling-company-fined-after-employee-suffers-life-changing-injuries/', resumo: 'Bateman Skips Ltd: o trabalhador limpava um bloqueio, escorregou e teve o braço puxado na extremidade sem proteção. A investigação apontou falta de proteção e falta de um sistema seguro para desobstrução.' },
@@ -159,7 +161,7 @@ window.PROBLEMAS = [
       'Seccionadora com intertravamento na porta e sinalização de risco elétrico.'
     ],
     comoReduz: 'Elimina o contato acidental com partes energizadas e garante que só se abre o painel sem tensão.',
-    videoProblema: { id: 'PO6see7_ODY', titulo: 'Arco elétrico de 480 V em câmera lenta' },
+    videoProblema: { id: 'xyjgb3uMh8s', titulo: 'Arco elétrico em painel de um frigorífico', real: 'acidente' },
     videoSolucao: { id: 'N28QFNWRDAI', titulo: 'NR-10: painéis elétricos fechados, identificados e trancados' },
     referencias: [
       { tipo: 'documento', titulo: 'NR-10: Segurança em Instalações e Serviços em Eletricidade', fonte: 'Ministério do Trabalho e Emprego', url: NR_LISTA, resumo: 'Exige aterramento, isolamento, procedimentos de desenergização e que só profissionais autorizados acessem painéis.' }
@@ -433,7 +435,7 @@ window.PROBLEMAS = [
       'Proibir e sinalizar a circulação sobre a esteira (NR-12, capítulo 12.8).'
     ],
     comoReduz: 'Cria um caminho seguro: ninguém mais precisa encostar na correia para atravessar.',
-    videoProblema: { id: 'DPVJpnSWCik', titulo: 'Trabalhador sobe na esteira em movimento' },
+    videoProblema: { id: 'DPVJpnSWCik', titulo: 'Trabalhador sobe na esteira em movimento', real: 'acidente' },
     videoSolucao: { id: '8ZsWS8txah8', titulo: 'Escada de travessia sobre a esteira' },
     referencias: [
       CASO_PECEM
@@ -441,40 +443,6 @@ window.PROBLEMAS = [
   },
   {
     id: 13,
-    slug: 'robo',
-    titulo: 'Célula robótica sem barreira de proteção',
-    curto: 'Robô sem cortina de luz',
-    categoria: 'Mecânico',
-    nr: 'NR-12',
-    prioridade: 'Alta',
-    automacao: 'sim',
-    cadeia: {
-      entrada: 'Cortina de luz / scanner de área',
-      logica: 'Relé de segurança',
-      saida: 'Parada segura do robô e da esteira',
-      nota: 'Se alguém cruzar o feixe de luz, o robô para antes de a pessoa chegar ao alcance do braço.'
-    },
-    onde: 'Braço robótico que retira peças da esteira principal.',
-    quem: 'Operadores e manutenção que entram na área do robô.',
-    consequencia: 'Golpes, esmagamento contra a esteira, fraturas.',
-    perigo: 'Braço robótico em movimento rápido e imprevisível para quem está de fora.',
-    exposicao: 'Operador entra na área do robô para ajustar uma peça.',
-    risco: 'Ser atingido pelo braço em movimento.',
-    caso: 'Em estudos de validação de células robóticas com cerca, scanner e cortina de luz, a regra de segurança central é que o contato humano com o robô deve ser impossível, a menos que o robô esteja parado. O tempo de resposta do sensor e o tempo de parada do robô definem a distância da barreira.',
-    solucao: [
-      'Cortina de luz de segurança na entrada da célula.',
-      'Grade fixa nas demais laterais.',
-      'Relé de segurança parando o robô e a esteira.'
-    ],
-    comoReduz: 'A entrada de qualquer pessoa vira um sinal de parada imediata.',
-    videoProblema: { id: 'M8kCLeLY87M', titulo: 'Trabalhador no ponto cego do robô' },
-    videoSolucao: { id: '-Ma3Hl4Jevk', titulo: 'Cortina de luz detecta a pessoa e o robô para' },
-    referencias: [
-      { tipo: 'documento', titulo: 'Simulation-based Testing for Early Safety-Validation of Robot Systems', fonte: 'arXiv 2011.10294', url: 'https://arxiv.org/abs/2011.10294', resumo: 'Célula industrial com cercas, scanner e cortina de luz: o contato humano com o robô só pode ocorrer com o robô parado.' }
-    ]
-  },
-  {
-    id: 14,
     slug: 'ruido',
     titulo: 'Ruído excessivo de motor e rolamentos',
     curto: 'Ruído excessivo',
@@ -488,7 +456,7 @@ window.PROBLEMAS = [
       saida: 'Alerta de troca + inversor reduz a velocidade',
       nota: 'A automação ataca a fonte do ruído (rolamento gasto, velocidade). O protetor auricular é só uma medida complementar.'
     },
-    onde: 'Motor e redutor da esteira inclinada.',
+    onde: 'Motor de acionamento e rolamentos da esteira inclinada.',
     quem: 'Todos os trabalhadores do setor.',
     consequencia: 'Perda auditiva induzida por ruído (PAIR), irreversível; estresse e fadiga.',
     perigo: 'Rolamentos gastos e motor em alta rotação.',
@@ -508,7 +476,7 @@ window.PROBLEMAS = [
     ]
   },
   {
-    id: 15,
+    id: 14,
     slug: 'extintor',
     escondido: true,
     titulo: 'Extintor de incêndio bloqueado',
@@ -534,7 +502,7 @@ window.PROBLEMAS = [
       'Inspeção periódica (lacre, manômetro, validade).'
     ],
     comoReduz: 'O extintor fica visível e alcançável em segundos.',
-    videoProblema: { id: 'SZMjHAqb-LM', titulo: 'Falhas de segurança contra incêndio: extintores bloqueados' },
+    videoProblema: { id: 'SZMjHAqb-LM', titulo: 'Extintores bloqueados e outras falhas encontradas em inspeção', real: 'situacao' },
     videoSolucao: { id: '5P3Volndqtg', titulo: 'Como demarcar o piso de extintores' },
     referencias: [
       { tipo: 'documento', titulo: 'Lâmina de gerenciamento de riscos: proteja contra incêndios', fonte: 'Sompo Seguros', url: 'https://sompo.com.br/documents/d/global/som05224_lamina-de-gerenciamento-de-riscos-property_proteja-contra-incendios_c-1', resumo: 'Sinalização de solo sob extintores e hidrantes: quadrado de 1,00 × 1,00 m, fundo vermelho e borda amarela.' },

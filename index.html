@@ -9,89 +9,86 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z' fill='%232ecc71'/%3E%3Cpath d='M20 32 l9 9 l16 -18' stroke='white' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <a class="pular" href="#legenda">Pular para a lista de problemas</a>
+<body class="na-tela-jogo">
+  <!-- Painel suspenso à esquerda: título, menu e lista de problemas -->
+  <aside class="painel" id="painel" aria-label="Menu e lista de problemas">
+    <div class="painel-topo">
+      <div class="marca">
+        <svg class="marca-ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z" fill="none" stroke="currentColor" stroke-width="5"/><path d="M32 18 v18 M32 44 v2" stroke="#ffd84d" stroke-width="7" stroke-linecap="round"/></svg>
+        <h1><span class="contorno">ESTEIRA</span><span class="forte">AUTOMAÇÃO SEGURA</span></h1>
+      </div>
+      <button type="button" class="icone-btn" id="painel-recolher" aria-label="Recolher menu" title="Recolher menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
 
-  <header class="topo">
-    <div class="topo-icone" aria-hidden="true">
-      <svg viewBox="0 0 64 64"><path d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M32 18 v18 M32 44 v2" stroke="#ffd84d" stroke-width="6" stroke-linecap="round"/></svg>
-    </div>
-    <div>
-      <p class="topo-pre">Trabalho trimestral · Segurança e Higiene do Trabalho</p>
-      <h1><span class="contorno">ESTEIRA</span> <span class="forte">AUTOMAÇÃO SEGURA</span></h1>
-      <p class="topo-sub">Toque nos <span class="mini-alerta" aria-hidden="true">!</span> para ver o problema, o caso real e como a gente resolve.</p>
-    </div>
-    <div class="topo-prog" aria-hidden="true">
-      <span><b id="topo-cont">0</b> de <span id="topo-total">14</span> riscos controlados</span>
-      <div class="barra"><span id="topo-fill"></span></div>
-    </div>
-  </header>
+    <nav class="menu" aria-label="Telas">
+      <button type="button" class="menu-item" data-tela="jogo" aria-current="page">Infográfico</button>
+      <button type="button" class="menu-item" data-tela="sobre">Sobre o trabalho</button>
+    </nav>
 
-  <main class="layout">
+    <div class="painel-resumo">
+      <span><b id="cont-resolvidos">0</b> de <b id="cont-total">13</b> resolvidos</span>
+      <span class="resumo-auto"><b id="cont-auto">0</b> com automação</span>
+    </div>
+
+    <div class="filtros" role="group" aria-label="Filtrar problemas">
+      <button type="button" class="filtro ativo" data-filtro="todos" aria-pressed="true">Todos</button>
+      <button type="button" class="filtro" data-filtro="auto" aria-pressed="false">Automação</button>
+      <button type="button" class="filtro" data-filtro="outros" aria-pressed="false">Outros</button>
+    </div>
+
+    <ol class="legenda" id="legenda"></ol>
+
+    <div class="painel-pe">
+      <span class="nota-salvo">Progresso salvo neste navegador</span>
+      <button type="button" class="btn-sec btn-limpar" id="btn-limpar">Limpar progresso</button>
+    </div>
+  </aside>
+
+  <!-- aparece quando o painel está recolhido -->
+  <button type="button" class="painel-abrir" id="painel-abrir" aria-controls="painel" aria-expanded="true" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7 H20 M4 12 H20 M4 17 H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+    <span class="painel-abrir-txt">Esteira Segura</span>
+    <span class="painel-abrir-cont" id="abrir-cont">0/13</span>
+  </button>
+
+  <!-- Tela 1: o jogo (tela cheia, sem rolagem) -->
+  <main class="tela tela-jogo" id="tela-jogo">
     <section class="palco" aria-label="Infográfico da esteira">
       <div class="banner-escondido" id="banner-escondido" hidden>
-        <strong>Ainda falta um!</strong> Turma, encontrem o problema escondido 🔍
+        <strong>Ainda falta um!</strong> Turma, encontrem o problema escondido.
         <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>
       </div>
-      <aside class="callout callout-como" aria-label="Como jogar">
-        <h3>Como jogar</h3>
-        <ol>
-          <li>Toque em um <b>⚠</b> no infográfico.</li>
-          <li>Veja o acidente, o caso real e os vídeos.</li>
-          <li>Clique em <b>Corrigir problema</b>.</li>
-          <li>Corrigiu tudo? Ainda tem um escondido… 🔍</li>
-        </ol>
-      </aside>
-      <aside class="callout callout-legenda" aria-label="Legenda" id="callout-legenda"></aside>
       <div class="palco-scroll" id="palco-scroll">
         <div class="palco-inner" id="palco">
           <!-- SVG do cenário e pins entram aqui (js/app.js) -->
         </div>
       </div>
-      <p class="dica-arraste" id="dica-arraste" aria-hidden="true">↔ arraste para explorar a esteira</p>
+      <p class="dica-arraste" id="dica-arraste" aria-hidden="true">Arraste para os lados para ver a esteira inteira</p>
     </section>
 
-    <aside class="painel-lateral" id="painel" aria-label="Progresso e lista de problemas">
-      <div class="gaveta-topo">
-        <h2>Problemas da esteira</h2>
-        <button type="button" class="modal-x" id="gaveta-fechar" aria-label="Fechar lista">×</button>
+    <!-- botão "Como jogar" + legenda -->
+    <button type="button" class="btn-flutua btn-ajuda" id="btn-ajuda" aria-controls="ajuda" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 9.3 a2.6 2.6 0 1 1 3.6 2.4 c-.8.4-1.1.9-1.1 1.8 M12 16.8 v.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span>Como jogar</span>
+    </button>
+    <div class="ajuda" id="ajuda" role="dialog" aria-label="Como jogar e legenda" hidden>
+      <div class="ajuda-col">
+        <h3>Como jogar</h3>
+        <ol>
+          <li>Toque em um alerta na esteira.</li>
+          <li>Veja o vídeo do acidente, a animação e o caso real.</li>
+          <li>Clique em <b>Corrigir problema</b>.</li>
+          <li>Corrigiu tudo? Ainda tem um problema escondido.</li>
+        </ol>
       </div>
-      <div class="placar">
-        <div class="placar-linha">
-          <span class="placar-num"><b id="cont-resolvidos">0</b> de <b id="cont-total">14</b></span>
-          <span class="placar-txt">riscos controlados</span>
-        </div>
-        <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="14" aria-valuenow="0" id="barra"><span id="barra-fill"></span></div>
-        <div class="placar-extra">
-          <span class="chip-auto">⚙ <b id="cont-auto">0</b> resolvidos com automação</span>
-          <span class="chip-oculto" id="chip-oculto">🔒 + 1 problema escondido</span>
-        </div>
-      </div>
-
-      <div class="filtros" role="group" aria-label="Filtrar problemas">
-        <button type="button" class="filtro ativo" data-filtro="todos" aria-pressed="true">Todos</button>
-        <button type="button" class="filtro" data-filtro="auto" aria-pressed="false">⚙ Automação</button>
-        <button type="button" class="filtro" data-filtro="outros" aria-pressed="false">Outros</button>
-      </div>
-
-      <ol class="legenda" id="legenda"></ol>
-
-      <p class="nota-salvo">💾 O progresso fica salvo neste navegador.</p>
-      <div class="acoes-lateral">
-        <button type="button" class="btn-sec btn-limpar" id="btn-limpar">🗑 Limpar progresso</button>
-        <a class="btn-sec" href="#sobre" id="link-sobre">Sobre o trabalho ↓</a>
-      </div>
-    </aside>
+      <div class="ajuda-col" id="ajuda-legenda"></div>
+    </div>
   </main>
 
-  <button type="button" class="fab" id="fab" aria-controls="painel" aria-expanded="false">
-    <svg class="fab-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L38 35 H2 Z" fill="#1e2756"/><text x="20" y="31" text-anchor="middle" font-size="18" font-weight="900" fill="#f5c242" font-family="system-ui,sans-serif">!</text></svg>
-    <span>Problemas</span>
-    <span class="fab-cont" id="fab-cont">0/14</span>
-  </button>
-  <div class="gaveta-fundo" id="gaveta-fundo" hidden></div>
-
-  <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+  <!-- Tela 2: sobre o trabalho -->
+  <section class="tela tela-sobre sobre" id="tela-sobre" aria-labelledby="sobre-titulo" hidden>
     <h2 id="sobre-titulo">Sobre o trabalho</h2>
     <div class="sobre-grid">
       <article class="cartao">
@@ -109,7 +106,7 @@
       </article>
       <article class="cartao">
         <h3>A esteira como sistema de automação</h3>
-        <p>Motor elétrico trifásico controlado por <b>inversor de frequência</b> (velocidade e rampas). O cérebro é um <b>CLP</b>, que recebe sinais de sensores ópticos e indutivos e coordena as paradas. A segurança usa <b>relés de segurança</b>, intertravamentos e cortinas de luz.</p>
+        <p>Motor elétrico trifásico controlado por <b>inversor de frequência</b> (velocidade e rampas). O cérebro é um <b>CLP</b>, que recebe sinais de sensores ópticos e indutivos e coordena as paradas. A segurança usa <b>relés de segurança</b>, intertravamentos e cabos de emergência.</p>
       </article>
       <article class="cartao">
         <h3>NRs relacionadas</h3>
@@ -146,11 +143,10 @@
         </div>
       </article>
     </div>
+    <footer class="rodape">
+      <p>Feito para fins educacionais. Vídeos são do YouTube e pertencem aos seus autores; a imagem da OSHA é de domínio público.</p>
+    </footer>
   </section>
-
-  <footer class="rodape">
-    <p>Feito para fins educacionais. Vídeos são do YouTube e pertencem aos seus autores; a imagem da OSHA é de domínio público.</p>
-  </footer>
 
   <!-- Modal -->
   <div class="modal" id="modal" hidden>
@@ -165,7 +161,7 @@
         <button type="button" class="modal-x" data-fechar aria-label="Fechar">×</button>
       </header>
       <nav class="abas" role="tablist">
-        <button type="button" role="tab" class="aba" data-aba="video" aria-selected="true">▶ Vídeo</button>
+        <button type="button" role="tab" class="aba" data-aba="video" aria-selected="true">O acidente</button>
         <button type="button" role="tab" class="aba" data-aba="caso" aria-selected="false">O caso</button>
         <button type="button" role="tab" class="aba" data-aba="solucao" aria-selected="false">Como resolvemos</button>
       </nav>
@@ -175,8 +171,8 @@
         <section class="painel-aba" data-painel="solucao" role="tabpanel" hidden></section>
       </div>
       <footer class="modal-rodape">
-        <button type="button" class="btn-sec" id="btn-proxima">Próxima →</button>
-        <button type="button" class="btn-corrigir" id="btn-corrigir">🛡 Corrigir problema</button>
+        <button type="button" class="btn-sec" id="btn-proxima">Próxima</button>
+        <button type="button" class="btn-corrigir" id="btn-corrigir">Corrigir problema</button>
       </footer>
     </div>
   </div>
@@ -196,6 +192,7 @@
   </div>
 
   <script src="js/data.js"></script>
+  <script src="js/humano.js"></script>
   <script src="js/iso.js"></script>
   <script src="js/scene.js"></script>
   <script src="js/animations.js"></script>

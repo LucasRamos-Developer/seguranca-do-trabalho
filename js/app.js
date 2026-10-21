@@ -1,19 +1,36 @@
 /*
- * Liga tudo: cenário, pins, legenda, modal, estado (localStorage), filtros,
- * problema escondido e celebração.
+ * Liga tudo: cenário, pins, painel da esquerda (menu + lista), telas, modal,
+ * estado (localStorage), filtros, problema escondido e celebração.
  */
 (function () {
   const PROBLEMAS = window.PROBLEMAS;
-  const { CENAS, iconeAlerta, iconeEscudo, iconeLupa, ICONES_NO } = window.ANIM;
-  const CHAVE = 'esteira-segura-v1';
+  const { CENAS, ICONES_NO } = window.ANIM;
+  const CHAVE = 'esteira-segura-v2'; // v2: numeração nova (sem o robô)
   const VISIVEIS = PROBLEMAS.filter((p) => !p.escondido);
   const ESCONDIDO = PROBLEMAS.find((p) => p.escondido);
   const porId = (id) => PROBLEMAS.find((p) => p.id === id);
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const movimentoReduzido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---------- estado ----------
+  // ---------- ícones (SVG, sem emoji) ----------
+  const IC = {
+    alerta: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 20 H2 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 9.5 v5 M12 17.2 v.3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    check: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    lupa: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    engrenagem: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 l1.6 2.4 2.8-.8.5 2.9 2.8.9-.8 2.8 2.4 1.6-2.4 1.6.8 2.8-2.8.9-.5 2.9-2.8-.8L12 21.5l-1.6-2.4-2.8.8-.5-2.9-2.8-.9.8-2.8L2.7 12l2.4-1.6-.8-2.8 2.8-.9.5-2.9 2.8.8z" fill="currentColor"/><circle cx="12" cy="12" r="3.4" fill="#1b2350"/></svg>',
+    play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 v14 l11-7z" fill="currentColor"/></svg>',
+    pausa: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5 h3.5 v14 H7z M13.5 5 H17 v14 h-3.5z" fill="currentColor"/></svg>',
+    repetir: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12 a7.5 7.5 0 1 0 2.4-5.5 M4.5 4 v4.5 H9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    fechar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    escudo: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 L36 8 V20 C36 30 29 36 20 39 C11 36 4 30 4 20 V8 Z" fill="#2ecc71"/><path d="M12 20 l6 6 l11 -12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    alertaCheio: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L38 35 H2 Z" fill="#f5c242" stroke-linejoin="round"/><path d="M20 14 v10 M20 29 v.5" stroke="#1b2350" stroke-width="4" stroke-linecap="round"/></svg>'
+  };
+  const icAuto = (p) => (p.automacao === 'sim' ? IC.engrenagem : p.automacao === 'parcial' ? '<span class="meia" aria-hidden="true"></span>' : '');
+  const textoAuto = { sim: 'Resolvido com automação', parcial: 'Automação parcial', nao: 'Sem automação' };
+
+  // ---------- estado (salvo no localStorage) ----------
   let estado = { resolvidos: [], escondidoLiberado: false };
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE) || 'null');
@@ -23,7 +40,7 @@
   const resolvido = (id) => estado.resolvidos.includes(id);
   const todosVisiveisResolvidos = () => VISIVEIS.every((p) => resolvido(p.id));
 
-  // ---------- cenário ----------
+  // ---------- cenário + pins ----------
   const palco = $('#palco');
   palco.innerHTML = window.CENA.montar();
 
@@ -45,8 +62,6 @@
   const alvo = document.createElement('button');
   alvo.type = 'button';
   alvo.className = 'alvo-escondido';
-  alvo.tabIndex = -1;
-  alvo.setAttribute('aria-hidden', 'true');
   const posAlvo = window.CENA.telaParaPercentual(ESCONDIDO.id);
   alvo.style.left = posAlvo.left + '%';
   alvo.style.top = posAlvo.top + '%';
@@ -57,12 +72,9 @@
     const b = pins[p.id];
     if (!b) return;
     const ok = resolvido(p.id);
-    const auto = p.automacao === 'sim' ? '<span class="auto" title="Resolvido com automação">⚙</span>' :
-      p.automacao === 'parcial' ? '<span class="auto parcial" title="Automação parcial"></span>' : '';
+    const auto = p.automacao === 'nao' ? '' : `<span class="auto ${p.automacao === 'parcial' ? 'parcial' : ''}" title="${textoAuto[p.automacao]}">${p.automacao === 'sim' ? IC.engrenagem : ''}</span>`;
     b.classList.toggle('resolvido', ok);
-    b.innerHTML = ok
-      ? `<svg viewBox="0 0 40 40" class="pulso">${iconeEscudo().replace(/<\/?svg[^>]*>/g, '')}</svg><span class="num">${p.id}</span>${auto}`
-      : `<svg viewBox="0 0 40 40"><circle class="onda-pin" cx="20" cy="24" r="14" fill="#f5c242" opacity=".5"/><g class="pulso">${iconeAlerta().replace(/<\/?svg[^>]*>/g, '')}</g></svg><span class="num">${p.id}</span>${auto}`;
+    b.innerHTML = `<span class="pin-ic">${ok ? IC.check : IC.alerta}</span><span class="num">${p.id}</span>${auto}`;
     b.setAttribute('aria-label', `${p.id}. ${p.titulo}${ok ? ' (resolvido)' : ''}`);
   }
 
@@ -71,67 +83,59 @@
       $$(`.prob[data-p="${p.id}"]`, palco).forEach((g) => g.classList.toggle('fixed', resolvido(p.id)));
       desenharPin(p);
     });
-    alvo.classList.toggle('liberado', estado.escondidoLiberado && !resolvido(ESCONDIDO.id));
-    if (estado.escondidoLiberado) { alvo.tabIndex = 0; alvo.removeAttribute('aria-hidden'); alvo.setAttribute('aria-label', 'Problema escondido'); }
-    else { alvo.tabIndex = -1; alvo.setAttribute('aria-hidden', 'true'); alvo.classList.remove('dica'); }
-    $('#banner-escondido').hidden = !(estado.escondidoLiberado && !resolvido(ESCONDIDO.id));
+    const liberado = estado.escondidoLiberado && !resolvido(ESCONDIDO.id);
+    alvo.classList.toggle('liberado', liberado);
+    alvo.tabIndex = liberado ? 0 : -1;
+    if (liberado) { alvo.removeAttribute('aria-hidden'); alvo.setAttribute('aria-label', 'Problema escondido'); }
+    else { alvo.setAttribute('aria-hidden', 'true'); alvo.classList.remove('dica'); }
+    $('#banner-escondido').hidden = !liberado;
   }
 
-  // ---------- legenda, placar, tabela ----------
+  // ---------- lista de problemas (painel da esquerda) ----------
   const legenda = $('#legenda');
   function desenharLegenda() {
     legenda.innerHTML = PROBLEMAS.map((p) => {
       const ok = resolvido(p.id);
-      const auto = p.automacao === 'sim' ? '⚙' : p.automacao === 'parcial' ? '<span class="meia" aria-hidden="true"></span>' : '';
-      const ic = ok ? iconeEscudo() : p.escondido ? iconeLupa() : iconeAlerta(p.id);
+      const ic = ok ? `<span style="color:var(--verde)">${IC.check}</span>` : p.escondido ? `<span style="color:var(--amarelo)">${IC.lupa}</span>` : `<span style="color:var(--amarelo)">${IC.alerta}</span>`;
       const cls = [ok ? 'resolvido' : '', p.escondido ? 'escondido' : '', p.escondido && estado.escondidoLiberado ? 'revelado' : ''].join(' ');
-      return `<li class="${cls}" data-id="${p.id}" data-auto="${p.automacao}">
+      const sub = ok ? 'Resolvido' : `Prioridade ${esc(p.prioridade.toLowerCase())} · ${esc(p.nr)}`;
+      return `<li class="${cls}" data-id="${p.id}">
         <button type="button" data-abrir="${p.id}"><span class="ic">${ic}</span>
-        <span class="t">${p.id}. ${esc(p.curto)}<small>${esc(p.nr)} · ${ok ? 'resolvido' : 'prioridade ' + esc(p.prioridade.toLowerCase())}</small></span>
-        <span class="a" title="${p.automacao === 'sim' ? 'Resolvido com automação' : p.automacao === 'parcial' ? 'Automação parcial' : 'Sem automação'}">${auto}</span></button></li>`;
+        <span class="t">${p.id}. ${esc(p.curto)}<small>${sub}</small></span>
+        <span class="a" title="${textoAuto[p.automacao]}">${icAuto(p)}</span></button></li>`;
     }).join('');
-    $$('[data-abrir]', legenda).forEach((b) => b.addEventListener('click', () => { fecharGaveta(false); abrir(+b.dataset.abrir); }));
+    $$('[data-abrir]', legenda).forEach((b) => b.addEventListener('click', () => {
+      if (window.innerWidth <= 900) recolherPainel(true);
+      mostrarTela('jogo');
+      abrir(+b.dataset.abrir);
+    }));
     aplicarFiltro();
   }
 
-  function atualizarPlacar() {
+  function atualizarResumo() {
     const total = estado.escondidoLiberado ? PROBLEMAS.length : VISIVEIS.length;
     const conta = estado.resolvidos.filter((id) => estado.escondidoLiberado || !porId(id).escondido).length;
     const auto = estado.resolvidos.filter((id) => porId(id).automacao !== 'nao').length;
     $('#cont-resolvidos').textContent = conta;
     $('#cont-total').textContent = total;
     $('#cont-auto').textContent = auto;
-    $('#barra-fill').style.width = (conta / total) * 100 + '%';
-    $('#topo-cont').textContent = conta;
-    $('#topo-total').textContent = total;
-    $('#topo-fill').style.width = (conta / total) * 100 + '%';
-    $('#fab-cont').textContent = `${conta}/${total}`;
-    const barra = $('#barra');
-    barra.setAttribute('aria-valuemax', total);
-    barra.setAttribute('aria-valuenow', conta);
-    const chip = $('#chip-oculto');
-    chip.textContent = estado.escondidoLiberado ? (resolvido(ESCONDIDO.id) ? '🔓 Escondido encontrado!' : '🔍 Encontre o escondido!') : '🔒 + 1 problema escondido';
-    chip.classList.toggle('aberto', estado.escondidoLiberado);
+    $('#abrir-cont').textContent = `${conta}/${total}`;
   }
 
   function desenharTabela() {
-    const rot = { sim: '⚙ Sim', parcial: '<span class="meia" aria-hidden="true"></span> Parcial', nao: '✖ Não' };
+    const rot = { sim: 'Sim', parcial: 'Parcial', nao: 'Não' };
     $('#tabela-auto tbody').innerHTML = PROBLEMAS.map((p) => {
       const c = p.cadeia || {};
       const cadeia = c.entrada ? `${esc(c.entrada)} → ${esc(c.logica)} → ${esc(c.saida)}` : esc(c.nota || '');
-      const nome = p.escondido && !estado.escondidoLiberado ? '??? (problema escondido)' : esc(p.curto);
-      const det = p.escondido && !estado.escondidoLiberado ? 'Descubra no infográfico depois de corrigir os 14.' : cadeia;
-      return `<tr><td>${p.id}</td><td>${nome}</td><td>${rot[p.automacao]}</td><td>${det}</td></tr>`;
+      const oculto = p.escondido && !estado.escondidoLiberado;
+      return `<tr><td>${p.id}</td><td>${oculto ? 'Problema escondido' : esc(p.curto)}</td><td>${rot[p.automacao]}</td>` +
+        `<td>${oculto ? `Descubra no infográfico depois de corrigir os ${VISIVEIS.length}.` : cadeia}</td></tr>`;
     }).join('');
   }
 
   // ---------- filtros ----------
   let filtro = 'todos';
-  function passa(p) {
-    if (filtro === 'auto') return p.automacao !== 'nao';
-    if (filtro === 'outros') return p.automacao === 'nao';
-    return true;
-  }
+  const passa = (p) => (filtro === 'auto' ? p.automacao !== 'nao' : filtro === 'outros' ? p.automacao === 'nao' : true);
   function aplicarFiltro() {
     VISIVEIS.forEach((p) => pins[p.id].classList.toggle('apagado', !passa(p)));
     $$('li', legenda).forEach((li) => li.classList.toggle('apagado', !passa(porId(+li.dataset.id))));
@@ -142,6 +146,54 @@
     aplicarFiltro();
   }));
 
+  // ---------- painel da esquerda: recolher / abrir ----------
+  const btnAbrirPainel = $('#painel-abrir');
+  function recolherPainel(sim) {
+    document.body.classList.toggle('painel-recolhido', sim);
+    btnAbrirPainel.hidden = !sim;
+    btnAbrirPainel.setAttribute('aria-expanded', String(!sim));
+    setTimeout(centralizar, 320);
+  }
+  $('#painel-recolher').addEventListener('click', () => { recolherPainel(true); btnAbrirPainel.focus(); });
+  btnAbrirPainel.addEventListener('click', () => { recolherPainel(false); $('#painel-recolher').focus(); });
+  recolherPainel(window.innerWidth <= 900);
+
+  // ---------- telas (menu) ----------
+  function mostrarTela(nome) {
+    const jogo = nome !== 'sobre';
+    $('#tela-jogo').hidden = !jogo;
+    $('#tela-sobre').hidden = jogo;
+    document.body.classList.toggle('na-tela-jogo', jogo);
+    document.body.classList.toggle('na-tela-sobre', !jogo);
+    $$('.menu-item').forEach((b) => (b.dataset.tela === (jogo ? 'jogo' : 'sobre') ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current')));
+    if (location.hash !== (jogo ? '' : '#sobre')) history.replaceState(null, '', jogo ? location.pathname + location.search : '#sobre');
+    if (!jogo) window.scrollTo(0, 0);
+    else setTimeout(centralizar, 50);
+  }
+  $$('.menu-item').forEach((b) => b.addEventListener('click', () => {
+    mostrarTela(b.dataset.tela);
+    if (window.innerWidth <= 900) recolherPainel(true);
+  }));
+  window.addEventListener('hashchange', () => mostrarTela(location.hash === '#sobre' ? 'sobre' : 'jogo'));
+
+  // ---------- "Como jogar" + legenda ----------
+  const ajuda = $('#ajuda'), btnAjuda = $('#btn-ajuda');
+  $('#ajuda-legenda').innerHTML = `<h3>Legenda</h3><ul>
+    <li><span class="ic" style="color:var(--amarelo)">${IC.alerta}</span>Problema a corrigir</li>
+    <li><span class="ic" style="color:var(--verde)">${IC.check}</span>Resolvido</li>
+    <li><span class="ic">${IC.engrenagem}</span>Resolvido com automação</li>
+    <li><span class="ic"><span class="meia"></span></span>Automação parcial</li>
+  </ul>`;
+  const ajudaAberta = () => !ajuda.hidden;
+  function alternarAjuda(abrirAjuda) {
+    ajuda.hidden = !abrirAjuda;
+    btnAjuda.setAttribute('aria-expanded', String(abrirAjuda));
+  }
+  btnAjuda.addEventListener('click', () => alternarAjuda(!ajudaAberta()));
+  document.addEventListener('click', (e) => {
+    if (ajudaAberta() && !ajuda.contains(e.target) && !btnAjuda.contains(e.target)) alternarAjuda(false);
+  });
+
   // ---------- modal ----------
   const modal = $('#modal');
   const corpo = $('#modal-corpo');
@@ -150,61 +202,82 @@
   let ultimoFoco = null;
   let corrigindo = false;
   const ABAS = ['video', 'caso', 'solucao'];
+  $$('.modal-x', modal).forEach((b) => { b.innerHTML = IC.fechar; });
 
   function tagsHtml(p) {
     const pri = { Alta: 'alta', Média: 'media', Baixa: 'baixa' }[p.prioridade];
-    const auto = { sim: ['auto-sim', '⚙ Resolvido com automação'], parcial: ['auto-parcial', '<span class="meia" aria-hidden="true"></span> Automação parcial'], nao: ['auto-nao', 'Sem automação'] }[p.automacao];
-    return `<span class="tag nr">${esc(p.nr)}</span><span class="tag ${pri}">Prioridade ${esc(p.prioridade)}</span>` +
-      `<span class="tag ${auto[0]}">${auto[1]}</span>` + (resolvido(p.id) ? '<span class="tag ok">✔ Resolvido</span>' : '') +
-      (p.escondido ? '<span class="tag media">🔍 Escondido</span>' : '');
+    const auto = { sim: 'auto-sim', parcial: 'auto-parcial', nao: 'auto-nao' }[p.automacao];
+    return `<span class="tag prioridade ${pri}">Prioridade ${esc(p.prioridade)}</span>` +
+      `<span class="tag nr">${esc(p.nr)}</span>` +
+      `<span class="tag ${auto}">${icAuto(p)}${textoAuto[p.automacao]}</span>` +
+      (resolvido(p.id) ? `<span class="tag ok">${IC.check}Resolvido</span>` : '') +
+      (p.escondido ? '<span class="tag escondido">Problema escondido</span>' : '');
   }
 
-  // um vídeo real (fachada: só a miniatura até a pessoa tocar)
-  function videoBloco(v, rotulo) {
+  // vídeo real: miniatura com prévia animada (3 quadros do vídeo) até a pessoa tocar
+  function videoBloco(v) {
     if (!v) return '';
     const online = navigator.onLine !== false;
     const yt = `https://www.youtube.com/watch?v=${v.id}`;
     const ext = v.embed === false;
+    const quadros = [1, 2, 3].map((n) => `<span class="quadro q${n}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hq${n}.jpg')"></span>`).join('');
+    const selo = v.real === 'acidente' ? '<span class="selo-real"><i></i>Acidente real</span>' :
+      v.real === 'situacao' ? '<span class="selo-real situacao"><i></i>Situação real</span>' : '';
     const fachada = online
-      ? `<button type="button" class="video-fachada${ext ? ' externo' : ''}" data-video="${esc(v.id)}" data-ext="${ext ? 1 : 0}" aria-label="Assistir: ${esc(v.titulo)}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg')"></button>`
+      ? `<button type="button" class="video-fachada${ext ? ' externo' : ''}" data-video="${esc(v.id)}" data-ext="${ext ? 1 : 0}" aria-label="Assistir: ${esc(v.titulo)}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg')">${quadros}${selo}<span class="play">${IC.play}</span></button>`
       : '';
-    return `<div class="video-card video-unico">${fachada}
-      <div class="video-info"><span class="video-rotulo">${rotulo}</span><span class="video-titulo">${esc(v.titulo)}</span><a href="${yt}" target="_blank" rel="noopener">abrir no YouTube ↗</a></div></div>
-      ${online ? '' : '<p class="nota">Você está offline: o vídeo abre quando houver internet.</p>'}`;
+    return `<div class="video-card">${fachada}
+      ${v.real === 'acidente' ? '<p class="video-aviso">Atenção: cenas reais de acidente de trabalho.</p>' : ''}
+      <div class="video-info"><span class="video-titulo">${esc(v.titulo)}</span><a href="${yt}" target="_blank" rel="noopener">abrir no YouTube</a></div></div>
+      ${online ? '' : '<p class="nota">Sem internet: o vídeo abre quando houver conexão.</p>'}`;
   }
 
   function animBloco(p, qual) {
-    const rot = qual === 'seguro' ? 'A SOLUÇÃO FUNCIONANDO' : 'COMO O ACIDENTE ACONTECE';
+    const rot = qual === 'seguro' ? 'a solução funcionando' : 'como o acidente acontece';
     return `<div class="anim-box" data-cena="${qual}">
         <div class="anim-svg">${CENAS[p.id][qual]()}</div>
         <div class="anim-legenda">
           <span>Animação: <span class="estado ${qual}">${rot}</span></span>
-          <span class="anim-ctrl"><button type="button" data-acao="pausa" aria-label="Pausar">❚❚</button><button type="button" data-acao="replay" aria-label="Repetir">↺</button></span>
+          <span class="anim-ctrl"><button type="button" data-acao="pausa" aria-label="Pausar">${IC.pausa}</button><button type="button" data-acao="replay" aria-label="Repetir">${IC.repetir}</button></span>
         </div>
       </div>`;
   }
 
+  const ROT_REF = { caso: 'Caso real', imagem: 'Imagem real', documento: 'Referência técnica' };
+  const refCard = (r) => `
+      <article class="ref-card ${r.tipo}">
+        <div class="tipo">${ROT_REF[r.tipo]}${r.data ? ' · ' + esc(r.data) : ''}</div>
+        <h4>${esc(r.titulo)}</h4>
+        ${r.src ? `<img src="${esc(r.src)}" alt="${esc(r.titulo)}" loading="lazy" width="360" height="270">` : ''}
+        ${r.resumo ? `<p>${esc(r.resumo)}</p>` : ''}
+        <div class="fonte">Fonte: ${esc(r.fonte)}${r.url ? ` · <a href="${esc(r.url)}" target="_blank" rel="noopener">abrir</a>` : ''}</div>
+      </article>`;
+
+  // vídeo real com título; sem vídeo, o bloco não aparece
+  const midiaBloco = (v, titulo) => (v ? `<h3 class="secao-tit">${titulo}</h3>${videoBloco(v)}` : '');
+
+  // aba 1: animação → vídeo do acidente (se houver) → texto
   function painelVideo(p) {
+    const v = p.videoProblema;
     return `
-      <h3 class="secao-tit primeira">Vídeo real do problema</h3>
-      ${videoBloco(p.videoProblema, '⚠ O problema')}
-      <h3 class="secao-tit">Em animação</h3>
-      ${animBloco(p, 'perigo')}`;
+      <h3 class="secao-tit primeira">Em animação</h3>
+      ${animBloco(p, 'perigo')}
+      ${midiaBloco(v, v && v.real === 'acidente' ? 'Vídeo do acidente real' : 'Vídeo do problema')}
+      <h3 class="secao-tit">O que acontece</h3>
+      <div class="texto-final">
+        <p><b>Como acontece:</b> ${esc(p.exposicao)}</p>
+        <p><b>Consequência:</b> ${esc(p.consequencia)}</p>
+      </div>`;
   }
 
+  // aba 2: imagem real (se houver) → caso e referências
   function painelCaso(p) {
-    const refs = p.referencias.filter((r) => r.tipo !== 'video');
-    const rot = { caso: 'Caso real', imagem: 'Imagem real', documento: 'Referência técnica' };
-    const cards = refs.map((r) => `
-      <article class="ref-card ${r.tipo}">
-        <div class="tipo">${rot[r.tipo]}${r.data ? ' · ' + esc(r.data) : ''}</div>
-        <h4>${esc(r.titulo)}</h4>
-        ${r.src ? `<img src="${esc(r.src)}" alt="${esc(r.titulo)}" loading="lazy" width="320" height="240">` : ''}
-        ${r.resumo ? `<p>${esc(r.resumo)}</p>` : ''}
-        <div class="fonte">Fonte: ${esc(r.fonte)}${r.url ? ` · <a href="${esc(r.url)}" target="_blank" rel="noopener">abrir ↗</a>` : ''}</div>
-      </article>`).join('');
+    const imagens = p.referencias.filter((r) => r.tipo === 'imagem');
+    const outras = p.referencias.filter((r) => r.tipo !== 'imagem');
     return `
-      <p>${esc(p.caso)}</p>
+      ${imagens.length ? `<h3 class="secao-tit primeira">Imagem real</h3>${imagens.map(refCard).join('')}` : ''}
+      <h3 class="secao-tit ${imagens.length ? '' : 'primeira'}">O caso</h3>
+      <div class="texto-final"><p>${esc(p.caso)}</p></div>
       <div class="triade-cards">
         <div class="tc perigo"><b>Perigo</b>${esc(p.perigo)}</div>
         <div class="tc expo"><b>Exposição</b>${esc(p.exposicao)}</div>
@@ -216,9 +289,10 @@
         <dt>Consequência</dt><dd>${esc(p.consequencia)}</dd>
       </dl>
       <h3 class="secao-tit">Referências reais</h3>
-      ${cards}`;
+      ${outras.map(refCard).join('')}`;
   }
 
+  // aba 3: animação → vídeo da solução (se houver) → texto
   function painelSolucao(p) {
     const c = p.cadeia || {};
     const cadeia = c.entrada
@@ -234,16 +308,15 @@
         </div>`
       : `<div class="cadeia sem"><p style="margin:0"><b>Sem automação.</b> ${esc(c.nota || '')}</p></div>`;
     return `
-      ${resolvido(p.id) ? '<div class="resolvido-faixa">✔ Problema resolvido no infográfico</div>' : ''}
-      <h3 class="secao-tit primeira">Vídeo real da solução</h3>
-      ${videoBloco(p.videoSolucao, '🛡 A solução')}
+      ${resolvido(p.id) ? '<div class="resolvido-faixa">Problema resolvido no infográfico</div>' : ''}
+      <h3 class="secao-tit primeira">Em animação</h3>
+      ${animBloco(p, 'seguro')}
+      ${midiaBloco(p.videoSolucao, 'Vídeo da solução')}
       <h3 class="secao-tit">O que fazer</h3>
       <ul class="solucao-lista">${p.solucao.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
       <p class="como"><b>Como reduz o risco:</b> ${esc(p.comoReduz)}</p>
       <h3 class="secao-tit">${p.automacao === 'nao' ? 'Por que não é automação?' : 'Solução por automação'}</h3>
-      ${cadeia}
-      <h3 class="secao-tit">Em animação</h3>
-      ${animBloco(p, 'seguro')}`;
+      ${cadeia}`;
   }
 
   // troca o iframe de volta pela miniatura (para o vídeo parar ao trocar de aba ou fechar)
@@ -274,17 +347,17 @@
   function ligarPaineis() {
     $$('.video-fachada', modal).forEach(ligarFachada);
     $$('.anim-box', modal).forEach((box) => {
-      const svg = () => $('svg', box);
+      const svg = () => $('.anim-svg svg', box);
       const pausa = $('[data-acao="pausa"]', box);
       pausa.addEventListener('click', () => {
         const el = svg(); if (!el) return;
-        if (el.animationsPaused()) { el.unpauseAnimations(); pausa.textContent = '❚❚'; }
-        else { el.pauseAnimations(); pausa.textContent = '▶'; }
+        if (el.animationsPaused()) { el.unpauseAnimations(); pausa.innerHTML = IC.pausa; pausa.setAttribute('aria-label', 'Pausar'); }
+        else { el.pauseAnimations(); pausa.innerHTML = IC.play; pausa.setAttribute('aria-label', 'Continuar'); }
       });
       $('[data-acao="replay"]', box).addEventListener('click', () => {
-        const el = svg(); if (el) { el.setCurrentTime(0); el.unpauseAnimations(); pausa.textContent = '❚❚'; }
+        const el = svg(); if (el) { el.setCurrentTime(0); el.unpauseAnimations(); pausa.innerHTML = IC.pausa; }
       });
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { const el = svg(); if (el) el.pauseAnimations(); }
+      if (movimentoReduzido()) { const el = svg(); if (el) el.pauseAnimations(); }
     });
   }
 
@@ -294,17 +367,18 @@
     $$('.painel-aba', modal).forEach((s) => { s.hidden = s.dataset.painel !== nome; if (s.hidden) pararVideos(s); });
     corpo.scrollTop = 0;
     const i = ABAS.indexOf(nome);
-    $('#btn-proxima').textContent = i < ABAS.length - 1 ? 'Próxima →' : '← Vídeo';
+    $('#btn-proxima').textContent = i < ABAS.length - 1 ? 'Próxima' : 'Voltar ao início';
   }
 
   function abrir(id) {
     const p = porId(id);
     if (!p) return;
+    alternarAjuda(false);
     atual = id;
     ultimoFoco = document.activeElement;
     $('#modal-titulo').textContent = `${p.id}. ${p.titulo}`;
     $('#modal-tags').innerHTML = tagsHtml(p);
-    $('#modal-icone').innerHTML = resolvido(id) ? iconeEscudo() : iconeAlerta(id);
+    $('#modal-icone').innerHTML = resolvido(id) ? IC.escudo : IC.alertaCheio;
     $('[data-painel="video"]', modal).innerHTML = painelVideo(p);
     $('[data-painel="caso"]', modal).innerHTML = painelCaso(p);
     $('[data-painel="solucao"]', modal).innerHTML = painelSolucao(p);
@@ -312,10 +386,9 @@
     const btn = $('#btn-corrigir');
     btn.disabled = false;
     btn.classList.toggle('reabrir', resolvido(id));
-    btn.textContent = resolvido(id) ? '↺ Reabrir problema' : '🛡 Corrigir problema';
+    btn.textContent = resolvido(id) ? 'Reabrir problema' : 'Corrigir problema';
     modal.hidden = false;
-    document.body.style.overflow = 'hidden';
-    palco.classList.add('pausado');
+    pausarCena(true);
     mostrarAba(resolvido(id) ? 'solucao' : 'video');
     $('.modal-x', modal).focus();
   }
@@ -323,8 +396,7 @@
   function fechar() {
     if (modal.hidden) return;
     modal.hidden = true;
-    document.body.style.overflow = '';
-    palco.classList.remove('pausado');
+    pausarCena(false);
     $$('.painel-aba', modal).forEach((s) => { s.innerHTML = ''; }); // para vídeos tocando
     atual = null;
     corrigindo = false;
@@ -333,12 +405,9 @@
 
   $$('[data-fechar]', modal).forEach((el) => el.addEventListener('click', fechar));
   $$('.aba', modal).forEach((a) => a.addEventListener('click', () => mostrarAba(a.dataset.aba)));
-  $('#btn-proxima').addEventListener('click', () => {
-    const i = ABAS.indexOf(abaAtual);
-    mostrarAba(ABAS[(i + 1) % ABAS.length]);
-  });
+  $('#btn-proxima').addEventListener('click', () => mostrarAba(ABAS[(ABAS.indexOf(abaAtual) + 1) % ABAS.length]));
 
-  // swipe entre abas
+  // swipe entre abas (toque)
   let toqueX = null, toqueY = null;
   corpo.addEventListener('touchstart', (e) => { toqueX = e.touches[0].clientX; toqueY = e.touches[0].clientY; }, { passive: true });
   corpo.addEventListener('touchend', (e) => {
@@ -346,13 +415,12 @@
     const dx = e.changedTouches[0].clientX - toqueX, dy = e.changedTouches[0].clientY - toqueY;
     toqueX = null;
     if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx)) return;
-    if (e.target.closest('.videos, .tabela-wrap')) return;
     const i = ABAS.indexOf(abaAtual);
     const j = dx < 0 ? Math.min(i + 1, ABAS.length - 1) : Math.max(i - 1, 0);
     if (j !== i) mostrarAba(ABAS[j]);
   }, { passive: true });
 
-  // teclado: Esc fecha, Tab fica dentro do modal
+  // teclado: Esc fecha; Tab fica dentro do modal
   document.addEventListener('keydown', (e) => {
     if (!modal.hidden) {
       if (e.key === 'Escape') { fechar(); return; }
@@ -365,8 +433,8 @@
       }
     } else if (!$('#selo-final').hidden && e.key === 'Escape') {
       fecharSelo();
-    } else if (gavetaAberta() && e.key === 'Escape') {
-      fecharGaveta(true);
+    } else if (ajudaAberta() && e.key === 'Escape') {
+      alternarAjuda(false); btnAjuda.focus();
     }
   });
 
@@ -389,35 +457,31 @@
     btn.textContent = 'Aplicando a solução…';
     mostrarAba('solucao');
     const boxSeguro = $('.anim-box[data-cena="seguro"]', modal);
-    const svg = $('svg', boxSeguro);
+    const svg = $('.anim-svg svg', boxSeguro);
     if (svg) { svg.setCurrentTime(0); svg.unpauseAnimations(); }
     boxSeguro.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    const espera = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 2600;
     setTimeout(() => {
       estado.resolvidos.push(id);
       salvar();
       fechar();
       atualizarTudo();
-      const pin = pins[id];
-      if (pin) pin.classList.add('resolvido');
-      toast(`🛡 ${p.curto}: resolvido!`);
+      toast(`${p.curto}: resolvido`);
       verificarConclusao(id);
-    }, espera);
+    }, movimentoReduzido() ? 300 : 2800);
   });
 
   function verificarConclusao(idResolvido) {
     if (idResolvido === ESCONDIDO.id && resolvido(ESCONDIDO.id)) {
       confete();
-      mostrarSelo('ESTEIRA 100% SEGURA', `${PROBLEMAS.length}/${PROBLEMAS.length}: vocês acharam o problema escondido e controlaram todos os riscos!`);
+      mostrarSelo('ESTEIRA 100% SEGURA', `${PROBLEMAS.length} de ${PROBLEMAS.length}: vocês acharam o problema escondido e controlaram todos os riscos.`);
       return;
     }
     if (!estado.escondidoLiberado && todosVisiveisResolvidos()) {
       estado.escondidoLiberado = true;
       salvar();
       confete();
-      mostrarSelo('ESTEIRA SEGURA ✔', `${VISIVEIS.length}/${VISIVEIS.length} riscos controlados… mas ainda tem um problema escondido no infográfico!`, () => {
+      mostrarSelo('ESTEIRA SEGURA', `${VISIVEIS.length} de ${VISIVEIS.length} riscos controlados… mas ainda tem um problema escondido na esteira.`, () => {
         atualizarTudo();
-        $('#banner-escondido').scrollIntoView({ behavior: 'smooth', block: 'start' });
         agendarDica();
       });
     }
@@ -430,7 +494,7 @@
   }
   function darDica() {
     alvo.classList.add('dica');
-    $('#banner-escondido').innerHTML = '<strong>Dica:</strong> procurem perto da energia elétrica… o que deveria estar à vista e não está? 🔍';
+    $('#banner-escondido').innerHTML = '<strong>Dica:</strong> procurem perto do painel elétrico. O que deveria estar à vista e não está?';
   }
   $('#btn-dica').addEventListener('click', darDica);
 
@@ -450,13 +514,12 @@
   $('#btn-selo-ok').addEventListener('click', fecharSelo);
 
   function confete() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (movimentoReduzido()) return;
     const box = $('#confete');
     const cores = ['#f5c242', '#2ecc71', '#6f9be0', '#f26b3a', '#ffffff'];
     let html = '';
     for (let i = 0; i < 60; i++) {
-      const dur = 2 + Math.random() * 2;
-      html += `<i style="left:${Math.random() * 100}%;background:${cores[i % cores.length]};--x:${Math.round(Math.random() * 160 - 80)}px;animation-duration:${dur}s;animation-delay:${Math.random() * 0.6}s"></i>`;
+      html += `<i style="left:${Math.random() * 100}%;background:${cores[i % cores.length]};--x:${Math.round(Math.random() * 160 - 80)}px;animation-duration:${2 + Math.random() * 2}s;animation-delay:${Math.random() * 0.6}s"></i>`;
     }
     box.innerHTML = html;
     setTimeout(() => { box.innerHTML = ''; }, 5000);
@@ -471,12 +534,11 @@
     timerToast = setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // ---------- limpar progresso (salvo no localStorage) ----------
+  // ---------- limpar progresso (dois toques, sem pop-up do navegador) ----------
   const btnLimpar = $('#btn-limpar');
   const TEXTO_LIMPAR = btnLimpar.textContent;
   let timerLimpar = null;
   btnLimpar.addEventListener('click', () => {
-    // 1º toque pede confirmação no próprio botão; 2º toque limpa
     if (!btnLimpar.classList.contains('confirmar')) {
       btnLimpar.classList.add('confirmar');
       btnLimpar.textContent = 'Tem certeza? Toque de novo';
@@ -490,62 +552,41 @@
     estado = { resolvidos: [], escondidoLiberado: false };
     try { localStorage.removeItem(CHAVE); } catch (e) { /* ignora */ }
     clearTimeout(timerDica);
-    $('#banner-escondido').innerHTML = '<strong>Ainda falta um!</strong> Turma, encontrem o problema escondido 🔍 <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>';
+    $('#banner-escondido').innerHTML = '<strong>Ainda falta um!</strong> Turma, encontrem o problema escondido. <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>';
     $('#btn-dica').addEventListener('click', darDica);
     atualizarTudo();
-    toast('🗑 Progresso apagado: comece de novo!');
+    toast('Progresso apagado: comece de novo');
   });
 
-  // ---------- gaveta (desktop): botão flutuante abre a lista ----------
-  const painel = $('#painel');
-  const fab = $('#fab');
-  const fundoGaveta = $('#gaveta-fundo');
-  const gavetaAberta = () => painel.classList.contains('aberto');
-  function abrirGaveta() {
-    painel.classList.add('aberto');
-    fundoGaveta.hidden = false;
-    fab.setAttribute('aria-expanded', 'true');
-    $('#gaveta-fechar').focus();
-  }
-  function fecharGaveta(devolverFoco) {
-    if (!gavetaAberta()) return;
-    painel.classList.remove('aberto');
-    fundoGaveta.hidden = true;
-    fab.setAttribute('aria-expanded', 'false');
-    if (devolverFoco) fab.focus();
-  }
-  fab.addEventListener('click', () => (gavetaAberta() ? fecharGaveta(true) : abrirGaveta()));
-  $('#gaveta-fechar').addEventListener('click', () => fecharGaveta(true));
-  fundoGaveta.addEventListener('click', () => fecharGaveta(true));
-  $('#link-sobre').addEventListener('click', () => fecharGaveta(false));
-
-  // legenda flutuante (desktop largo)
-  $('#callout-legenda').innerHTML = `<h3>Legenda</h3><ul>
-    <li><span class="ic">${iconeAlerta()}</span>Problema a corrigir</li>
-    <li><span class="ic">${iconeEscudo()}</span>Resolvido</li>
-    <li><span class="ic">⚙</span>Resolvido com automação</li>
-    <li><span class="ic"><span class="meia"></span></span>Automação parcial</li>
-  </ul>`;
-
-  // ---------- celular: centraliza o cenário rolável ----------
+  // ---------- tela em pé: centraliza a esteira rolável ----------
   const rolo = $('#palco-scroll');
   function centralizar() { if (rolo.scrollWidth > rolo.clientWidth) rolo.scrollLeft = (rolo.scrollWidth - rolo.clientWidth) / 2; }
-  centralizar();
+  window.addEventListener('resize', centralizar);
   // o próprio centralizar() dispara 'scroll'; só escuta o arraste da pessoa depois dele
-  setTimeout(() => rolo.addEventListener('scroll', () => $('#dica-arraste').classList.add('some'), { once: true, passive: true }), 400);
+  setTimeout(() => rolo.addEventListener('scroll', () => $('#dica-arraste').classList.add('some'), { once: true, passive: true }), 500);
 
   // ---------- pausa quando a aba fica oculta ----------
+  // CSS (esteira, caixas) e SMIL (pessoas) param juntos
+  function pausarCena(sim) {
+    palco.classList.toggle('pausado', sim);
+    const svg = $('svg', palco);
+    if (!svg || !svg.pauseAnimations) return;
+    if (sim || movimentoReduzido()) svg.pauseAnimations(); else svg.unpauseAnimations();
+  }
+  if (movimentoReduzido()) pausarCena(false);
   document.addEventListener('visibilitychange', () => {
-    palco.classList.toggle('pausado', document.hidden || !modal.hidden);
+    pausarCena(document.hidden || !modal.hidden);
   });
 
   function atualizarTudo() {
     aplicarCena();
     desenharLegenda();
-    atualizarPlacar();
+    atualizarResumo();
     desenharTabela();
   }
 
   atualizarTudo();
+  mostrarTela(location.hash === '#sobre' ? 'sobre' : 'jogo');
+  centralizar();
   if (estado.escondidoLiberado && !resolvido(ESCONDIDO.id)) agendarDica();
 })();
