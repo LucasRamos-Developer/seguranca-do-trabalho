@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Esteira Segura</title>
+  <meta name="description" content="Infográfico interativo: os riscos de uma esteira automatizada e como a automação e as NRs resolvem cada um.">
+  <meta name="theme-color" content="#1e2756">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z' fill='%232ecc71'/%3E%3Cpath d='M20 32 l9 9 l16 -18' stroke='white' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="pular" href="#legenda">Pular para a lista de problemas</a>
+
+  <header class="topo">
+    <div class="topo-icone" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><path d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M32 18 v18 M32 44 v2" stroke="#ffd84d" stroke-width="6" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <p class="topo-pre">Trabalho trimestral · Segurança e Higiene do Trabalho</p>
+      <h1><span class="contorno">ESTEIRA</span> <span class="forte">AUTOMAÇÃO SEGURA</span></h1>
+      <p class="topo-sub">Toque nos <span class="mini-alerta" aria-hidden="true">!</span> para ver o problema, o caso real e como a gente resolve.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="palco" aria-label="Infográfico da esteira">
+      <div class="banner-escondido" id="banner-escondido" hidden>
+        <strong>Ainda falta um!</strong> Turma, encontrem o problema escondido 🔍
+        <button type="button" class="btn-link" id="btn-dica">Preciso de uma dica</button>
+      </div>
+      <div class="palco-scroll" id="palco-scroll">
+        <div class="palco-inner" id="palco">
+          <!-- SVG do cenário e pins entram aqui (js/app.js) -->
+        </div>
+      </div>
+      <p class="dica-arraste" id="dica-arraste" aria-hidden="true">↔ arraste para explorar a esteira</p>
+    </section>
+
+    <aside class="painel-lateral" aria-label="Progresso e lista de problemas">
+      <div class="placar">
+        <div class="placar-linha">
+          <span class="placar-num"><b id="cont-resolvidos">0</b> de <b id="cont-total">14</b></span>
+          <span class="placar-txt">riscos controlados</span>
+        </div>
+        <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="14" aria-valuenow="0" id="barra"><span id="barra-fill"></span></div>
+        <div class="placar-extra">
+          <span class="chip-auto">⚙ <b id="cont-auto">0</b> resolvidos com automação</span>
+          <span class="chip-oculto" id="chip-oculto">🔒 + 1 problema escondido</span>
+        </div>
+      </div>
+
+      <div class="filtros" role="group" aria-label="Filtrar problemas">
+        <button type="button" class="filtro ativo" data-filtro="todos" aria-pressed="true">Todos</button>
+        <button type="button" class="filtro" data-filtro="auto" aria-pressed="false">⚙ Automação</button>
+        <button type="button" class="filtro" data-filtro="outros" aria-pressed="false">Outros</button>
+      </div>
+
+      <ol class="legenda" id="legenda"></ol>
+
+      <div class="acoes-lateral">
+        <button type="button" class="btn-sec" id="btn-reiniciar">↺ Reiniciar</button>
+        <a class="btn-sec" href="#sobre">Sobre o trabalho ↓</a>
+      </div>
+    </aside>
+  </main>
+
+  <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+    <h2 id="sobre-titulo">Sobre o trabalho</h2>
+    <div class="sobre-grid">
+      <article class="cartao">
+        <h3>Objetivo</h3>
+        <p>Analisar o funcionamento e os riscos de uma esteira transportadora automatizada, aplicando os conceitos de Segurança do Trabalho sob a ótica da Automação Industrial.</p>
+        <p class="destaque"><b>Pergunta norteadora:</b> como fazer este processo automatizado funcionar com segurança, reduzindo a exposição das pessoas aos perigos identificados?</p>
+      </article>
+      <article class="cartao">
+        <h3>Perigo, exposição e risco</h3>
+        <dl class="triade">
+          <dt>Perigo</dt><dd>Fonte ou condição com potencial de dano. Ex.: o movimento do tambor de tração e a energia do painel.</dd>
+          <dt>Exposição</dt><dd>Como a pessoa entra em contato com o perigo. Ex.: pôr a mão na esteira para desobstruir uma carga.</dd>
+          <dt>Risco</dt><dd>Probabilidade × gravidade. Ex.: a chance de esmagamento e amputação no rolo em movimento.</dd>
+        </dl>
+      </article>
+      <article class="cartao">
+        <h3>A esteira como sistema de automação</h3>
+        <p>Motor elétrico trifásico controlado por <b>inversor de frequência</b> (velocidade e rampas). O cérebro é um <b>CLP</b>, que recebe sinais de sensores ópticos e indutivos e coordena as paradas. A segurança usa <b>relés de segurança</b>, intertravamentos e cortinas de luz.</p>
+      </article>
+      <article class="cartao">
+        <h3>NRs relacionadas</h3>
+        <ul class="lista-nr">
+          <li><b>NR-12</b>: máquinas e equipamentos. Proteções fixas e intertravadas nas zonas de convergência.</li>
+          <li><b>NR-10</b>: eletricidade. Aterramento, isolamento e desenergização segura (LOTO).</li>
+          <li><b>NR-17</b>: ergonomia. Altura do posto e movimentação de cargas.</li>
+          <li><b>NR-01</b>: gerenciamento de riscos. Todos os perigos no PGR, com plano de ação.</li>
+          <li><b>NR-15 / NR-6</b>: ruído e EPI. <b>NR-23 / NR-26</b>: incêndio e sinalização.</li>
+        </ul>
+      </article>
+      <article class="cartao cartao-largo">
+        <h3>Manutenção segura: LOTO em 4 passos</h3>
+        <ol class="passos-loto">
+          <li><b>Desenergizar.</b> Não basta o "Stop" da IHM: abrir a chave seccionadora principal.</li>
+          <li><b>Bloquear e etiquetar.</b> Cadeado pessoal + etiqueta de identificação.</li>
+          <li><b>Energia residual.</b> Aguardar de 3 a 5 min para os capacitores do inversor descarregarem e aliviar a tensão da correia.</li>
+          <li><b>Validar.</b> Profissional NR-10 mede "tensão zero" nos bornes do motor com multímetro.</li>
+        </ol>
+      </article>
+      <article class="cartao cartao-largo">
+        <h3>Quais problemas a automação resolve?</h3>
+        <div class="tabela-wrap">
+          <table class="tabela-auto" id="tabela-auto">
+            <thead><tr><th>#</th><th>Problema</th><th>Automação</th><th>Entrada → Lógica → Saída</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="cartao cartao-largo">
+        <h3>Equipe</h3>
+        <p>Centro de Educação Profissional "Dario Geraldo Salles" · Disciplina: Segurança e Higiene do Trabalho</p>
+        <p>Equipe: [Nome 1], [Nome 2], [Nome 3], [Nome 4] · Processo escolhido: Esteira Automatizada</p>
+        <p class="nota">Referências completas de cada problema estão no modal (aba "O caso") e em <code>docs/problemas.md</code> no repositório.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <p>Feito para fins educacionais. Vídeos são do YouTube e pertencem aos seus autores; a imagem da OSHA é de domínio público.</p>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-fundo" data-fechar></div>
+    <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <header class="modal-topo">
+        <div class="modal-icone" id="modal-icone" aria-hidden="true"></div>
+        <div class="modal-cab">
+          <div class="modal-tags" id="modal-tags"></div>
+          <h2 id="modal-titulo">Problema</h2>
+        </div>
+        <button type="button" class="modal-x" data-fechar aria-label="Fechar">×</button>
+      </header>
+      <nav class="abas" role="tablist">
+        <button type="button" role="tab" class="aba" data-aba="video" aria-selected="true">▶ Vídeo</button>
+        <button type="button" role="tab" class="aba" data-aba="caso" aria-selected="false">O caso</button>
+        <button type="button" role="tab" class="aba" data-aba="solucao" aria-selected="false">Como resolvemos</button>
+      </nav>
+      <div class="modal-corpo" id="modal-corpo">
+        <section class="painel-aba" data-painel="video" role="tabpanel"></section>
+        <section class="painel-aba" data-painel="caso" role="tabpanel" hidden></section>
+        <section class="painel-aba" data-painel="solucao" role="tabpanel" hidden></section>
+      </div>
+      <footer class="modal-rodape">
+        <button type="button" class="btn-sec" id="btn-proxima">Próxima →</button>
+        <button type="button" class="btn-corrigir" id="btn-corrigir">🛡 Corrigir problema</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confete" id="confete" aria-hidden="true"></div>
+
+  <div class="selo-final" id="selo-final" hidden>
+    <div class="selo-caixa" role="dialog" aria-modal="true" aria-labelledby="selo-titulo">
+      <div class="selo-escudo" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z" fill="#2ecc71"/><path d="M20 32 l9 9 l16 -18" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <h2 id="selo-titulo">ESTEIRA SEGURA</h2>
+      <p id="selo-texto">Todos os riscos foram controlados.</p>
+      <button type="button" class="btn-corrigir" id="btn-selo-ok">Continuar</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/iso.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

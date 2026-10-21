@@ -1,0 +1,10 @@
+# Material do trabalho que não vai para o repositório público
+*.pdf
+/download
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
