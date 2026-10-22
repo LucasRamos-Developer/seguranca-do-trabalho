@@ -84,16 +84,13 @@ def main():
 
     print("\nVídeos (oEmbed do YouTube):")
     for m in re.finditer(r"video(?:Problema|Solucao): \{ id: '([^']+)'[^}]*\}", DATA):
-        vid, trecho = m.group(1), m.group(0)
-        sem_embed = "embed: false" in trecho
+        vid = m.group(1)
         code, titulo = oembed(vid)
         if code == 200:
             print(f"  ok   {vid}  {titulo[:60]}")
-        elif sem_embed and code in (401, 403):
-            print(f"  ok   {vid}  (incorporação bloqueada pelo dono; abre no YouTube)")
         elif code in (401, 403):
-            erros.append(f"vídeo {vid} não permite embed; marque embed: false ou troque")
-            print(f"  ERRO {vid}  não permite embed ({code})")
+            # o dono bloqueou a incorporação, mas o vídeo existe; o site só usa o link
+            print(f"  ok   {vid}  (existe; incorporação bloqueada, não faz diferença)")
         else:
             erros.append(f"vídeo {vid} indisponível ({code})")
             print(f"  ERRO {vid}  indisponível ({code})")
@@ -101,6 +98,10 @@ def main():
     print("\nLinks:")
     urls = sorted(set(re.findall(r"url: '([^']+)'", DATA)))
     urls += re.findall(r"const NR_LISTA = '([^']+)'", DATA)
+    # textos oficiais das NRs (js/nrs.js)
+    nrs = (RAIZ / "js" / "nrs.js").read_text(encoding="utf-8")
+    bases = dict(re.findall(r"const (VIG|ARQ) = '([^']+)'", nrs))
+    urls += [bases[b] + arq for b, arq in re.findall(r"url: (VIG|ARQ) \+ '([^']+)'", nrs)]
     for url in sorted(set(urls)):
         code = http_status(url)
         if isinstance(code, int) and code < 400:

@@ -5,7 +5,7 @@
  * Todos os problemas são da própria esteira (o robô foi retirado por não ser ligado direto a ela).
  *
  * videoProblema / videoSolucao: um vídeo real do YouTube mostrando o problema e outro mostrando a solução.
- *   { id, titulo, embed?, real? }  embed:false quando o dono bloqueou a incorporação (abre no YouTube).
+ *   { id, titulo, real? }  O site mostra só o link (o vídeo abre no YouTube, em outra aba).
  *   real: 'acidente' quando é filmagem de um acidente de verdade; 'situacao' quando é uma situação real (sem acidente).
  *
  * referencias[].tipo:

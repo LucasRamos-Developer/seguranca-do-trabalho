@@ -3,7 +3,7 @@
 Site estático, sem build e sem dependências. Os scripts são carregados em ordem no fim do `index.html`:
 
 ```
-data.js  →  humano.js  →  iso.js  →  scene.js  →  animations.js  →  app.js
+data.js  →  nrs.js  →  humano.js  →  iso.js  →  scene.js  →  animations.js  →  app.js
 (dados)     (peças)    (cenário)     (modal)           (comportamento)
 ```
 
@@ -11,7 +11,8 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 
 ## Fluxo
 
-1. **`js/data.js`** define `window.PROBLEMAS`: um objeto por problema, com textos, NR, prioridade, classificação de automação (`automacao: 'sim' | 'parcial' | 'nao'`), a cadeia `{entrada, logica, saida, nota}`, `videoProblema` e `videoSolucao` (`{ id, titulo, embed? }` do YouTube) e `referencias[]` (casos, imagens e documentos).
+1. **`js/data.js`** define `window.PROBLEMAS`: um objeto por problema, com textos, NR, prioridade, classificação de automação (`automacao: 'sim' | 'parcial' | 'nao'`), a cadeia `{entrada, logica, saida, nota}`, `videoProblema` e `videoSolucao` (`{ id, titulo, real? }` do YouTube) e `referencias[]` (casos, imagens e documentos).
+1a. **`js/nrs.js`** expõe `window.NRS = { NRS, NR_ITENS, HIERARQUIA }`: a ficha de cada norma (nome, do que trata, link do PDF oficial no gov.br e aviso de mudança de texto, como a NR-10 nova que vale a partir de 01/06/2027) e, para cada problema, os itens que se aplicam, resumidos. O app monta com isso a gaveta "NRs" do modal (`#nr-gaveta`); `tools/gerar-docs.js` usa os mesmos dados em `docs/problemas.md` e `tools/verificar-referencias.py` testa os links.
 1b. **`js/humano.js`** expõe `window.HUMANO`, a figura humana usada em todo o site.
    - A pessoa é um esqueleto 2D visto de lado (quadril, ombros, cabeça, pés e mãos); joelhos e cotovelos saem por cinemática inversa de dois segmentos. Cada parte (braço, perna, tronco, colete, cabeça, capacete) vira um `<path>`.
    - `figura(pose)` desenha uma pose de `HUMANO.POSES` (`pe`, `anda1..4`, `corre`, `curvado`, `operando`, `alcanca`, `ouvidos`, `levanta`, `segura`, `agacha`, `ajoelhado`, `pulando`, `puxado`, `choque`, `escorrega`).
@@ -31,15 +32,16 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
    - painel suspenso à esquerda (`<aside id="painel">`, vidro): título, menu de telas, resumo, filtros, lista de problemas e "Limpar progresso". Recolhe pelo botão `#painel-recolher` e volta pelo `#painel-abrir`. Em telas de até 900 px começa recolhido;
    - telas: "Infográfico" (`#tela-jogo`, tela cheia, sem rolagem) e "Sobre o trabalho" (`#tela-sobre`, endereço `#sobre`), trocadas pelo menu. O botão "Como jogar" abre a ajuda com a legenda;
    - pins, legenda, placar, filtros e tabela "Quais problemas a automação resolve?";
-   - modal: abas "O acidente", "O caso" e "Como resolvemos". Em cada uma vem a animação, depois o vídeo real (`midiaBloco`; sem vídeo, o bloco não aparece) e por último o texto. A imagem real, quando existe, abre a aba "O caso". "O acidente" mostra `videoProblema` (selo "Acidente real" quando `real: 'acidente'`) e "Como resolvemos" mostra `videoSolucao`. A miniatura do vídeo alterna os quadros `hq1/hq2/hq3.jpg` do próprio vídeo, como um GIF. Os vídeos usam fachada (miniatura → iframe só ao tocar) e voltam a ser miniatura ao trocar de aba ou fechar, para o som parar. O botão "Corrigir" leva à aba "Como resolvemos" e toca a animação da solução antes de fechar;
+   - modal: abas "O acidente", "O caso" e "Como resolvemos", num seletor de vidro em largura total cujo destaque (`.abas-glider`) desliza até a aba ativa (vermelho, amarelo e verde; `data-ativa` na `<nav>`). Em cada uma vem a animação, depois o link do vídeo real (`midiaBloco`; sem vídeo, o bloco não aparece) e por último o texto. A imagem real, quando existe, abre a aba "O caso". "O acidente" mostra `videoProblema` (selo "Acidente real" quando `real: 'acidente'`) e "Como resolvemos" mostra `videoSolucao`. O vídeo não é incorporado: `videoBloco()` gera um cartão-link que abre o YouTube em outra aba. O botão "Corrigir" leva à aba "Como resolvemos" e toca a animação da solução antes de fechar;
    - problema escondido: um `<button class="alvo-escondido">` transparente sobre o extintor, inativo até os 13 visíveis serem corrigidos;
+   - gaveta "NRs" (`alternarNr()`): abre (e fecha) pelo botão `.btn-nr`, à direita das etiquetas, ou pela tecla N. Em telas de 1100 px ou mais fica ao lado do modal (o modal ganha `.com-nr` e encolhe); em telas menores abre por cima dele. Esc fecha primeiro a gaveta quando o foco está nela. Cada modal abre com a gaveta fechada;
    - celebração (confete), selo final, dica, toast, swipe entre abas, Esc e foco preso dentro do modal.
 
 ## Desempenho
 
 - As animações do cenário usam só `transform`, `opacity` e `stroke-dashoffset`.
 - Quando o modal abre ou a aba fica oculta, `pausarCena()` coloca a classe `.pausado` no palco (`animation-play-state: paused`, para a esteira e as caixas) e chama `pauseAnimations()` no SVG (para as pessoas, que usam SMIL).
-- Os vídeos do YouTube só carregam quando alguém toca neles.
+- Nenhum vídeo é incorporado: os vídeos são só links, então o modal não carrega nada do YouTube.
 - `prefers-reduced-motion` desliga as animações.
 - O palco ocupa a tela toda (menos o painel, quando aberto); o SVG 16:9 é centralizado e o piso "vaza" para as laterais (`overflow: visible`), enquanto o fundo hexagonal vem do CSS.
 - Em tela em pé (proporção até 5:4, como celular e tablet em retrato), a esteira ocupa a altura toda dentro de uma área que rola para os lados. A página em si nunca rola no jogo.
@@ -58,7 +60,3 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
    node tools/gerar-docs.js
    python3 -m http.server 8000   # e testar no navegador
    ```
-
-## Vídeos que não permitem incorporação
-
-Alguns autores bloqueiam o player embutido. O verificador (`tools/verificar-referencias.py`) detecta isso pelo oEmbed (HTTP 401/403). Nesse caso, marque o vídeo com `embed: false` em `js/data.js`: a fachada passa a mostrar "abre no YouTube ↗" e abre o vídeo em uma nova aba.

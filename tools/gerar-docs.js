@@ -11,14 +11,20 @@ const raiz = path.resolve(__dirname, '..');
 const ctx = { window: {} };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(raiz, 'js', 'data.js'), 'utf8'), ctx);
+vm.runInContext(fs.readFileSync(path.join(raiz, 'js', 'nrs.js'), 'utf8'), ctx);
 const PROBLEMAS = ctx.window.PROBLEMAS;
+const { NRS, NR_ITENS } = ctx.window.NRS;
+
+function nrs(p) {
+  const itens = NR_ITENS[p.id] || [];
+  return itens.map((i) => `- **${i.nr}, item ${i.item}** ([${NRS[i.nr].nome}](${NRS[i.nr].url})): ${i.texto}`).join('\n');
+}
 
 const AUTO = { sim: '⚙ Sim', parcial: '◐ Parcial', nao: '✖ Não' };
 const TIPO = { caso: 'Caso real', imagem: 'Imagem real', documento: 'Referência técnica' };
 
 function video(rotulo, v) {
-  const extra = v.embed === false ? ' (abre direto no YouTube: o autor bloqueou a incorporação)' : '';
-  return `- **${rotulo}:** [${v.titulo}](https://www.youtube.com/watch?v=${v.id})${extra}`;
+  return `- **${rotulo}:** [${v.titulo}](https://www.youtube.com/watch?v=${v.id})`;
 }
 
 function ref(r) {
@@ -68,6 +74,9 @@ ${p.solucao.map((s) => `- ${s}`).join('\n')}
 **Como reduz o risco:** ${p.comoReduz}
 
 **Automação:** ${c.entrada ? `${c.entrada} → ${c.logica} → ${c.saida}. ` : ''}${c.nota || ''}
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+${nrs(p)}
 
 **Vídeos reais:**
 ${video('Vídeo do problema', p.videoProblema)}

@@ -25,6 +25,9 @@
     repetir: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12 a7.5 7.5 0 1 0 2.4-5.5 M4.5 4 v4.5 H9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     fechar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
     escudo: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 L36 8 V20 C36 30 29 36 20 39 C11 36 4 30 4 20 V8 Z" fill="#2ecc71"/><path d="M12 20 l6 6 l11 -12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    seta: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6 L15 12 L9 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    livro: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5 C3.5 4.7 4.2 4 5 4 H11 V20 H5 C4.2 20 3.5 19.3 3.5 18.5Z M20.5 5.5 C20.5 4.7 19.8 4 19 4 H13 V20 H19 C19.8 20 20.5 19.3 20.5 18.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+    externo: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4 h6 v6 M20 4 L11 13 M18 14 v5 a1 1 0 0 1 -1 1 H5 a1 1 0 0 1 -1 -1 V7 a1 1 0 0 1 1 -1 h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     alertaCheio: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L38 35 H2 Z" fill="#f5c242" stroke-linejoin="round"/><path d="M20 14 v10 M20 29 v.5" stroke="#1b2350" stroke-width="4" stroke-linecap="round"/></svg>'
   };
   const icAuto = (p) => (p.automacao === 'sim' ? IC.engrenagem : p.automacao === 'parcial' ? '<span class="meia" aria-hidden="true"></span>' : '');
@@ -49,7 +52,7 @@
     const pos = window.CENA.telaParaPercentual(p.id);
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'pin';
+    b.className = p.prioridade === 'Alta' ? 'pin grave' : 'pin'; // prioridade alta: borda vermelha
     b.style.left = pos.left + '%';
     b.style.top = pos.top + '%';
     b.dataset.id = p.id;
@@ -179,7 +182,8 @@
   // ---------- "Como jogar" + legenda ----------
   const ajuda = $('#ajuda'), btnAjuda = $('#btn-ajuda');
   $('#ajuda-legenda').innerHTML = `<h3>Legenda</h3><ul>
-    <li><span class="ic" style="color:var(--amarelo)">${IC.alerta}</span>Problema a corrigir</li>
+    <li><span class="ic leg-pin">${IC.alerta}</span>Problema a corrigir</li>
+    <li><span class="ic leg-pin grave">${IC.alerta}</span>Problema grave (prioridade alta)</li>
     <li><span class="ic" style="color:var(--verde)">${IC.check}</span>Resolvido</li>
     <li><span class="ic">${IC.engrenagem}</span>Resolvido com automação</li>
     <li><span class="ic"><span class="meia"></span></span>Automação parcial</li>
@@ -208,28 +212,25 @@
     const pri = { Alta: 'alta', Média: 'media', Baixa: 'baixa' }[p.prioridade];
     const auto = { sim: 'auto-sim', parcial: 'auto-parcial', nao: 'auto-nao' }[p.automacao];
     return `<span class="tag prioridade ${pri}">Prioridade ${esc(p.prioridade)}</span>` +
-      `<span class="tag nr">${esc(p.nr)}</span>` +
       `<span class="tag ${auto}">${icAuto(p)}${textoAuto[p.automacao]}</span>` +
       (resolvido(p.id) ? `<span class="tag ok">${IC.check}Resolvido</span>` : '') +
-      (p.escondido ? '<span class="tag escondido">Problema escondido</span>' : '');
+      (p.escondido ? '<span class="tag escondido">Problema escondido</span>' : '') +
+      // a NR é um botão (à direita): abre a gaveta com o resumo das normas
+      `<button type="button" class="btn-nr" data-abre-nr aria-controls="nr-gaveta" aria-expanded="false" title="Resumo das NRs (tecla N)">` +
+      `${IC.livro}<span>${esc(p.nr)}</span>${IC.seta}</button>`;
   }
 
-  // vídeo real: miniatura com prévia animada (3 quadros do vídeo) até a pessoa tocar
+  // vídeo real: só o link (abre no YouTube em outra aba)
   function videoBloco(v) {
     if (!v) return '';
-    const online = navigator.onLine !== false;
-    const yt = `https://www.youtube.com/watch?v=${v.id}`;
-    const ext = v.embed === false;
-    const quadros = [1, 2, 3].map((n) => `<span class="quadro q${n}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hq${n}.jpg')"></span>`).join('');
-    const selo = v.real === 'acidente' ? '<span class="selo-real"><i></i>Acidente real</span>' :
-      v.real === 'situacao' ? '<span class="selo-real situacao"><i></i>Situação real</span>' : '';
-    const fachada = online
-      ? `<button type="button" class="video-fachada${ext ? ' externo' : ''}" data-video="${esc(v.id)}" data-ext="${ext ? 1 : 0}" aria-label="Assistir: ${esc(v.titulo)}" style="background-image:url('https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg')">${quadros}${selo}<span class="play">${IC.play}</span></button>`
-      : '';
-    return `<div class="video-card">${fachada}
-      ${v.real === 'acidente' ? '<p class="video-aviso">Atenção: cenas reais de acidente de trabalho.</p>' : ''}
-      <div class="video-info"><span class="video-titulo">${esc(v.titulo)}</span><a href="${yt}" target="_blank" rel="noopener">abrir no YouTube</a></div></div>
-      ${online ? '' : '<p class="nota">Sem internet: o vídeo abre quando houver conexão.</p>'}`;
+    const selo = v.real === 'acidente' ? '<span class="selo-real">Acidente real</span>' :
+      v.real === 'situacao' ? '<span class="selo-real situacao">Situação real</span>' : '';
+    return `<a class="video-link" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">
+        <span class="play">${IC.play}</span>
+        <span class="video-info">${selo}<span class="video-titulo">${esc(v.titulo)}</span>
+          <span class="video-abre">Abrir no YouTube${IC.externo}</span></span>
+      </a>
+      ${v.real === 'acidente' ? '<p class="video-aviso">Atenção: cenas reais de acidente de trabalho.</p>' : ''}`;
   }
 
   function animBloco(p, qual) {
@@ -319,33 +320,7 @@
       ${cadeia}`;
   }
 
-  // troca o iframe de volta pela miniatura (para o vídeo parar ao trocar de aba ou fechar)
-  function pararVideos(raiz) {
-    $$('iframe[data-fachada]', raiz).forEach((f) => {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = f.dataset.fachada;
-      const b = tmp.firstElementChild;
-      f.replaceWith(b);
-      ligarFachada(b);
-    });
-  }
-
-  function ligarFachada(b) {
-    b.addEventListener('click', () => {
-      const id = b.dataset.video;
-      if (b.dataset.ext === '1') { window.open(`https://www.youtube.com/watch?v=${id}`, '_blank', 'noopener'); return; }
-      const f = document.createElement('iframe');
-      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
-      f.title = b.getAttribute('aria-label');
-      f.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
-      f.allowFullscreen = true;
-      f.dataset.fachada = b.outerHTML;
-      b.replaceWith(f);
-    });
-  }
-
   function ligarPaineis() {
-    $$('.video-fachada', modal).forEach(ligarFachada);
     $$('.anim-box', modal).forEach((box) => {
       const svg = () => $('.anim-svg svg', box);
       const pausa = $('[data-acao="pausa"]', box);
@@ -363,8 +338,9 @@
 
   function mostrarAba(nome) {
     abaAtual = nome;
+    $('.abas', modal).dataset.ativa = nome;
     $$('.aba', modal).forEach((a) => a.setAttribute('aria-selected', a.dataset.aba === nome));
-    $$('.painel-aba', modal).forEach((s) => { s.hidden = s.dataset.painel !== nome; if (s.hidden) pararVideos(s); });
+    $$('.painel-aba', modal).forEach((s) => { s.hidden = s.dataset.painel !== nome; });
     corpo.scrollTop = 0;
     const i = ABAS.indexOf(nome);
     $('#btn-proxima').textContent = i < ABAS.length - 1 ? 'Próxima' : 'Voltar ao início';
@@ -383,6 +359,9 @@
     $('[data-painel="caso"]', modal).innerHTML = painelCaso(p);
     $('[data-painel="solucao"]', modal).innerHTML = painelSolucao(p);
     ligarPaineis();
+    $('#nr-corpo').innerHTML = nrHtml(p);
+    $('#nr-corpo').scrollTop = 0;
+    alternarNr(false); // o modal sempre abre com a gaveta de NRs fechada
     const btn = $('#btn-corrigir');
     btn.disabled = false;
     btn.classList.toggle('reabrir', resolvido(id));
@@ -393,11 +372,51 @@
     $('.modal-x', modal).focus();
   }
 
+  // ---------- gaveta de NRs (dentro do modal) ----------
+  const gaveta = $('#nr-gaveta');
+  const tagNr = () => $('#modal-tags [data-abre-nr]');
+  let nrAberta = false;
+
+  function nrHtml(p) {
+    const { NRS: fichas, NR_ITENS, HIERARQUIA } = window.NRS;
+    const itens = NR_ITENS[p.id] || [];
+    const normas = [...new Set(itens.map((i) => i.nr))];
+    const card = (nr) => {
+      const n = fichas[nr];
+      return `<section class="nr-card">
+        <div class="nr-cab"><span class="nr-num">${esc(nr)}</span><b>${esc(n.nome)}</b></div>
+        <p class="nr-sobre">${esc(n.sobre)}</p>
+        ${n.aviso ? `<p class="nr-aviso">${esc(n.aviso)}</p>` : ''}
+        <ul class="nr-itens">${itens.filter((i) => i.nr === nr).map((i) => `<li><span class="nr-item">${esc(i.item)}</span><span>${esc(i.texto)}</span></li>`).join('')}</ul>
+        <a href="${esc(n.url)}" target="_blank" rel="noopener">Texto oficial (gov.br)</a>
+      </section>`;
+    };
+    return `<p class="nr-intro">Os itens das normas que tratam deste problema, resumidos com as nossas palavras. Para citar no trabalho, use o texto oficial.</p>
+      ${normas.map(card).join('')}
+      <section class="nr-card nr-base">
+        <div class="nr-cab"><span class="nr-num">NR-1</span><b>Ordem das medidas de prevenção</b></div>
+        <ol class="nr-hier">${HIERARQUIA.map((h) => `<li>${esc(h)}</li>`).join('')}</ol>
+        <p class="nr-sobre">Item 1.4.1, alínea g. Vale para todos os problemas: primeiro tirar ou isolar o perigo; o EPI vem por último.</p>
+        <a href="${esc(fichas['NR-1'].url)}" target="_blank" rel="noopener">Texto oficial (gov.br)</a>
+      </section>`;
+  }
+
+  function alternarNr(abrirGaveta = !nrAberta, focar = false) {
+    nrAberta = abrirGaveta;
+    gaveta.hidden = !abrirGaveta;
+    modal.classList.toggle('com-nr', abrirGaveta);
+    const tag = tagNr();
+    if (tag) tag.setAttribute('aria-expanded', abrirGaveta);
+    if (focar) (abrirGaveta ? $('#nr-fechar') : tag || $('.modal-x', modal)).focus();
+  }
+  $('#nr-fechar').addEventListener('click', () => alternarNr(false, true));
+  $('#modal-tags').addEventListener('click', (e) => { if (e.target.closest('[data-abre-nr]')) alternarNr(!nrAberta, true); });
+
   function fechar() {
     if (modal.hidden) return;
     modal.hidden = true;
     pausarCena(false);
-    $$('.painel-aba', modal).forEach((s) => { s.innerHTML = ''; }); // para vídeos tocando
+    $$('.painel-aba', modal).forEach((s) => { s.innerHTML = ''; });
     atual = null;
     corrigindo = false;
     if (ultimoFoco && document.contains(ultimoFoco)) ultimoFoco.focus();
@@ -420,12 +439,13 @@
     if (j !== i) mostrarAba(ABAS[j]);
   }, { passive: true });
 
-  // teclado: Esc fecha; Tab fica dentro do modal
+  // teclado: Esc fecha (primeiro a gaveta de NRs); N abre/fecha as NRs; Tab fica dentro do modal
   document.addEventListener('keydown', (e) => {
     if (!modal.hidden) {
-      if (e.key === 'Escape') { fechar(); return; }
+      if (e.key === 'Escape') { if (nrAberta && !gaveta.hidden && gaveta.contains(document.activeElement)) alternarNr(false, true); else fechar(); return; }
+      if ((e.key === 'n' || e.key === 'N') && !e.ctrlKey && !e.metaKey && !e.altKey) { alternarNr(!nrAberta, true); return; }
       if (e.key === 'Tab') {
-        const foc = $$('button, [href], iframe, [tabindex]:not([tabindex="-1"])', $('.modal-caixa')).filter((el) => !el.closest('[hidden]') && el.offsetParent !== null);
+        const foc = $$('button, [href], [tabindex]:not([tabindex="-1"])', modal).filter((el) => !el.closest('[hidden]') && el.offsetParent !== null);
         if (!foc.length) return;
         const pri = foc[0], ult = foc[foc.length - 1];
         if (e.shiftKey && document.activeElement === pri) { e.preventDefault(); ult.focus(); }

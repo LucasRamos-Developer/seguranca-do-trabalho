@@ -49,6 +49,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Chave de intertravamento na grade → Relé de segurança → Contator corta o motor. Se alguém abrir ou remover a grade, o contato da chave abre e o relé de segurança desliga o motor na hora.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.8.1** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Os movimentos perigosos de transportadores contínuos acessíveis na operação devem ser protegidos, principalmente nos pontos de esmagamento, agarramento e aprisionamento.
+- **NR-12, item 12.5.1** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Zonas de perigo precisam de proteções fixas, proteções móveis e dispositivos de segurança interligados.
+- **NR-12, item 12.8.1.2** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Vale usar proteção fixa distante junto com proteção móvel intertravada, que só deixa pessoal especializado entrar para inspeção e manutenção.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Trabalhador puxado pela esteira ao mexer com ela ligada](https://www.youtube.com/watch?v=8X_EjsuJPhk)
 - **Vídeo da solução:** [Proteções (grades) ao redor de esteiras](https://www.youtube.com/watch?v=SdTBV11tdws)
@@ -85,6 +90,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Cabo de emergência (chave de tração) → Relé de segurança + rearme manual → Motor para e não religa sozinho. Qualquer pessoa ao longo da linha puxa o cabo e a esteira para. Ela só volta a funcionar depois do rearme manual.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.8.7** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Transportadores contínuos acessíveis devem ter parada de emergência ao longo de toda a extensão, que possa ser acionada de qualquer posição de trabalho.
+- **NR-12, item 12.6.6** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Com acionador por cabo, as chaves devem trabalhar tracionadas: se o cabo romper ou afrouxar, a esteira para sozinha.
+- **NR-12, item 12.6.8** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Depois da parada de emergência, o rearme é manual e só pode ser feito depois de corrigido o que causou a parada.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Trabalhador preso e arrastado pela esteira: cada segundo para parar conta](https://www.youtube.com/watch?v=DfUZMDCc3pE)
 - **Vídeo da solução:** [Esteira com cabo de parada de emergência](https://www.youtube.com/watch?v=DtmFwgJ1gSQ)
@@ -118,6 +128,10 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** A esteira para sozinha antes de forçar a carga, eliminando a pressa de resolver na mão com tudo ligado.
 
 **Automação:** Sensor fotoelétrico de acúmulo → CLP: timeout de X segundos sem variação → Desliga a esteira e mostra alarme na IHM. Se o sensor fica obstruído tempo demais, o CLP entende que é atolamento e para tudo antes que alguém tente soltar a carga com a mão.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.8.8** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Se o desalinhamento da correia ou a sobrecarga de material oferecerem risco, a esteira deve ter dispositivos que a desliguem ao passar dos limites de segurança.
+- **NR-12, item 12.11.3** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Desobstruir é uma intervenção: só com a esteira parada, as energias isoladas e os comandos bloqueados.
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Trabalhador preso ao ajeitar caixas com a esteira ligada](https://www.youtube.com/watch?v=P1hM2nRVt7g)
@@ -153,6 +167,12 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Porta do painel → Seccionadora com intertravamento da porta → Porta só abre desenergizada. A automação garante que ninguém abra o painel energizado. Aterramento, isolamento dos bornes e sinalização continuam sendo medidas elétricas da NR-10.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.3.5** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): O painel da máquina deve ter porta sempre fechada, sinalização de choque elétrico, acesso restrito, estar limpo e sem objetos, e ter os circuitos identificados.
+- **NR-12, item 12.3.2** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Carcaças e partes metálicas que possam ficar energizadas devem ser aterradas.
+- **NR-10, item 10.2.8.2.1** ([Segurança em Instalações e Serviços em Eletricidade](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-10-atualizada-2019-1.pdf)): Quando não dá para desenergizar, usar outras proteções coletivas: isolação das partes vivas, barreiras, sinalização e seccionamento automático.
+- **NR-10, item 10.4.4.1** ([Segurança em Instalações e Serviços em Eletricidade](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-10-atualizada-2019-1.pdf)): Invólucros e compartimentos elétricos são só para isso: é proibido guardar objetos dentro deles.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Arco elétrico em painel de um frigorífico](https://www.youtube.com/watch?v=xyjgb3uMh8s)
 - **Vídeo da solução:** [NR-10: painéis elétricos fechados, identificados e trancados](https://www.youtube.com/watch?v=N28QFNWRDAI)
@@ -186,6 +206,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** Só quem colocou o cadeado pode tirá-lo: ninguém religa a esteira com o técnico trabalhando.
 
 **Automação:** Seccionadora bloqueável + sensor de tensão no barramento DC → CLP monitora energia residual do inversor → IHM mostra "seguro para abrir". A automação ajuda a confirmar a energia zero, mas o LOTO em si (cadeado, etiqueta, teste com multímetro) é um procedimento que as pessoas executam.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.11.3** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Manutenção só com a máquina parada: isolar e descarregar todas as energias, bloquear os dispositivos de corte na posição desligado e colocar etiqueta com data, hora, motivo e responsável.
+- **NR-12, item 12.4.9** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Se o acionamento por alguém não autorizado puder ferir uma pessoa, a máquina precisa permitir bloquear os comandos de partida.
+- **NR-10, item 10.5.1** ([Segurança em Instalações e Serviços em Eletricidade](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-10-atualizada-2019-1.pdf)): Só está desenergizado depois desta sequência: seccionar, impedir a reenergização, testar ausência de tensão, aterrar temporariamente, proteger o que segue energizado e sinalizar o impedimento.
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Animação: acidente em esteira sem bloqueio na manutenção](https://www.youtube.com/watch?v=MeKxCVS-tKk)
@@ -221,6 +246,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Operador se identifica na IHM → CLP busca a altura ideal do operador → Atuador elétrico ajusta a altura do posto. O posto se adapta a cada pessoa, em vez de a pessoa se curvar para o posto.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-17, item 17.6.1** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): O posto de trabalho deve ter regulagens que o adaptem às medidas do corpo (antropometria) de quem trabalha nele.
+- **NR-17, item 17.6.3** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): A altura da superfície de trabalho deve ser compatível com a atividade e permitir boa postura, visão e alcance.
+- **NR-12, item 12.9.1** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): O trabalho em máquinas e equipamentos deve respeitar a NR-17.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Ergonomia: os 5 pontos principais da NR-17](https://www.youtube.com/watch?v=gvH1MxRsp1A)
 - **Vídeo da solução:** [Postos com elevação ajustável à altura do operador](https://www.youtube.com/watch?v=kRVUCrdpxBI)
@@ -253,6 +283,12 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** Tira o esforço de levantamento do corpo do trabalhador.
 
 **Automação:** Sensor de caixa no fim da linha → CLP coordena o ciclo → Robô paletizador / manipulador a vácuo. A máquina faz o levantamento pesado e repetitivo; o operador só supervisiona.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-17, item 17.5.2** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): Os pontos de pega e de depósito das cargas devem ser organizados para não obrigar a flexões, extensões e torções excessivas do tronco.
+- **NR-17, item 17.5.2.1** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): É proibido o levantamento não eventual de cargas com a pega a mais de 60 cm do corpo, quando isso puder prejudicar a saúde.
+- **NR-17, item 17.5.4** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): Adotar meios técnicos facilitadores, limitar frequência e número de movimentos e alternar atividades ou fazer pausas em períodos de no máximo 2 horas.
+- **NR-17, item 17.5.5** ([Ergonomia](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-17-atualizada-2023.pdf)): Quem faz transporte manual de cargas deve ser orientado sobre como levantar, carregar e depositar.
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Movimentação manual de cargas na NR-17](https://www.youtube.com/watch?v=reK02bRgPGI)
@@ -287,6 +323,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Comando de partida na IHM → CLP temporiza sirene + sinaleiro → Só depois o motor liga. Antes de qualquer partida, a esteira avisa com som e luz por alguns segundos, dando tempo de qualquer pessoa sair de perto.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.4.10** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Ligar um conjunto de máquinas ou uma máquina de grande dimensão por um único comando exige sinal sonoro ou visual antes.
+- **NR-12, item 12.4.11** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Quando necessário, usar alertas extras, como sinais visuais e telecomunicação.
+- **NR-12, item 12.11.3** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Limpeza e ajuste também são intervenções: só com a esteira parada e bloqueada.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Máquina religada com o trabalhador dentro: seguro × inseguro](https://www.youtube.com/watch?v=MFee525FOtU)
 - **Vídeo da solução:** [Chaves de emergência e alarmes de esteira](https://www.youtube.com/watch?v=q_ntfPp9ixs)
@@ -319,6 +360,10 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** Sem acesso ao ponto de contato entre correia e polia, não há como ser agarrado.
 
 **Automação:** Proteção removível da transmissão → Chave de intertravamento → relé de segurança → Motor desliga se a proteção sair. A solução principal é mecânica: uma proteção fixa. O intertravamento só é necessário se a proteção precisar ser aberta com frequência.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.5.9** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Transmissões de força (correias, polias, correntes) acessíveis devem ter proteção fixa, ou móvel com intertravamento, que impeça o acesso por todos os lados.
+- **NR-12, item 12.5.9.1** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Se a proteção for móvel e a transmissão tiver inércia (continua girando), o intertravamento deve ser com bloqueio.
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Partes móveis sem proteção (machinery guarding)](https://www.youtube.com/watch?v=TukTqslw_90)
@@ -355,6 +400,10 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de carga fora de posição → CLP detecta caixa desalinhada → Para a esteira antes da queda. As guias laterais (mecânicas) seguram a carga; o sensor é uma camada extra.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.5.10** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Máquinas com risco de projeção de materiais devem ter proteções que garantam a segurança dos trabalhadores.
+- **NR-12, item 12.8.3** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): O transportador só pode ser usado para o tipo e a capacidade de carga para os quais foi projetado.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Por que as caixas caem da esteira](https://www.youtube.com/watch?v=hM9OGdXtEEQ)
 - **Vídeo da solução:** [Guias laterais para esteiras](https://www.youtube.com/watch?v=Z9aJBFHZGLc)
@@ -389,6 +438,10 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de rotação / velocidade zero → CLP detecta giro reverso → Aciona freio e alarme. Junto com o freio anti-retorno (backstop, mecânico), o sensor garante que a correia nunca desça com a carga.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.8.1** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Movimentos perigosos de transportadores acessíveis devem ser protegidos. A carga voltando pela rampa é um desses movimentos.
+- **NR-12, item 12.5.10** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Risco de projeção ou queda de materiais exige proteção. O freio anti-retorno (backstop) não aparece pelo nome na NR: ele é a medida técnica que atende esses itens.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Retorno da correia carregada e o holdback](https://www.youtube.com/watch?v=efCE6KoxeXY)
 - **Vídeo da solução:** [Esteira inclinada com taliscas](https://www.youtube.com/watch?v=dPtoQ4bBtZo)
@@ -421,6 +474,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** Cria um caminho seguro: ninguém mais precisa encostar na correia para atravessar.
 
 **Automação:** Aqui a solução é de engenharia mecânica e civil: uma passarela com guarda-corpo. Não depende de sensor nem de CLP.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-12, item 12.8.6** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): É proibido ficar ou andar sobre partes em movimento (ou que possam se mover) de transportadores que não foram feitas para isso.
+- **NR-12, item 12.8.6.2** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Circular sobre transportadores só por passarelas com proteção contra quedas (Anexo III, item 7).
+- **NR-12, item 12.8.2** ([Segurança no Trabalho em Máquinas e Equipamentos](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/NR12atualizada2023.pdf)): Esteiras com a borda da correia a mais de 2,70 m do piso devem ter passarelas em toda a extensão, dos dois lados.
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Trabalhador sobe na esteira em movimento](https://www.youtube.com/watch?v=DPVJpnSWCik)
@@ -455,6 +513,10 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 
 **Automação:** Sensor de vibração no rolamento → CLP compara com o limite (manutenção preditiva) → Alerta de troca + inversor reduz a velocidade. A automação ataca a fonte do ruído (rolamento gasto, velocidade). O protetor auricular é só uma medida complementar.
 
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-15, item Anexo 1** ([Atividades e Operações Insalubres](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-15-anexo-01.pdf)): Limite de tolerância para ruído: 85 dB(A) por 8 horas. A cada 5 dB a mais, o tempo cai pela metade (95 dB(A): 2 horas).
+- **NR-6, item 6.5.1** ([Equipamentos de Proteção Individual (EPI)](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-06-atualizada-2025-ii.pdf)): A empresa deve fornecer de graça o EPI certo (com CA), treinar, exigir o uso e registrar a entrega. Pela ordem da NR-1, o protetor auricular vem depois de reduzir o ruído na fonte e enclausurar o motor.
+
 **Vídeos reais:**
 - **Vídeo do problema:** [Perda auditiva induzida por ruído (PAIR)](https://www.youtube.com/watch?v=mni4A9s_wfg)
 - **Vídeo da solução:** [Sensor sem fio de vibração em motores e rolamentos](https://www.youtube.com/watch?v=1KAVdPJDODQ)
@@ -488,6 +550,11 @@ São 14 problemas: 13 visíveis no infográfico e 1 escondido, que só fica clic
 **Como reduz o risco:** O extintor fica visível e alcançável em segundos.
 
 **Automação:** Solução organizacional: desobstruir, demarcar o piso e inspecionar. Nenhum sensor resolve uma pilha de caixas na frente do extintor; o que resolve é organização (5S) e inspeção.
+
+**O que as NRs dizem** (resumo; os números dos itens foram conferidos no texto oficial):
+- **NR-23, item 23.3.1** ([Proteção contra Incêndios](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-23-atualizada-2022.pdf)): A prevenção contra incêndio segue a legislação estadual: as Instruções Técnicas do Corpo de Bombeiros pedem extintor desobstruído, sinalizado e com piso demarcado.
+- **NR-23, item 23.3.2** ([Proteção contra Incêndios](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-23-atualizada-2022.pdf)): Todos os trabalhadores devem saber usar os equipamentos de combate a incêndio e conhecer os alarmes e as rotas de saída.
+- **NR-26, item 26.3.2** ([Sinalização de Segurança](https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-26-atualizada-2022.pdf)): As cores que identificam equipamentos de segurança e delimitam áreas seguem as normas técnicas oficiais (vermelho para combate a incêndio).
 
 **Vídeos reais:**
 - **Vídeo do problema:** [Extintores bloqueados e outras falhas encontradas em inspeção](https://www.youtube.com/watch?v=SZMjHAqb-LM)
