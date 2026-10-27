@@ -47,7 +47,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
   - Roteiro: `COM_ROTEIRO` lê `?roteiro` do endereço. Com ele, o roteiro abre ao carregar e o botão aparece; sem ele, o botão e a dica da tecla ficam `hidden`. A tecla R funciona nos dois casos. É só um link à parte, não uma proteção: os textos continuam em `js/slides-dados.js`.
   - Só o slide atual se mexe: os outros ganham `.pausado` e `pauseAnimations()` no SVG.
   - `[data-ir-problema]` leva ao mapa com o problema aberto; `[data-ir-slide]` leva a outro slide.
-  - O problema escondido fica com `.spoiler` (borrado) até ser revelado no mapa (`body.escondido-revelado`).
+  - O problema escondido sai da lista logo no começo (`PROBLEMAS` sem `escondido`), então não aparece em nenhum slide. Na esteira de fundo da conclusão, só os 13 visíveis ficam corrigidos.
 
 ## Desempenho
 

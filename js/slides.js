@@ -8,10 +8,10 @@
  */
 (function () {
   const A = window.APRESENTACAO;
-  const PROBLEMAS = window.PROBLEMAS;
+  // o problema escondido é um easter egg do infográfico: a apresentação não mostra ele em lugar nenhum
+  const PROBLEMAS = window.PROBLEMAS.filter((p) => !p.escondido);
   const { CENAS, ICONES_NO } = window.ANIM;
   const { NRS: FICHAS, NR_ITENS, HIERARQUIA } = window.NRS;
-  const ESCONDIDO = PROBLEMAS.find((p) => p.escondido);
   const porId = (id) => PROBLEMAS.find((p) => p.id === id);
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
@@ -151,14 +151,13 @@
     },
 
     mapa: () => {
-      const cats = ['Todos', 'Mecânico', 'Elétrico', 'Cinemático', 'Ergonômico', 'Físico', 'Incêndio'];
+      const cats = ['Todos', ...new Set(PROBLEMAS.flatMap((p) => p.categoria.split('/').map((c) => c.trim())))];
       return `<div class="mapa">
           <div>
             <div class="mapa-cena">${cena()}</div>
             <div class="mapa-pe">
               <span><i class="leg-grave"></i> borda vermelha: prioridade alta</span>
               <span><span class="auto-sim">${IC.engrenagem}</span> solução por automação</span>
-              <button type="button" class="btn-revelar">Revelar o problema escondido</button>
             </div>
           </div>
           <aside class="mapa-lado">
@@ -168,16 +167,28 @@
         </div>`;
     },
 
+    pessoas: () => `
+      <div class="pessoas">${A.PESSOAS.map((g) => `
+        <article class="pessoa-card" style="--c:${g.cor}">
+          <svg class="pessoa-fig" viewBox="-24 -68 48 72" aria-hidden="true">${window.HUMANO.figura('pe', { camisa: g.cor })}</svg>
+          <p class="pessoa-n"><b>${g.problemas.length}</b> ${g.problemas.length === 1 ? 'problema' : 'problemas'}</p>
+          <h3>${esc(g.quem)}</h3>
+          <p class="pessoa-onde">${esc(g.onde)}</p>
+          <p class="pessoa-risco">${esc(g.risco)}</p>
+          <span class="pchips">${g.problemas.map(pchip).join('')}</span>
+        </article>`).join('')}
+      </div>
+      <p class="nota-slide">Toque em um número para ver o problema no mapa.</p>`,
+
     quadro: () => `
       <table class="quadro-tab">
         <thead><tr><th>Tipo</th><th>Perigo / fonte</th><th>Onde está?</th><th>Quem está exposto?</th><th>Possível consequência</th><th>No infográfico</th></tr></thead>
         <tbody>${A.QUADRO.map((l) => {
           const ids = PROBLEMAS.filter((p) => p.categoria.includes(l.cat)).map((p) => p.id);
-          const oculto = ids.every((id) => id === ESCONDIDO.id);
-          return `<tr class="${oculto ? 'linha-escondida' : ''}">
+          return `<tr>
             <td><span class="cat-badge" data-cat="${l.cat}">${l.cat}</span></td>
-            <td class="${oculto ? 'spoiler' : ''}"><b>${esc(l.perigo)}</b></td><td class="${oculto ? 'spoiler' : ''}">${esc(l.onde)}</td>
-            <td class="${oculto ? 'spoiler' : ''}">${esc(l.quem)}</td><td class="${oculto ? 'spoiler' : ''}">${esc(l.consequencia)}</td>
+            <td><b>${esc(l.perigo)}</b></td><td>${esc(l.onde)}</td>
+            <td>${esc(l.quem)}</td><td>${esc(l.consequencia)}</td>
             <td><span class="pchips">${ids.map(pchip).join('')}</span></td></tr>`;
         }).join('')}</tbody>
       </table>
@@ -201,8 +212,6 @@
 
     pecem: () => {
       const caso = porId(2).referencias.find((r) => r.tipo === 'caso');
-      const bristol = porId(3).referencias.find((r) => r.tipo === 'caso');
-      const cerest = porId(1).referencias.find((r) => r.tipo === 'caso' && r.url);
       return `<div class="pecem">
           <article class="caso-card principal">
             <p class="caso-data">${esc(caso.data)} · Porto do Pecém (CE)</p>
@@ -214,21 +223,24 @@
             </div>
             <p class="fonte">Fonte: <a href="${esc(caso.url)}" target="_blank" rel="noopener">${esc(caso.fonte)}</a></p>
           </article>
-          <div class="pecem-lado">
-            <p class="pecem-lema">Os mesmos erros, em lugares diferentes:</p>
-            <article class="caso-card">
-              <p class="caso-data">jan/2024 · Bristol (Reino Unido)</p>
-              <p>Ao desobstruir uma esteira, o trabalhador escorregou e teve o braço puxado na ponta sem proteção: fraturas e lesão de nervos. Multa de £64.666.</p>
-              <p class="fonte">Fonte: <a href="${esc(bristol.url)}" target="_blank" rel="noopener">${esc(bristol.fonte)}</a></p>
-            </article>
-            <article class="caso-card">
-              <p class="caso-data">Cerâmica · Piracicaba (SP)</p>
-              <p>Um trabalhador teve o braço direito amputado ao verificar um defeito com a esteira em movimento.</p>
-              <p class="fonte">Fonte: <a href="${esc(cerest.url)}" target="_blank" rel="noopener">${esc(cerest.fonte)}</a></p>
-            </article>
+          <div>
+            <div class="ap-anim">${CENAS[5].perigo()}</div>
+            <p class="ap-anim-leg">Animação: manutenção com a esteira ligada</p>
           </div>
         </div>`;
     },
+
+    casos: () => `
+      <div class="casos">${A.CASOS.map((c) => {
+        const ref = porId(c.problema).referencias.find((r) => r.url && r.url.includes(c.fonte));
+        return `<article class="caso-card">
+            <p class="caso-data">${esc(c.local)}</p>
+            <p>${esc(c.texto)}</p>
+            <p class="fonte">Fonte: <a href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.fonte)}</a> · problema ${pchip(c.problema)}</p>
+          </article>`;
+      }).join('')}
+      </div>
+      <p class="pecem-lema">O padrão se repete: a mão na esteira ligada e partes móveis sem proteção.</p>`,
 
     nrs: () => `
       <div class="nrs-sl">
@@ -273,15 +285,26 @@
 
     medidas: () => `
       <div class="med">
-        <div>
           <div class="tiles">${PROBLEMAS.map((p) => `
-            <button type="button" class="tile${p.prioridade === 'Alta' ? ' grave' : ''}${p.escondido ? ' escondido' : ''}" data-tile="${p.id}">
-              <b>${p.id}</b>${seloAuto(p)}<span class="${p.escondido ? 'spoiler' : ''}">${esc(p.curto)}</span>
+            <button type="button" class="tile${p.prioridade === 'Alta' ? ' grave' : ''}" data-tile="${p.id}">
+              <b>${p.id}</b>${seloAuto(p)}<span>${esc(p.curto)}</span>
             </button>`).join('')}</div>
-          <div class="tile-det" aria-live="polite"><p class="dica-sl">Toque em um problema para ver a solução. <span class="auto-sim">${IC.engrenagem}</span> automação · <span class="meia"></span> parcial · sem selo: sem automação</p></div>
+          <p class="dica-sl">Toque em um problema para ver a solução. <span class="auto-sim">${IC.engrenagem}</span> automação · <span class="meia"></span> parcial · sem selo: sem automação</p>
+          <div class="tile-det" aria-live="polite"></div>
+      </div>`,
+
+    loto: () => `
+      <div class="loto-sl">
+        <div>
+          <div class="ap-anim">${CENAS[5].seguro()}</div>
+          <p class="ap-anim-leg">Animação: cadeado e etiqueta na chave geral</p>
+          <dl class="loto-cen">
+            <dt>Cenário</dt><dd>${esc(A.LOTO_CENARIO.cenario)}</dd>
+            <dt>Fontes de energia</dt><dd>${esc(A.LOTO_CENARIO.energias)}</dd>
+          </dl>
+          <p class="caso-res">${esc(A.LOTO_CENARIO.aviso)}</p>
         </div>
         <div class="loto">
-          <h3 class="sub">Manutenção: bloqueio e etiquetagem (LOTO)</h3>
           <ol data-passo>${A.LOTO.map((l) => `<li><b>${esc(l.t)}</b>${esc(l.d)}</li>`).join('')}</ol>
         </div>
       </div>`,
@@ -318,7 +341,7 @@
       const altosDepois = Object.values(A.RISCO).filter((r) => nivel(r.depois) === 'alto').length;
       const barra = (itens) => `<div class="barra-emp">${itens.map(([n, rot, cls]) => `<span class="${cls}" style="flex:${n}"><b>${n}</b> ${rot}</span>`).join('')}</div>`;
       return `<div class="nums">
-          <div class="stat"><b data-conta="${PROBLEMAS.length}">${PROBLEMAS.length}</b><span>problemas encontrados<br>(13 no mapa + 1 escondido)</span></div>
+          <div class="stat"><b data-conta="${PROBLEMAS.length}">${PROBLEMAS.length}</b><span>problemas encontrados,<br>todos ligados à esteira</span></div>
           <div class="stat"><b data-conta="${nrs.size}">${nrs.size}</b><span>normas regulamentadoras aplicadas</span></div>
           <div class="stat verde"><b><span data-conta="${altosAntes}">${altosAntes}</span> → <span data-conta="${altosDepois}">${altosDepois}</span></b><span>problemas com risco alto,<br>antes → depois</span></div>
           <div class="stat largo"><h3 class="sub">Solução por automação</h3>${barra([[cont('automacao', 'sim'), 'com automação', 'sim'], [cont('automacao', 'parcial'), 'parcial', 'parcial'], [cont('automacao', 'nao'), 'sem', 'nao']])}</div>
@@ -326,7 +349,6 @@
           <div class="stat largo limites"><h3 class="sub">O que a automação não resolve sozinha</h3>
             <ul>
               <li>${pchip(12)} Travessia: a solução é uma passarela com guarda-corpo.</li>
-              <li>${pchip(ESCONDIDO.id)} <span class="spoiler">Extintor bloqueado: organização e inspeção.</span></li>
               <li>${pchip(5)} LOTO: a automação confirma a energia zero, mas o cadeado é posto por uma pessoa.</li>
             </ul>
           </div>
@@ -347,7 +369,7 @@
     fim: () => `
       <div class="fim">
         <div>
-          <p class="lead">Abram o infográfico, corrijam os <b>13 problemas</b> e depois encontrem o <b>escondido</b>.</p>
+          <p class="lead">Abram o infográfico e corrijam os <b>13 problemas</b> da esteira.</p>
           <a class="btn-grande" href="index.html" target="_blank" rel="noopener">Abrir o infográfico ${IC.externo}</a>
           <p class="obrigado">Obrigado!</p>
           <ul class="capa-equipe">${A.EQUIPE.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
@@ -398,17 +420,16 @@
         palco.appendChild(b);
         pins[p.id] = b;
       };
-      PROBLEMAS.filter((p) => !p.escondido).forEach(criarPin);
+      PROBLEMAS.forEach(criarPin);
 
       const resumo = () => {
         const cats = {};
-        PROBLEMAS.filter((p) => !p.escondido).forEach((p) => p.categoria.split('/').forEach((c) => { c = c.trim(); cats[c] = (cats[c] || 0) + 1; }));
+        PROBLEMAS.forEach((p) => p.categoria.split('/').forEach((c) => { c = c.trim(); cats[c] = (cats[c] || 0) + 1; }));
         det.innerHTML = `<h3>Toque em um alerta</h3><p>Cada alerta é um problema ligado diretamente à esteira.</p>
           <ul class="det-resumo">${Object.entries(cats).map(([c, n]) => `<li><span class="cat-badge" data-cat="${c}">${c}</span><b>${n}</b></li>`).join('')}</ul>`;
       };
       const selecionar = (id) => {
         const p = porId(id);
-        if (p.escondido) revelarEscondido();
         Object.entries(pins).forEach(([k, b]) => b.classList.toggle('sel', +k === id));
         det.innerHTML = `<p class="det-num">Problema ${p.id} · ${esc(p.categoria)}</p>
           <h3>${esc(p.titulo)}</h3>
@@ -422,8 +443,6 @@
         Object.entries(pins).forEach(([k, b]) => b.classList.toggle('apagado', cat !== 'Todos' && !porId(+k).categoria.includes(cat)));
       };
       $$('.filtros-cat button', el).forEach((b) => b.addEventListener('click', () => filtrar(b.dataset.cat)));
-      $('.btn-revelar', el).addEventListener('click', () => selecionar(ESCONDIDO.id));
-      ouvirRevelado(() => { if (!pins[ESCONDIDO.id]) { criarPin(ESCONDIDO); $('.btn-revelar', el).hidden = true; } });
       resumo();
       el.selecionarProblema = selecionar;
     },
@@ -443,14 +462,13 @@
         const g = A.NR_GRUPOS[i];
         $$('.nr-btn', el).forEach((b) => b.setAttribute('aria-pressed', +b.dataset.grupo === i));
         const probs = g.todos ? PROBLEMAS : PROBLEMAS.filter((p) => nrsDe(p).some((n) => g.nrs.includes(n)));
-        const soEscondido = probs.length > 0 && probs.every((p) => p.escondido);
         det.innerHTML = g.nrs.map((nr) => {
           const f = FICHAS[nr];
           const itens = itensDe(nr);
           return `<section class="nr-bloco">
               <h3><span class="nr-cod">${nr}</span> ${esc(f.nome)}</h3>
               <p>${esc(g.trabalho && g.nrs.length === 1 ? g.trabalho : f.sobre)}</p>
-              ${itens.length ? `<ul class="nr-itens${soEscondido ? ' spoiler' : ''}">${itens.map((it) => `<li><span class="nr-item">${esc(it.item)}</span><span>${esc(it.texto)}</span><span class="pchips">${it.problemas.map(pchip).join('')}</span></li>`).join('')}</ul>` : ''}
+              ${itens.length ? `<ul class="nr-itens">${itens.map((it) => `<li><span class="nr-item">${esc(it.item)}</span><span>${esc(it.texto)}</span><span class="pchips">${it.problemas.map(pchip).join('')}</span></li>`).join('')}</ul>` : ''}
               <a class="nr-link" href="${esc(f.url)}" target="_blank" rel="noopener">Texto oficial no gov.br ${IC.externo}</a>
             </section>`;
         }).join('') + (g.todos ? `<p class="nr-todos">Vale para os ${PROBLEMAS.length} problemas: cada um precisa estar no PGR com o seu plano de ação.</p>` : '');
@@ -489,17 +507,15 @@
 
     medidas(el) {
       const det = $('.tile-det', el);
-      $$('.tile', el).forEach((b) => b.addEventListener('click', () => {
+      const mostrar = (b) => {
         const p = porId(+b.dataset.tile);
         $$('.tile', el).forEach((t) => t.classList.toggle('sel', t === b));
-        if (p.escondido && !revelado) {
-          det.innerHTML = '<h3>Problema escondido</h3><p>A turma descobre no infográfico, no fim da apresentação.</p>';
-          return;
-        }
         det.innerHTML = `<h3>${p.id}. ${esc(p.titulo)}</h3>
           <ul>${p.solucao.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
           <p class="como"><b>Como reduz o risco:</b> ${esc(p.comoReduz)}</p>`;
-      }));
+      };
+      $$('.tile', el).forEach((b) => b.addEventListener('click', () => mostrar(b)));
+      mostrar($('.tile', el));
     },
 
     matriz(el) {
@@ -528,7 +544,7 @@
         const p = porId(+b.dataset.ponto);
         const r = A.RISCO[p.id];
         const txt = (pg) => `P${pg[0]} × G${pg[1]} = ${pg[0] * pg[1]}`;
-        det.innerHTML = `<h3>${p.id}. <span class="${p.escondido ? 'spoiler' : ''}">${esc(p.titulo)}</span></h3><p>Antes: <b>${txt(r.antes)}</b> · Depois: <b>${txt(r.depois)}</b></p>`;
+        det.innerHTML = `<h3>${p.id}. ${esc(p.titulo)}</h3><p>Antes: <b>${txt(r.antes)}</b> · Depois: <b>${txt(r.depois)}</b></p>`;
       }));
       $$('.seg button', el).forEach((b) => b.addEventListener('click', () => definirPassos(indice('matriz'), b.dataset.modo === 'depois' ? 1 : 0)));
       posicionar();
@@ -541,21 +557,11 @@
 
     conclusao(el) {
       const total = $$('[data-passo]', el).length;
-      // no último passo a esteira do fundo fica toda corrigida
-      return (n) => $$('.concl-cena .prob', el).forEach((g) => g.classList.toggle('fixed', n >= total));
+      // no último passo a esteira do fundo fica corrigida (menos o problema escondido, que continua só no infográfico)
+      const grupos = $$('.concl-cena .prob', el).filter((g) => porId(+g.dataset.p));
+      return (n) => grupos.forEach((g) => g.classList.toggle('fixed', n >= total));
     }
   };
-
-  // ---------- problema escondido: some dos textos até alguém revelar no mapa ----------
-  let revelado = false;
-  const aoRevelar = [];
-  const ouvirRevelado = (fn) => aoRevelar.push(fn);
-  function revelarEscondido() {
-    if (revelado) return;
-    revelado = true;
-    document.body.classList.add('escondido-revelado');
-    aoRevelar.forEach((fn) => fn());
-  }
 
   // ---------- montagem ----------
   const SLIDES = A.SLIDES;
@@ -680,7 +686,7 @@
       b.querySelector('i').style.width = (feitos / daSecao.length) * 100 + '%';
       b.classList.toggle('atual', sec === s.secao);
     });
-    $('#ap-roteiro-tit').textContent = `Roteiro · ${s.titulo}`;
+    $('#ap-roteiro-tit').textContent = s.parte ? `Parte ${s.parte} de 5 · ${s.titulo}` : s.titulo;
     $('#ap-roteiro-txt').textContent = s.roteiro;
     $$('.ap-indice-lista button').forEach((b) => b.setAttribute('aria-current', +b.dataset.slide === atual ? 'true' : 'false'));
   }
@@ -693,7 +699,7 @@
   const indiceEl = $('#ap-indice');
   $('.ap-indice-lista').innerHTML = [{ n: 0, titulo: 'Capa' }].concat(A.SECOES).map((sec) => `
     <li><span class="ap-indice-sec" style="--cor-sec:${sec.cor || '#fff'}">${sec.n ? sec.n + '. ' : ''}${esc(sec.titulo)}</span>
-      <ol>${SLIDES.map((s, k) => [s, k]).filter(([s]) => s.secao === sec.n).map(([s, k]) => `<li><button type="button" data-slide="${k}"><span>${k + 1}</span>${esc(s.titulo)}</button></li>`).join('')}</ol></li>`).join('');
+      <ol>${SLIDES.map((s, k) => [s, k]).filter(([s]) => s.secao === sec.n).map(([s, k]) => `<li><button type="button" data-slide="${k}"><span>${k + 1}</span>${esc(s.titulo)}${COM_ROTEIRO ? `<em>Parte ${s.parte}</em>` : ''}</button></li>`).join('')}</ol></li>`).join('');
   const alternarIndice = (abrir = indiceEl.hidden) => {
     indiceEl.hidden = !abrir;
     $('#ap-btn-menu').setAttribute('aria-expanded', abrir);
