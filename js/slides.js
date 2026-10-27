@@ -18,6 +18,9 @@
   const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const movimentoReduzido = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const nrsDe = (p) => p.nr.split('/').map((s) => s.trim());
+  // link dos apresentadores (?roteiro no endereço): o roteiro de fala já abre visível e o botão aparece.
+  // A tecla R funciona sempre, mas sem o parâmetro nada na tela indica que ela existe.
+  const COM_ROTEIRO = new URLSearchParams(location.search).has('roteiro');
 
   const IC = {
     alerta: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 20 H2 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 9.5 v5 M12 17.2 v.3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
@@ -108,7 +111,7 @@
         <p class="capa-sub">Como fazer uma esteira automatizada funcionar com segurança</p>
         <ul class="capa-equipe">${A.EQUIPE.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
         <p class="capa-pe">${esc(A.ESCOLA)}<br>Disciplina: ${esc(A.DISCIPLINA)}<br>Processo escolhido: Esteira Automatizada</p>
-        <p class="capa-dica">Aperte → para começar · <b>R</b> mostra o roteiro</p>
+        <p class="capa-dica">Aperte → para começar${COM_ROTEIRO ? ' · <b>R</b> mostra o roteiro' : ''}</p>
       </div>`,
 
     processo: () => `
@@ -761,4 +764,9 @@
 
   const inicial = parseInt(location.hash.slice(1), 10);
   irPara(inicial ? inicial - 1 : 0);
+  if (COM_ROTEIRO) {
+    $('#ap-btn-roteiro').hidden = false;
+    $('#ap-tecla-roteiro').hidden = false;
+    alternarRoteiro(true);
+  }
 })();

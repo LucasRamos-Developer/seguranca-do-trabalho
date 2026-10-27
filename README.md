@@ -19,7 +19,8 @@ No fim do modal, o botão **Corrigir problema** aplica a solução: o desenho mu
 `apresentacao.html` é a apresentação do trabalho (18 slides, 16:9) organizada pelas cinco perguntas: processo, perigos, acidente real e NRs, medidas e três melhorias, avaliação e conclusão. Ela reaproveita os dados, o cenário e as animações do infográfico: o mapa dos perigos é clicável, as melhorias têm botão Antes/Depois e a matriz de risco mostra o antes e depois.
 
 - **→ / espaço / PageDown** avança (inclusive com passador de slides); em alguns slides os itens aparecem um de cada vez antes de passar para o próximo. **←** volta.
-- **R** mostra o roteiro de fala do slide. **M** abre o índice. **F** liga a tela cheia.
+- **M** abre o índice. **F** liga a tela cheia.
+- **Roteiro de fala:** no link dos apresentadores, com `?roteiro` no endereço (`apresentacao.html?roteiro`), ele já abre visível ao carregar e aparece o botão "Roteiro". A tecla **R** mostra e esconde o roteiro com ou sem o parâmetro; sem ele, nada na tela indica que a tecla existe.
 - O endereço guarda o slide (`apresentacao.html#7`).
 - O problema escondido aparece borrado na apresentação até alguém tocar em "Revelar o problema escondido" no mapa, para a turma ainda poder procurar no infográfico no final.
 

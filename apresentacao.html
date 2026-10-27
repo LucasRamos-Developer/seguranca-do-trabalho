@@ -22,13 +22,14 @@
       <div class="ap-progresso" id="ap-progresso"></div>
       <span class="ap-cont" id="ap-cont">1 / 1</span>
       <button type="button" class="ap-btn" id="ap-btn-menu" aria-controls="ap-indice" aria-expanded="false"><kbd>M</kbd> Índice</button>
-      <button type="button" class="ap-btn" id="ap-btn-roteiro" aria-controls="ap-roteiro" aria-pressed="false"><kbd>R</kbd> Roteiro</button>
+      <!-- só aparece com ?roteiro no endereço -->
+      <button type="button" class="ap-btn" id="ap-btn-roteiro" aria-controls="ap-roteiro" aria-pressed="false" hidden><kbd>R</kbd> Roteiro</button>
       <button type="button" class="ap-btn" id="ap-btn-tela"><kbd>F</kbd> Tela cheia</button>
       <button type="button" class="ap-icone" id="ap-prox" aria-label="Próximo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </footer>
   </div>
 
-  <!-- roteiro de fala (tecla R) -->
+  <!-- roteiro de fala: tecla R; com ?roteiro no endereço já abre visível -->
   <aside class="ap-roteiro" id="ap-roteiro" aria-live="polite" hidden>
     <header>
       <b id="ap-roteiro-tit">Roteiro</b>
@@ -42,7 +43,7 @@
     <nav class="ap-indice-caixa">
       <h2>Índice</h2>
       <ol class="ap-indice-lista"></ol>
-      <p class="ap-teclas"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>R</kbd> roteiro · <kbd>F</kbd> tela cheia · <kbd>Esc</kbd> fechar</p>
+      <p class="ap-teclas"><kbd>←</kbd> <kbd>→</kbd> navegar · <span id="ap-tecla-roteiro" hidden><kbd>R</kbd> roteiro · </span><kbd>F</kbd> tela cheia · <kbd>Esc</kbd> fechar</p>
     </nav>
   </div>
 

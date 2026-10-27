@@ -423,6 +423,7 @@ body.escondido-revelado .spoiler { filter: none; user-select: auto; }
   display: inline-flex; align-items: center; gap: 8px; height: 44px; border: 1px solid var(--borda); border-radius: 12px;
   background: var(--vidro-forte); font-size: 17px; font-weight: 700; cursor: pointer; padding: 0 14px;
 }
+.ap-btn[hidden] { display: none; }
 .ap-icone { width: 44px; padding: 0; justify-content: center; }
 .ap-icone svg { width: 22px; height: 22px; }
 .ap-btn:hover, .ap-icone:hover { background: var(--superficie-2); }

@@ -44,6 +44,7 @@ Os dados ficam em um arquivo `.js` (e não em `.json` carregado por `fetch`) par
 - **`js/slides-dados.js`** expõe `window.APRESENTACAO`: as cinco seções, a lista `SLIDES` (id, seção, título e `roteiro`), as peças do diagrama "Como funciona", o quadro de perigos do PDF, as três melhorias, os passos do LOTO, a estimativa de risco `RISCO[id] = { antes: [P, G], depois: [P, G] }` e a conclusão. Textos de problemas e NRs não são copiados: vêm de `PROBLEMAS` e `NRS`.
 - **`js/slides.js`** monta cada slide com `MONTAR[id]` e liga as interações com `LIGAR[id]`. O palco tem 1600×900 px e é escalado com `transform: scale()` para caber na tela.
   - Passos: elementos `[data-passo]` aparecem um por vez com →; `LIGAR[id]` pode devolver uma função chamada a cada passo (é assim que as melhorias trocam para "Depois" e a matriz move os pontos). Voltar para um slide mostra todos os passos dele.
+  - Roteiro: `COM_ROTEIRO` lê `?roteiro` do endereço. Com ele, o roteiro abre ao carregar e o botão aparece; sem ele, o botão e a dica da tecla ficam `hidden`. A tecla R funciona nos dois casos. É só um link à parte, não uma proteção: os textos continuam em `js/slides-dados.js`.
   - Só o slide atual se mexe: os outros ganham `.pausado` e `pauseAnimations()` no SVG.
   - `[data-ir-problema]` leva ao mapa com o problema aberto; `[data-ir-slide]` leva a outro slide.
   - O problema escondido fica com `.spoiler` (borrado) até ser revelado no mapa (`body.escondido-revelado`).
