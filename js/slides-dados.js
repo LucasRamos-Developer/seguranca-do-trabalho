@@ -2,94 +2,79 @@
  * Conteúdo da apresentação em slides (apresentacao.html).
  * Os textos dos problemas, das soluções e das NRs vêm de js/data.js e js/nrs.js;
  * aqui fica só o que é próprio da apresentação: seções, equipe, roteiro de fala,
- * a parte de cada apresentador, peças do diagrama, quadro de perigos do PDF, pessoas expostas, outros casos reais,
+ * as partes (uma pergunta por apresentador), peças do diagrama, quadro de perigos do PDF, pessoas expostas, outros casos reais,
  * as três melhorias e a estimativa de risco.
  */
 (function () {
   const EQUIPE = ['Lucas Pereira Ramos', 'Jean Henrique Moraes Boeing', 'Vitor Hugo Alves', 'Rafael Josué Velain', 'Kauan Mikael'];
   const ESCOLA = 'Centro de Educação Profissional "Dario Geraldo Salles"';
   const DISCIPLINA = 'Segurança e Higiene do Trabalho';
+  const OBJETIVO = 'Analisar o funcionamento e os riscos de uma esteira transportadora automatizada, aplicando os conceitos de Segurança do Trabalho sob a ótica da Automação Industrial.';
   const PERGUNTA = 'Como fazer este processo automatizado funcionar com segurança, reduzindo a exposição das pessoas aos perigos identificados?';
 
-  // as cinco perguntas do trabalho; cor = destaque da seção na barra de progresso
+  // as cinco perguntas do trabalho, uma por apresentador; curto = nome na barra de baixo, cor = destaque da seção
   const SECOES = [
-    { n: 1, titulo: 'Identificação e funcionamento do processo', cor: '#6f9be0' },
-    { n: 2, titulo: 'Perigos, pessoas expostas e consequências', cor: '#e5484d' },
-    { n: 3, titulo: 'Acidente real e normas regulamentadoras', cor: '#f5c242' },
-    { n: 4, titulo: 'Medidas de controle e três melhorias propostas', cor: '#2ecc71' },
-    { n: 5, titulo: 'Avaliação dos resultados e conclusão da equipe', cor: '#b99cff' }
+    { n: 1, titulo: 'Identificação e funcionamento do processo', curto: 'Processo', cor: '#6f9be0' },
+    { n: 2, titulo: 'Perigos, pessoas expostas e consequências', curto: 'Perigos', cor: '#e5484d' },
+    { n: 3, titulo: 'Acidente real e normas regulamentadoras', curto: 'Acidentes', cor: '#f5c242' },
+    { n: 4, titulo: 'Medidas de controle e três melhorias propostas', curto: 'Medidas', cor: '#2ecc71' },
+    { n: 5, titulo: 'Avaliação dos resultados e conclusão da equipe', curto: 'Resultados', cor: '#b99cff' }
   ];
 
-  // ordem dos slides; secao 0 = capa. parte = qual apresentador fala (5 partes de 4 slides, sem contar a capa;
-  // a equipe decide quem fica com cada parte).
+  // ordem dos slides; secao 0 = capa. Cada seção é a parte de um apresentador: 5 partes de 4 slides, sem contar a capa.
   // roteiro = o que falar (aparece com a tecla R ou no link com ?roteiro)
   const SLIDES = [
-    { id: 'capa', secao: 0, parte: 1, titulo: 'Esteira Segura',
-      roteiro: 'Bom dia, turma. Nós vamos apresentar o trabalho "Automação Segura". O processo escolhido foi a esteira transportadora automatizada. Cada um de nós vai apresentar uma parte: como ela funciona, onde estão os perigos, os acidentes reais, as nossas melhorias e os resultados. Vamos começar pelo processo.' },
+    { id: 'capa', secao: 0, titulo: 'Esteira Segura',
+      roteiro: 'Bom dia, turma. Nós vamos apresentar o trabalho "Automação Segura". O processo escolhido foi a esteira transportadora automatizada. Cada um de nós vai apresentar uma parte: como ela funciona, onde estão os perigos, os acidentes reais, as nossas melhorias e os resultados. Vamos começar.' },
 
-    // parte 1: o processo e o mapa dos perigos
-    { id: 'processo', secao: 1, parte: 1, titulo: 'O processo: esteira transportadora automatizada',
-      roteiro: 'A esteira é um sistema eletromecânico que leva peças e produtos de uma etapa para outra sem parar: da produção para a inspeção e para a embalagem. Ela aparece em envase, em centros de logística e alimentando robôs. A pergunta que guiou o trabalho está aqui embaixo: como fazer isso funcionar com segurança?' },
-
-    { id: 'funcionamento', secao: 1, parte: 1, titulo: 'Como funciona: a esteira é uma malha de controle',
+    // parte 1: o processo
+    { id: 'objetivo', secao: 1, titulo: 'Objetivo e pergunta norteadora',
+      roteiro: 'O objetivo do trabalho foi analisar como a esteira automatizada funciona e quais riscos ela tem, olhando pela Segurança do Trabalho e pela Automação. Tudo gira em torno desta pergunta: como fazer a esteira funcionar com segurança, reduzindo a exposição das pessoas aos perigos? A apresentação tem cinco partes, uma para cada pergunta do trabalho.' },
+    { id: 'processo', secao: 1, titulo: 'O processo: esteira transportadora automatizada',
+      roteiro: 'A esteira é um sistema eletromecânico que leva peças e produtos de uma etapa para outra sem parar: da produção para a inspeção e para a embalagem. Ela aparece em envase, em centros de logística e alimentando robôs.' },
+    { id: 'funcionamento', secao: 1, titulo: 'Como funciona: a esteira é uma malha de controle',
       roteiro: 'A esteira não é só um motor girando. O sensor vê a caixa, o CLP decide, o inversor controla a velocidade do motor e o motor puxa a correia pelo tambor de tração. Vou tocar nas peças para mostrar cada uma. Notem as zonas em vermelho: alimentação e recolhimento, onde as pessoas encostam na esteira, e o ponto de esmagamento no tambor.' },
+    { id: 'conceitos', secao: 1, titulo: 'Perigo, exposição e risco',
+      roteiro: 'Antes de listar os perigos, três palavras que parecem iguais mas não são. Perigo é a fonte: o tambor girando. Exposição é como a pessoa chega até ele: pôr a mão para soltar uma caixa. Risco é a chance vezes a gravidade: a chance de esmagar ou amputar o braço. Agora vamos ver onde estão esses perigos na nossa esteira.' },
 
-    { id: 'conceitos', secao: 2, parte: 1, titulo: 'Perigo, exposição e risco',
-      roteiro: 'Antes de listar os perigos, três palavras que parecem iguais mas não são. Perigo é a fonte: o tambor girando. Exposição é como a pessoa chega até ele: pôr a mão para soltar uma caixa. Risco é a chance vezes a gravidade: a chance de esmagar ou amputar o braço.' },
-
-    { id: 'mapa', secao: 2, parte: 1, titulo: 'Mapa dos perigos da esteira',
+    // parte 2: perigos, pessoas expostas e consequências
+    { id: 'mapa', secao: 2, titulo: 'Mapa dos perigos da esteira',
       roteiro: 'Este é o nosso infográfico. Encontramos 13 problemas ligados diretamente à esteira. Os de borda vermelha são de prioridade alta. Vou abrir alguns: onde estão, quem fica exposto e o que pode acontecer. Agora vamos ver quem são as pessoas expostas a esses perigos.' },
-
-    // parte 2: pessoas expostas, tipos de perigo e os dois acidentes
-    { id: 'pessoas', secao: 2, parte: 2, titulo: 'Pessoas expostas: quem corre risco',
+    { id: 'pessoas', secao: 2, titulo: 'Pessoas expostas: quem corre risco',
       roteiro: 'Cada perigo atinge pessoas diferentes. Os operadores são os mais expostos, porque passam o turno inteiro na alimentação e na coleta. A manutenção e os eletricistas correm risco quando abrem a máquina ou o painel. E até quem só passa perto da esteira pode ser atingido.' },
-
-    { id: 'quadro', secao: 2, parte: 2, titulo: 'Tipos de perigo: onde estão e o que causam',
+    { id: 'quadro', secao: 2, titulo: 'Tipos de perigo: onde estão e o que causam',
       roteiro: 'Aqui está o resumo por tipo de perigo. O mecânico é o que mais aparece: são os pontos onde a correia encontra os rolos. Mas tem também o elétrico do painel, o movimento inesperado, a ergonomia e o ruído. Na última coluna estão os números dos problemas do infográfico.' },
+    { id: 'casos', secao: 2, titulo: 'Consequências reais: acidentes em esteiras pelo mundo',
+      roteiro: 'Esses perigos já machucaram gente de verdade. No Reino Unido, um trabalhador foi desobstruir a esteira e teve o braço puxado. Em Piracicaba, um braço amputado. Em São Bernardo do Campo, uma mão ferida e esteiras sem proteção. E no Japão, ficar preso em esteira foi 21% dos acidentes fatais do setor. É sempre a mesma história: a mão na esteira ligada e partes móveis sem proteção. Agora, o acidente que analisamos no trabalho.' },
 
-    { id: 'acidente', secao: 3, parte: 2, titulo: 'Acidente real: esmagamento no tambor de tração',
+    // parte 3: acidente real e normas
+    { id: 'acidente', secao: 3, titulo: 'Acidente real: esmagamento no tambor de tração',
       roteiro: 'Este é o caso que analisamos no trabalho. Uma caixa enroscou, o operador foi soltar com a esteira ligada e o braço foi puxado para o tambor. Fratura exposta e mais de 90 dias afastado. Repare que foram três falhas juntas: rolo sem proteção, nenhuma parada de emergência por perto e nenhum sensor de atolamento. Essas três falhas viraram as nossas três melhorias.' },
-
-    { id: 'pecem', secao: 3, parte: 2, titulo: 'Caso real recente: Porto do Pecém (CE)',
-      roteiro: 'Isto não é coisa do passado. Em janeiro de 2026, no Porto do Pecém, um trabalhador de 23 anos foi puxado por uma esteira de carvão durante a manutenção e morreu. A fiscalização encontrou exatamente os problemas que mostramos: parada de emergência que não funcionava, manutenção com a máquina ligada e partes móveis sem proteção. E isso se repete em outros lugares, como vamos ver agora.' },
-
-    // parte 3: outros casos, NRs, ordem das medidas e a melhoria 1
-    { id: 'casos', secao: 3, parte: 3, titulo: 'O mesmo acidente em outros lugares',
-      roteiro: 'Esse padrão aparece no mundo todo. No Reino Unido, um trabalhador foi desobstruir a esteira e teve o braço puxado. Em Piracicaba, um braço amputado. Em São Bernardo do Campo, uma mão ferida e esteiras sem proteção. E no Japão, ficar preso em esteira foi 21% dos acidentes fatais do setor. É sempre a mesma história: a mão na esteira ligada e partes móveis sem proteção.' },
-
-    { id: 'nrs', secao: 3, parte: 3, titulo: 'As normas regulamentadoras',
+    { id: 'pecem', secao: 3, titulo: 'Caso real recente: Porto do Pecém (CE)',
+      roteiro: 'Isto não é coisa do passado. Em janeiro de 2026, no Porto do Pecém, um trabalhador de 23 anos foi puxado por uma esteira de carvão durante a manutenção e morreu. A fiscalização encontrou exatamente os problemas que mostramos: parada de emergência que não funcionava, manutenção com a máquina ligada e partes móveis sem proteção. Agora, o que as normas exigem para evitar isso.' },
+    { id: 'nrs', secao: 3, titulo: 'As normas regulamentadoras',
       roteiro: 'A norma central é a NR-12, de máquinas, que tem um capítulo só para transportadores. A NR-10 cuida do painel elétrico, a NR-17 da ergonomia e a NR-1 obriga a empresa a colocar todos esses perigos no PGR. Vou abrir cada uma para mostrar os itens que valem para a esteira.' },
+    { id: 'hierarquia', secao: 3, titulo: 'A ordem das medidas de controle',
+      roteiro: 'A NR-1 manda seguir uma ordem: primeiro eliminar o perigo, depois proteção coletiva, depois medidas administrativas e só no fim o EPI. Por isso o nosso foco foi a automação e as proteções coletivas: elas protegem todo mundo e não dependem de alguém lembrar de usar algo. Agora, as três melhorias que a equipe propõe.' },
 
-    { id: 'hierarquia', secao: 4, parte: 3, titulo: 'A ordem das medidas de controle',
-      roteiro: 'A NR-1 manda seguir uma ordem: primeiro eliminar o perigo, depois proteção coletiva, depois medidas administrativas e só no fim o EPI. Por isso o nosso foco foi a automação e as proteções coletivas: elas protegem todo mundo e não dependem de alguém lembrar de usar algo.' },
-
-    { id: 'melhoria1', secao: 4, parte: 3, titulo: 'Melhoria 1: proteção fixa com chave de intertravamento', problema: 1,
-      roteiro: 'Primeira melhoria: uma grade fechando o tambor de tração. A grade sozinha já impede a mão de chegar. E se alguém tirar a grade, a chave de intertravamento avisa o relé de segurança, que corta o motor na hora. Vejam o antes e o depois. Agora, as outras duas melhorias.' },
-
-    // parte 4: melhorias 2 e 3, as outras medidas e o LOTO
-    { id: 'melhoria2', secao: 4, parte: 4, titulo: 'Melhoria 2: cabo de parada de emergência', problema: 2,
+    // parte 4: medidas de controle e as três melhorias
+    { id: 'melhoria1', secao: 4, titulo: 'Melhoria 1: proteção fixa com chave de intertravamento', problema: 1,
+      roteiro: 'Primeira melhoria: uma grade fechando o tambor de tração. A grade sozinha já impede a mão de chegar. E se alguém tirar a grade, a chave de intertravamento avisa o relé de segurança, que corta o motor na hora. Vejam o antes e o depois.' },
+    { id: 'melhoria2', secao: 4, titulo: 'Melhoria 2: cabo de parada de emergência', problema: 2,
       roteiro: 'Segunda melhoria: um cabo ao longo de toda a lateral. Qualquer pessoa, em qualquer ponto, puxa o cabo e a esteira para. E ela só volta depois de um rearme manual. Foi exatamente o que faltou no Pecém.' },
-
-    { id: 'melhoria3', secao: 4, parte: 4, titulo: 'Melhoria 3: sensor de acúmulo com tempo limite no CLP', problema: 3,
+    { id: 'melhoria3', secao: 4, titulo: 'Melhoria 3: sensor de acúmulo com tempo limite no CLP', problema: 3,
       roteiro: 'Terceira melhoria: um sensor no ponto onde as caixas enroscam. Se ele fica bloqueado mais tempo que o normal, o CLP entende que é atolamento e desliga a esteira. Assim o motor não força a carga e ninguém tem pressa de soltar a caixa com a mão.' },
+    { id: 'medidas', secao: 4, titulo: 'As outras medidas e a manutenção segura',
+      roteiro: 'Além das três melhorias, cada problema do infográfico tem a sua solução; as engrenagens mostram quais usam automação. E na manutenção, como na troca de rolete ou na limpeza da correia, vale o LOTO: desligar na chave geral, colocar cadeado e etiqueta, esperar a energia do inversor sair e medir tensão zero antes de pôr a mão. Agora, os resultados.' },
 
-    { id: 'medidas', secao: 4, parte: 4, titulo: 'A solução de cada problema',
-      roteiro: 'Além das três melhorias principais, cada problema do infográfico tem a sua solução. As engrenagens mostram quais usam automação e o meio círculo, quais usam em parte. Vou abrir alguns exemplos.' },
-
-    { id: 'loto', secao: 4, parte: 4, titulo: 'Manutenção segura: bloqueio e etiquetagem (LOTO)',
-      roteiro: 'Na manutenção, como na troca de rolete ou na limpeza da correia, sensores não bastam. Vale o LOTO: desligar na chave geral, colocar cadeado e etiqueta, esperar a energia do inversor sair e medir tensão zero antes de pôr a mão. Agora, os resultados.' },
-
-    // parte 5: avaliação, números, conclusão e fechamento
-    { id: 'matriz', secao: 5, parte: 5, titulo: 'Avaliação: o risco antes e depois',
+    // parte 5: avaliação e conclusão
+    { id: 'matriz', secao: 5, titulo: 'Avaliação: o risco antes e depois',
       roteiro: 'Para avaliar o resultado, classificamos cada problema por probabilidade e gravidade. Antes, quase tudo estava no vermelho. Agora vou aplicar as melhorias. A probabilidade cai bastante. A gravidade nem sempre cai, porque um tambor continua podendo esmagar: por isso inspeção e treinamento continuam importantes.' },
-
-    { id: 'numeros', secao: 5, parte: 5, titulo: 'Resultados em números',
+    { id: 'numeros', secao: 5, titulo: 'Resultados em números',
       roteiro: 'Em números: 13 problemas, mais da metade resolvida com automação e quase todo o resto com ajuda dela. Só a travessia não tem nada de automação: a solução é uma passarela. A automação ajuda muito, mas não resolve tudo sozinha.' },
-
-    { id: 'conclusao', secao: 5, parte: 5, titulo: 'Conclusão da equipe',
+    { id: 'conclusao', secao: 5, titulo: 'Conclusão da equipe',
       roteiro: 'Respondendo à pergunta norteadora: primeiro, separar fisicamente a pessoa do perigo. Segundo, fazer a máquina parar sozinha e avisar. Terceiro, manutenção só com energia zero. Com isso a esteira fica segura sem depender só do EPI.' },
-
-    { id: 'fim', secao: 5, parte: 5, titulo: 'Agora é com vocês',
+    { id: 'fim', secao: 5, titulo: 'Agora é com vocês',
       roteiro: 'Para terminar, a turma vai usar o infográfico e corrigir os 13 problemas da esteira. Obrigado de toda a equipe!' }
   ];
 
@@ -247,7 +232,7 @@
   ];
 
   window.APRESENTACAO = {
-    EQUIPE, ESCOLA, DISCIPLINA, PERGUNTA, SECOES, SLIDES, TIPOS, APLICACOES, COMPONENTES, QUADRO,
+    EQUIPE, ESCOLA, DISCIPLINA, OBJETIVO, PERGUNTA, SECOES, SLIDES, TIPOS, APLICACOES, COMPONENTES, QUADRO,
     PESSOAS, CASOS, ACIDENTE, PECEM, LOTO_CENARIO, NR_GRUPOS, HIERARQUIA_EXEMPLOS, MELHORIAS, LOTO, RISCO, CONCLUSAO, REFERENCIAS
   };
 })();

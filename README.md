@@ -16,11 +16,11 @@ No fim do modal, o botão **Corrigir problema** aplica a solução: o desenho mu
 
 ## Apresentação em slides
 
-`apresentacao.html` é a apresentação do trabalho (capa + 20 slides em 5 partes de 4, em 16:9) organizada pelas cinco perguntas: processo, perigos, acidente real e NRs, medidas e três melhorias, avaliação e conclusão. Ela reaproveita os dados, o cenário e as animações do infográfico: o mapa dos perigos é clicável, as melhorias têm botão Antes/Depois e a matriz de risco mostra o antes e depois.
+`apresentacao.html` é a apresentação do trabalho (capa + 20 slides, 16:9) em 5 partes de 4 slides, uma para cada pergunta do trabalho e para cada apresentador: processo, perigos, acidente real e NRs, medidas e três melhorias, avaliação e conclusão. A barra de baixo mostra as 5 partes, com um ponto por slide. Ela reaproveita os dados, o cenário e as animações do infográfico: o mapa dos perigos é clicável, as melhorias têm botão Antes/Depois e a matriz de risco mostra o antes e depois.
 
 - **→ / espaço / PageDown** avança (inclusive com passador de slides); em alguns slides os itens aparecem um de cada vez antes de passar para o próximo. **←** volta.
 - **M** abre o índice. **F** liga a tela cheia.
-- **Roteiro de fala:** no link dos apresentadores, com `?roteiro` no endereço (`apresentacao.html?roteiro`), ele já abre visível ao carregar e aparece o botão "Roteiro". O roteiro e o índice mostram a parte de cada slide: são 5 partes de 4 slides, uma para cada apresentador (campo `parte` em `js/slides-dados.js`). A tecla **R** mostra e esconde o roteiro com ou sem o parâmetro; sem ele, nada na tela indica que a tecla existe.
+- **Roteiro de fala:** no link dos apresentadores, com `?roteiro` no endereço (`apresentacao.html?roteiro`), ele já abre visível ao carregar e aparece o botão "Roteiro". O roteiro mostra a parte de cada slide ("Parte 2 de 5"). A tecla **R** mostra e esconde o roteiro com ou sem o parâmetro; sem ele, nada na tela indica que a tecla existe.
 - O endereço guarda o slide (`apresentacao.html#7`).
 - O problema escondido é um easter egg do infográfico: a apresentação não mostra nem cita ele em lugar nenhum (só os 13 do mapa).
 

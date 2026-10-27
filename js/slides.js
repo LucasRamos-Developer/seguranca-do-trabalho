@@ -114,6 +114,18 @@
         <p class="capa-dica">Aperte → para começar${COM_ROTEIRO ? ' · <b>R</b> mostra o roteiro' : ''}</p>
       </div>`,
 
+    objetivo: () => `
+      <div class="obj">
+        <div>
+          <p class="lead">${esc(A.OBJETIVO)}</p>
+          <div class="pergunta"><span>Pergunta norteadora</span><p>${esc(A.PERGUNTA)}</p></div>
+        </div>
+        <div>
+          <h3 class="sub">A apresentação em 5 partes</h3>
+          <ol class="agenda">${A.SECOES.map((sec) => `<li style="--cor-sec:${sec.cor}"><button type="button" data-ir-slide="${SLIDES.find((x) => x.secao === sec.n).id}"><b>${sec.n}</b><span>${esc(sec.titulo)}</span></button></li>`).join('')}</ol>
+        </div>
+      </div>`,
+
     processo: () => `
       <div class="proc">
         <div>
@@ -125,7 +137,7 @@
           <ul class="aplic">${A.APLICACOES.map((a) => `<li><b>${esc(a.nome)}</b>${esc(a.texto)}</li>`).join('')}</ul>
         </div>
       </div>
-      <div class="pergunta"><span>Pergunta norteadora</span><p>${esc(A.PERGUNTA)}</p></div>`,
+`,
 
     funcionamento: () => `
       <div class="func">
@@ -258,7 +270,7 @@
         </div>
         <div class="hier-det" aria-live="polite"></div>
       </div>
-      <p class="pergunta-mini">"O foco das soluções de engenharia é aplicar intertravamentos e proteções coletivas, minimizando a dependência exclusiva de EPIs." <span>NR-1, item 1.4.1, alínea g</span></p>`,
+      <p class="pergunta-mini">"O foco das soluções de engenharia é aplicar intertravamentos e proteções coletivas, minimizando a dependência exclusiva de EPIs." <span>Do nosso trabalho. A ordem dos níveis é da NR-1, item 1.4.1, alínea g.</span></p>`,
 
     melhoria: (slide) => {
       const p = porId(slide.problema);
@@ -285,26 +297,17 @@
 
     medidas: () => `
       <div class="med">
+        <div class="med-esq">
           <div class="tiles">${PROBLEMAS.map((p) => `
             <button type="button" class="tile${p.prioridade === 'Alta' ? ' grave' : ''}" data-tile="${p.id}">
               <b>${p.id}</b>${seloAuto(p)}<span>${esc(p.curto)}</span>
             </button>`).join('')}</div>
           <p class="dica-sl">Toque em um problema para ver a solução. <span class="auto-sim">${IC.engrenagem}</span> automação · <span class="meia"></span> parcial · sem selo: sem automação</p>
           <div class="tile-det" aria-live="polite"></div>
-      </div>`,
-
-    loto: () => `
-      <div class="loto-sl">
-        <div>
-          <div class="ap-anim">${CENAS[5].seguro()}</div>
-          <p class="ap-anim-leg">Animação: cadeado e etiqueta na chave geral</p>
-          <dl class="loto-cen">
-            <dt>Cenário</dt><dd>${esc(A.LOTO_CENARIO.cenario)}</dd>
-            <dt>Fontes de energia</dt><dd>${esc(A.LOTO_CENARIO.energias)}</dd>
-          </dl>
-          <p class="caso-res">${esc(A.LOTO_CENARIO.aviso)}</p>
         </div>
         <div class="loto">
+          <h3 class="sub">Manutenção: bloqueio e etiquetagem (LOTO)</h3>
+          <p class="loto-cen"><b>Cenário:</b> ${esc(A.LOTO_CENARIO.cenario)} <b>Energias:</b> ${esc(A.LOTO_CENARIO.energias)}</p>
           <ol data-passo>${A.LOTO.map((l) => `<li><b>${esc(l.t)}</b>${esc(l.d)}</li>`).join('')}</ol>
         </div>
       </div>`,
@@ -361,7 +364,7 @@
       <div class="concl-fim" data-passo>
         <div class="concl-cena" aria-hidden="true">${cena()}</div>
         <div class="selo-texto">
-          <div class="selo-linha">${IC.escudo}<b>ESTEIRA 100% SEGURA</b></div>
+          <div class="selo-linha">${IC.escudo}<b>RISCO CONTROLADO</b></div>
           <p>A automação não substitui as pessoas: ela tira as pessoas da zona de perigo e para a máquina antes do acidente. O que sobra (manutenção, organização e treinamento) depende de todos nós.</p>
         </div>
       </div>`,
@@ -668,25 +671,25 @@
   }
 
   // ---------- barra de baixo, índice e roteiro ----------
+  // barra de baixo: as 5 partes (uma por apresentador), cada uma com um ponto por slide
   const progresso = $('#ap-progresso');
-  progresso.innerHTML = A.SECOES.map((s) => {
-    const n = SLIDES.filter((x) => x.secao === s.n).length;
-    return `<button type="button" class="ap-seg" data-secao="${s.n}" style="flex:${n};--cor-sec:${s.cor}" title="${s.n}. ${esc(s.titulo)}"><i></i></button>`;
-  }).join('');
-  $$('.ap-seg', progresso).forEach((b) => b.addEventListener('click', () => irPara(SLIDES.findIndex((s) => s.secao === +b.dataset.secao))));
+  progresso.innerHTML = A.SECOES.map((sec) => `
+    <div class="ap-parte" data-secao="${sec.n}" style="--cor-sec:${sec.cor}">
+      <button type="button" class="ap-parte-nome" data-slide="${SLIDES.findIndex((x) => x.secao === sec.n)}" title="Parte ${sec.n}: ${esc(sec.titulo)}"><b>${sec.n}</b>${esc(sec.curto)}</button>
+      <span class="ap-pontos">${SLIDES.map((x, k) => [x, k]).filter(([x]) => x.secao === sec.n).map(([x, k]) => `<button type="button" data-slide="${k}" aria-label="Slide ${k + 1}: ${esc(x.titulo)}"></button>`).join('')}</span>
+    </div>`).join('');
+  $$('[data-slide]', progresso).forEach((b) => b.addEventListener('click', () => irPara(+b.dataset.slide)));
 
   const roteiro = $('#ap-roteiro');
   function atualizarBarra() {
     const s = SLIDES[atual];
     $('#ap-cont').textContent = `${atual + 1} / ${SLIDES.length}`;
-    $$('.ap-seg', progresso).forEach((b) => {
-      const sec = +b.dataset.secao;
-      const daSecao = SLIDES.map((x, k) => [x, k]).filter(([x]) => x.secao === sec);
-      const feitos = daSecao.filter(([, k]) => k <= atual).length;
-      b.querySelector('i').style.width = (feitos / daSecao.length) * 100 + '%';
-      b.classList.toggle('atual', sec === s.secao);
+    $$('.ap-parte', progresso).forEach((p) => p.classList.toggle('atual', +p.dataset.secao === s.secao));
+    $$('.ap-pontos button', progresso).forEach((b) => {
+      b.classList.toggle('feito', +b.dataset.slide < atual);
+      b.classList.toggle('agora', +b.dataset.slide === atual);
     });
-    $('#ap-roteiro-tit').textContent = s.parte ? `Parte ${s.parte} de 5 · ${s.titulo}` : s.titulo;
+    $('#ap-roteiro-tit').textContent = s.secao ? `Parte ${s.secao} de 5 · ${s.titulo}` : s.titulo;
     $('#ap-roteiro-txt').textContent = s.roteiro;
     $$('.ap-indice-lista button').forEach((b) => b.setAttribute('aria-current', +b.dataset.slide === atual ? 'true' : 'false'));
   }
@@ -698,8 +701,8 @@
 
   const indiceEl = $('#ap-indice');
   $('.ap-indice-lista').innerHTML = [{ n: 0, titulo: 'Capa' }].concat(A.SECOES).map((sec) => `
-    <li><span class="ap-indice-sec" style="--cor-sec:${sec.cor || '#fff'}">${sec.n ? sec.n + '. ' : ''}${esc(sec.titulo)}</span>
-      <ol>${SLIDES.map((s, k) => [s, k]).filter(([s]) => s.secao === sec.n).map(([s, k]) => `<li><button type="button" data-slide="${k}"><span>${k + 1}</span>${esc(s.titulo)}${COM_ROTEIRO ? `<em>Parte ${s.parte}</em>` : ''}</button></li>`).join('')}</ol></li>`).join('');
+    <li><span class="ap-indice-sec" style="--cor-sec:${sec.cor || '#fff'}">${sec.n ? `Parte ${sec.n} · ` : ''}${esc(sec.titulo)}</span>
+      <ol>${SLIDES.map((s, k) => [s, k]).filter(([s]) => s.secao === sec.n).map(([s, k]) => `<li><button type="button" data-slide="${k}"><span>${k + 1}</span>${esc(s.titulo)}</button></li>`).join('')}</ol></li>`).join('');
   const alternarIndice = (abrir = indiceEl.hidden) => {
     indiceEl.hidden = !abrir;
     $('#ap-btn-menu').setAttribute('aria-expanded', abrir);
