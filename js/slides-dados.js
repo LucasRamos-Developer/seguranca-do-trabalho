@@ -5,7 +5,7 @@
  * peças do diagrama, quadro de perigos do PDF, as três melhorias e a estimativa de risco.
  */
 (function () {
-  const EQUIPE = ['Lucas Pereira Ramos', 'Jean Henrique Moraes Boeing', 'Vitor Hugo Alves'];
+  const EQUIPE = ['Lucas Pereira Ramos', 'Jean Henrique Moraes Boeing', 'Vitor Hugo Alves', 'Rafael Josué Velain'];
   const ESCOLA = 'Centro de Educação Profissional "Dario Geraldo Salles"';
   const DISCIPLINA = 'Segurança e Higiene do Trabalho';
   const PERGUNTA = 'Como fazer este processo automatizado funcionar com segurança, reduzindo a exposição das pessoas aos perigos identificados?';

@@ -4,7 +4,7 @@
  * (js/data.js, js/nrs.js, js/scene.js, js/animations.js).
  *
  * Passos: elementos com [data-passo] aparecem um de cada vez com → antes de ir para o próximo slide
- * (como os "fragmentos" de outros programas de slides). Cada slide pode reagir aos passos em LIGAR.
+ * (como os "fragmentos" de outros programas de slides). Listas de texto são um passo só: aparecem inteiras. Cada slide pode reagir aos passos em LIGAR.
  */
 (function () {
   const A = window.APRESENTACAO;
@@ -187,9 +187,9 @@
           <p class="ap-anim-leg">Animação: como o acidente acontece</p>
           <p class="fonte">Fonte: ${esc(A.ACIDENTE.fonte)}, caso analisado no trabalho.</p>
         </div>
-        <div>
-          <ol class="linha-tempo">${A.ACIDENTE.passos.map((t, i) => `<li data-passo${i === 3 ? ' class="grave"' : ''}>${esc(t)}</li>`).join('')}</ol>
-          <div class="falhas" data-passo>
+        <div data-passo>
+          <ol class="linha-tempo">${A.ACIDENTE.passos.map((t, i) => `<li${i === 3 ? ' class="grave"' : ''}>${esc(t)}</li>`).join('')}</ol>
+          <div class="falhas">
             <h3 class="sub">Três falhas ao mesmo tempo</h3>
             <ul>${A.ACIDENTE.perigos.map((f, i) => `<li><button type="button" data-ir-slide="melhoria${i + 1}">${IC.xis}<span>${esc(f.texto)}</span><em>vira a melhoria ${i + 1}</em></button></li>`).join('')}</ul>
           </div>
@@ -205,8 +205,10 @@
             <p class="caso-data">${esc(caso.data)} · Porto do Pecém (CE)</p>
             <p class="caso-txt">Um trabalhador terceirizado de <b>23 anos</b> fazia manutenção com a esteira de carvão funcionando, foi puxado para dentro do equipamento e <b>morreu no local</b>.</p>
             <h3 class="sub">O que a fiscalização encontrou</h3>
-            <ul class="achados">${A.PECEM.achados.map((a) => `<li data-passo>${IC.xis}<span>${esc(a.texto)}</span>${pchip(a.problema)}</li>`).join('')}</ul>
-            <p class="caso-res" data-passo><b>Esteira interditada.</b> Exigências: ${esc(A.PECEM.exigencias)}</p>
+            <div data-passo>
+            <ul class="achados">${A.PECEM.achados.map((a) => `<li>${IC.xis}<span>${esc(a.texto)}</span>${pchip(a.problema)}</li>`).join('')}</ul>
+            <p class="caso-res"><b>Esteira interditada.</b> Exigências: ${esc(A.PECEM.exigencias)}</p>
+            </div>
             <p class="fonte">Fonte: <a href="${esc(caso.url)}" target="_blank" rel="noopener">${esc(caso.fonte)}</a></p>
           </article>
           <div class="pecem-lado">
@@ -277,7 +279,7 @@
         </div>
         <div class="loto">
           <h3 class="sub">Manutenção: bloqueio e etiquetagem (LOTO)</h3>
-          <ol>${A.LOTO.map((l) => `<li data-passo><b>${esc(l.t)}</b>${esc(l.d)}</li>`).join('')}</ol>
+          <ol data-passo>${A.LOTO.map((l) => `<li><b>${esc(l.t)}</b>${esc(l.d)}</li>`).join('')}</ol>
         </div>
       </div>`,
 
@@ -330,7 +332,7 @@
 
     conclusao: () => `
       <p class="pergunta-mini">${esc(A.PERGUNTA)}</p>
-      <div class="concl">${A.CONCLUSAO.map((c, i) => `<article data-passo><b>${i + 1}</b><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></article>`).join('')}</div>
+      <div class="concl" data-passo>${A.CONCLUSAO.map((c, i) => `<article><b>${i + 1}</b><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></article>`).join('')}</div>
       <div class="concl-fim" data-passo>
         <div class="concl-cena" aria-hidden="true">${cena()}</div>
         <div class="selo-texto">
