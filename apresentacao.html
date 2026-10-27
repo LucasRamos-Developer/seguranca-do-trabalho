@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Esteira Segura · Apresentação</title>
+  <meta name="description" content="Apresentação em slides do trabalho Automação Segura: processo, perigos, acidente real, NRs, medidas de controle e avaliação.">
+  <meta name="theme-color" content="#1e2756">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14 Z' fill='%232ecc71'/%3E%3Cpath d='M20 32 l9 9 l16 -18' stroke='white' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/apresentacao.css">
+</head>
+<body class="ap">
+  <!-- palco 16:9 de 1600×900, escalado para caber na tela (js/slides.js) -->
+  <div class="ap-palco" id="ap-palco">
+    <main class="ap-slides" id="slides" aria-label="Apresentação">
+      <!-- os slides entram aqui (js/slides.js) -->
+    </main>
+
+    <footer class="ap-barra">
+      <button type="button" class="ap-icone" id="ap-ant" aria-label="Slide anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="ap-progresso" id="ap-progresso"></div>
+      <span class="ap-cont" id="ap-cont">1 / 1</span>
+      <button type="button" class="ap-btn" id="ap-btn-menu" aria-controls="ap-indice" aria-expanded="false"><kbd>M</kbd> Índice</button>
+      <button type="button" class="ap-btn" id="ap-btn-roteiro" aria-controls="ap-roteiro" aria-pressed="false"><kbd>R</kbd> Roteiro</button>
+      <button type="button" class="ap-btn" id="ap-btn-tela"><kbd>F</kbd> Tela cheia</button>
+      <button type="button" class="ap-icone" id="ap-prox" aria-label="Próximo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </footer>
+  </div>
+
+  <!-- roteiro de fala (tecla R) -->
+  <aside class="ap-roteiro" id="ap-roteiro" aria-live="polite" hidden>
+    <header>
+      <b id="ap-roteiro-tit">Roteiro</b>
+      <button type="button" class="modal-x" id="ap-roteiro-fechar" aria-label="Fechar roteiro">×</button>
+    </header>
+    <p id="ap-roteiro-txt"></p>
+  </aside>
+
+  <!-- índice (tecla M) -->
+  <div class="ap-indice" id="ap-indice" role="dialog" aria-modal="true" aria-label="Índice da apresentação" hidden>
+    <nav class="ap-indice-caixa">
+      <h2>Índice</h2>
+      <ol class="ap-indice-lista"></ol>
+      <p class="ap-teclas"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>R</kbd> roteiro · <kbd>F</kbd> tela cheia · <kbd>Esc</kbd> fechar</p>
+    </nav>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/nrs.js"></script>
+  <script src="js/humano.js"></script>
+  <script src="js/iso.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/slides-dados.js"></script>
+  <script src="js/slides.js"></script>
+</body>
+</html>

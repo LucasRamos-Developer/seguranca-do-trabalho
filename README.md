@@ -14,6 +14,15 @@ No fim do modal, o botão **Corrigir problema** aplica a solução: o desenho mu
 
 **Acesse:** https://lucasramos-developer.github.io/seguranca-do-trabalho/
 
+## Apresentação em slides
+
+`apresentacao.html` é a apresentação do trabalho (18 slides, 16:9) organizada pelas cinco perguntas: processo, perigos, acidente real e NRs, medidas e três melhorias, avaliação e conclusão. Ela reaproveita os dados, o cenário e as animações do infográfico: o mapa dos perigos é clicável, as melhorias têm botão Antes/Depois e a matriz de risco mostra o antes e depois.
+
+- **→ / espaço / PageDown** avança (inclusive com passador de slides); em alguns slides os itens aparecem um de cada vez antes de passar para o próximo. **←** volta.
+- **R** mostra o roteiro de fala do slide. **M** abre o índice. **F** liga a tela cheia.
+- O endereço guarda o slide (`apresentacao.html#7`).
+- O problema escondido aparece borrado na apresentação até alguém tocar em "Revelar o problema escondido" no mapa, para a turma ainda poder procurar no infográfico no final.
+
 ## Como funciona
 
 - **Tela do jogo, sem rolagem:** a esteira fica no centro. À esquerda fica um painel de vidro suspenso com o título, o menu (Infográfico / Sobre o trabalho), os filtros e a lista de problemas, onde os resolvidos ficam marcados em verde. O painel pode ser recolhido para a esteira ocupar a tela toda. O botão **Como jogar**, no canto, mostra as instruções e a legenda.
@@ -62,7 +71,8 @@ O andamento aparece na aba **Actions** do repositório (ou com `gh run watch`).
 | Mudar o desenho ou as poses das pessoas | `js/humano.js` |
 | Mudar o resumo das NRs | `js/nrs.js` |
 | Cores, tamanhos e layout | `css/style.css` (variáveis no `:root`) |
-| Nomes da equipe | seção "Equipe" em `index.html` |
+| Nomes da equipe | seção "Equipe" em `index.html` e `EQUIPE` em `js/slides-dados.js` |
+| Textos, roteiro e estimativa de risco da apresentação | `js/slides-dados.js` |
 
 Depois de mexer em `js/data.js`, rode:
 
@@ -82,6 +92,10 @@ Para adicionar um problema novo, veja o passo a passo em [`docs/arquitetura.md`]
 
 ```
 index.html                     página (cabeçalho, palco, lateral, "Sobre", modal)
+apresentacao.html              apresentação em slides
+css/apresentacao.css           estilos dos slides (palco 1600×900 escalado)
+js/slides-dados.js             conteúdo próprio da apresentação: seções, roteiro, diagrama, risco antes/depois
+js/slides.js                   monta os slides, navegação, passos e interações
 css/style.css                  estilos e animações
 js/data.js                     catálogo dos 14 problemas (13 + 1 escondido) + vídeos e referências reais
 js/nrs.js                      resumo das NRs de cada problema (gaveta "NRs" do modal)
